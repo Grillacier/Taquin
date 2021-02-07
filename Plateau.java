@@ -38,7 +38,7 @@ public class Plateau {
             {new Case(9), new Case(10), new Case(11), new Case(12)},
             {new Case(13), new Case(14), new Case(15), new Case(0)}};
         for(int i=0; i<plateau.length; i++){
-            for(int j=0; plateau[i].length; j++){
+            for(int j=0; j<plateau[i].length; j++){
                 if(plateau[i][j].getNumero()!=ptrie[i][j].getNumero()){
                     return false;
                 }
