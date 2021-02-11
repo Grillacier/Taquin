@@ -31,17 +31,18 @@ public class Plateau {
         }
     }
 
-    public boolean jeuGagner(){ //fonction qui évalue si le jeu est terminé (gagné) ou pas
-        Case[][] ptrie=new Case[][]{
-            {new Case(1), new Case(2), new Case(3), new Case(4)},
-            {new Case(5), new Case(6), new Case(7), new Case(8)},
-            {new Case(9), new Case(10), new Case(11), new Case(12)},
-            {new Case(13), new Case(14), new Case(15), new Case(0)}};
-        for(int i=0; i<plateau.length; i++){
-            for(int j=0; j<plateau[i].length; j++){
-                if(plateau[i][j].getNumero()!=ptrie[i][j].getNumero()){
+    public boolean jeuGagner(Case[][] tab){ //fonction qui évalue si le jeu est terminé (gagné) ou pas
+        if(tab[tab.length-1][tab[0].length-1]!=0){
+            return false;
+        }
+
+        int k=1;
+        for(int i=0; i<tab.length-1; i++){
+            for(int j=0; j<tab[i].length; j++){
+                if(tab[i][j].getNumero()!=k){
                     return false;
                 }
+                k++;
             }
         }
         return true;
