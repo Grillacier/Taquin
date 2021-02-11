@@ -25,18 +25,19 @@ public class Plateau {
                 if(size == 1){ // si la taille=1, ajouter un espace
                     System.out.print(" ");
                 }
-             }
+            }
             System.out.println();
             c++;
         }
     }
+
 
     /**
      * V&eacute;rifie si le plateau est en position gagnante
      * @param tab un double tableau de Cases
      * @return true si tab est en position gagnante, false sinon
      */
-    public boolean jeuGagner(Case[][] tab){ // fonction qui évalue si le jeu est terminé (gagné) ou pas
+    public boolean jeuGagne(Case[][] tab){ //fonction qui évalue si le jeu est terminé (gagné) ou pas
         if(tab[tab.length-1][tab[0].length-1].getNumero()!=0){
             return false;
         }
@@ -51,6 +52,48 @@ public class Plateau {
             }
         }
         return true;
+    }
+
+
+    /** Permet de deplacer la Case cible si le deplacement est valide
+     *
+     *@param cibleh Coordonnée y (hauteur)
+     *@param ciblel Coordonnée x (largeur)
+     */
+    public void mouvement(int cibleh, int ciblel){
+        Case cible = this.plateau[cibleh][ciblel];
+        if(cibleh + 1 <hauteur){
+            if(this.plateau[cibleh+1][ciblel].getNumero() == 0){   //Je suppose que le case vide est la case 0
+                this.plateau[cibleh][ciblel] = this.plateau[cibleh+1][ciblel];
+                this.plateau[cibleh+1][ciblel] = cible;
+                return;
+            }
+        }
+        if(cibleh - 1 >-1){
+            if(this.plateau[cibleh-1][ciblel].getNumero() == 0){
+                this.plateau[cibleh][ciblel] = this.plateau[cibleh-1][ciblel];
+                this.plateau[cibleh-1][ciblel] = cible;
+                return;
+            }
+
+        }
+        if(ciblel + 1 <largeur){
+            if(this.plateau[cibleh][ciblel+1].getNumero() == 0){
+                this.plateau[cibleh][ciblel] = this.plateau[cibleh][ciblel+1];
+                this.plateau[cibleh][ciblel+1] = cible;
+                return;
+            }
+
+        }
+        if(ciblel - 1 >-1){
+            if(this.plateau[cibleh][ciblel-1].getNumero() == 0){
+                this.plateau[cibleh][ciblel] = this.plateau[cibleh][ciblel-1];
+                this.plateau[cibleh][ciblel-1] = cible;
+                return;
+            }
+
+        }
+        System.out.println("Impossible de deplacer la case cible x: "+ciblel+"   y: "+cibleh);
     }
 
 
@@ -143,12 +186,10 @@ public class Plateau {
      * @return true si le nombre d'&eacute;changes et la parite sont tous les 2 pairs ou impairs, false sinon
      */
     public boolean estSoluble(Case[][] p) {
-        /*
         System.out.println("echanges : " + tri(p)[0]);
         System.out.println("parite : " + tri(p)[1]);
         System.out.println("echanges : " + tri2(p)[0]);
         System.out.println("parite : " + tri2(p)[1]);
-        */
         return tri(p)[0] % 2 == tri(p)[1] % 2 || tri2(p)[0] % 2 == tri2(p)[1] % 2;
     }
 }
