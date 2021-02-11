@@ -31,20 +31,59 @@ public class Plateau {
         }
     }
 
-    public boolean jeuGagner(Case[][] tab){ //fonction qui évalue si le jeu est terminé (gagné) ou pas
-        if(tab[tab.length-1][tab[0].length-1].getNumero()!=0){
-            return false;
-        }
-
-        int k=1;
-        for(int i=0; i<tab.length-1; i++){
-            for(int j=0; j<tab[i].length; j++){
-                if(tab[i][j].getNumero()!=k){
+    public boolean jeuGagner(){ //fonction qui évalue si le jeu est terminé (gagné) ou pas
+        Case[][] ptrie=new Case[][]{
+            {new Case(1), new Case(2), new Case(3), new Case(4)},
+            {new Case(5), new Case(6), new Case(7), new Case(8)},
+            {new Case(9), new Case(10), new Case(11), new Case(12)},   // Fonction rigide, utilisation possible uniquement si le tableau est de taille 4x4
+            {new Case(13), new Case(14), new Case(15), new Case(0)}};
+        for(int i=0; i<plateau.length; i++){
+            for(int j=0; j<plateau[i].length; j++){
+                if(plateau[i][j].getNumero()!=ptrie[i][j].getNumero()){
                     return false;
                 }
-                k++;
             }
         }
         return true;
+    }
+    /** Permet de deplacer la Case cible si le deplacement est valide
+      *
+      *@param cibleh Coordonnée y (hauteur)
+      *@param cible l Coordonnée x (largeur)
+      */
+    public void mouvement(int cibleh, int ciblel){
+      Case cible = this.plateau[cibleh][ciblel];
+      if(cibleh + 1 <hauteur){
+        if(this.plateau[cibleh+1][ciblel].getNumero() == 0){   //Je suppose que le case vide est la case 0
+          this.plateau[cibleh][ciblel] = this.plateau[cibleh+1][ciblel];
+          this.plateau[cibleh+1][ciblel] = cible;
+          return;
+        }
+      }
+      if(cibleh - 1 >-1){
+        if(this.plateau[cibleh-1][ciblel].getNumero() == 0){
+          this.plateau[cibleh][ciblel] = this.plateau[cibleh-1][ciblel];
+          this.plateau[cibleh-1][ciblel] = cible;
+          return;
+        }
+
+      }
+      if(ciblel + 1 <largeur){
+        if(this.plateau[cibleh][ciblel+1].getNumero() == 0){
+          this.plateau[cibleh][ciblel] = this.plateau[cibleh][ciblel+1];
+          this.plateau[cibleh][ciblel+1] = cible;
+          return;
+        }
+
+      }
+      if(ciblel - 1 >-1){
+        if(this.plateau[cibleh][ciblel-1].getNumero() == 0){
+          this.plateau[cibleh][ciblel] = this.plateau[cibleh][ciblel-1];
+          this.plateau[cibleh][ciblel-1] = cible;
+          return;
+        }
+
+      }
+      System.out.println("Impossible de deplacer la case cible x: "+ciblel+"   y: "+cibleh);
     }
 }
