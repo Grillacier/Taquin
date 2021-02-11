@@ -32,7 +32,7 @@ public class Plateau {
     }
 
     public boolean jeuGagner(Case[][] tab){ //fonction qui évalue si le jeu est terminé (gagné) ou pas
-        if(tab[tab.length-1][tab[0].length-1]!=0){
+        if(tab[tab.length-1][tab[0].length-1].getNumero()!=0){
             return false;
         }
 
