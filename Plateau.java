@@ -25,65 +25,171 @@ public class Plateau {
                 if(size == 1){ // si la taille=1, ajouter un espace
                     System.out.print(" ");
                 }
-             }
+            }
             System.out.println();
             c++;
         }
     }
 
-    public boolean jeuGagner(){ //fonction qui évalue si le jeu est terminé (gagné) ou pas
-        Case[][] ptrie=new Case[][]{
-            {new Case(1), new Case(2), new Case(3), new Case(4)},
-            {new Case(5), new Case(6), new Case(7), new Case(8)},
-            {new Case(9), new Case(10), new Case(11), new Case(12)},   // Fonction rigide, utilisation possible uniquement si le tableau est de taille 4x4
-            {new Case(13), new Case(14), new Case(15), new Case(0)}};
-        for(int i=0; i<plateau.length; i++){
-            for(int j=0; j<plateau[i].length; j++){
-                if(plateau[i][j].getNumero()!=ptrie[i][j].getNumero()){
+
+    /**
+     * V&eacute;rifie si le plateau est en position gagnante
+     * @param tab un double tableau de Cases
+     * @return true si tab est en position gagnante, false sinon
+     */
+    public boolean jeuGagne(Case[][] tab){ //fonction qui évalue si le jeu est terminé (gagné) ou pas
+        if(tab[tab.length-1][tab[0].length-1].getNumero()!=0){
+            return false;
+        }
+
+        int k=1;
+        for(int i=0; i<tab.length-1; i++){
+            for(int j=0; j<tab[i].length; j++){
+                if(tab[i][j].getNumero()!=k){
                     return false;
                 }
+                k++;
             }
         }
         return true;
     }
+
+
     /** Permet de deplacer la Case cible si le deplacement est valide
-      *
-      *@param cibleh Coordonnée y (hauteur)
-      *@param cible l Coordonnée x (largeur)
-      */
+     *
+     *@param cibleh Coordonnée y (hauteur)
+     *@param ciblel Coordonnée x (largeur)
+     */
     public void mouvement(int cibleh, int ciblel){
-      Case cible = this.plateau[cibleh][ciblel];
-      if(cibleh + 1 <hauteur){
-        if(this.plateau[cibleh+1][ciblel].getNumero() == 0){   //Je suppose que le case vide est la case 0
-          this.plateau[cibleh][ciblel] = this.plateau[cibleh+1][ciblel];
-          this.plateau[cibleh+1][ciblel] = cible;
-          return;
+        Case cible = this.plateau[cibleh][ciblel];
+        if(cibleh + 1 <hauteur){
+            if(this.plateau[cibleh+1][ciblel].getNumero() == 0){   //Je suppose que le case vide est la case 0
+                this.plateau[cibleh][ciblel] = this.plateau[cibleh+1][ciblel];
+                this.plateau[cibleh+1][ciblel] = cible;
+                return;
+            }
         }
-      }
-      if(cibleh - 1 >-1){
-        if(this.plateau[cibleh-1][ciblel].getNumero() == 0){
-          this.plateau[cibleh][ciblel] = this.plateau[cibleh-1][ciblel];
-          this.plateau[cibleh-1][ciblel] = cible;
-          return;
-        }
+        if(cibleh - 1 >-1){
+            if(this.plateau[cibleh-1][ciblel].getNumero() == 0){
+                this.plateau[cibleh][ciblel] = this.plateau[cibleh-1][ciblel];
+                this.plateau[cibleh-1][ciblel] = cible;
+                return;
+            }
 
-      }
-      if(ciblel + 1 <largeur){
-        if(this.plateau[cibleh][ciblel+1].getNumero() == 0){
-          this.plateau[cibleh][ciblel] = this.plateau[cibleh][ciblel+1];
-          this.plateau[cibleh][ciblel+1] = cible;
-          return;
         }
+        if(ciblel + 1 <largeur){
+            if(this.plateau[cibleh][ciblel+1].getNumero() == 0){
+                this.plateau[cibleh][ciblel] = this.plateau[cibleh][ciblel+1];
+                this.plateau[cibleh][ciblel+1] = cible;
+                return;
+            }
 
-      }
-      if(ciblel - 1 >-1){
-        if(this.plateau[cibleh][ciblel-1].getNumero() == 0){
-          this.plateau[cibleh][ciblel] = this.plateau[cibleh][ciblel-1];
-          this.plateau[cibleh][ciblel-1] = cible;
-          return;
         }
+        if(ciblel - 1 >-1){
+            if(this.plateau[cibleh][ciblel-1].getNumero() == 0){
+                this.plateau[cibleh][ciblel] = this.plateau[cibleh][ciblel-1];
+                this.plateau[cibleh][ciblel-1] = cible;
+                return;
+            }
 
-      }
-      System.out.println("Impossible de deplacer la case cible x: "+ciblel+"   y: "+cibleh);
+        }
+        System.out.println("Impossible de deplacer la case cible x: "+ciblel+"   y: "+cibleh);
+    }
+
+
+    /**
+     * Convertit un double tableau de Cases en un tableau d'entiers
+     * @param p le double tableau de Cases
+     * @return un tableau d'entiers contenant les num&eacute;ros des Cases sans en changer l'ordre
+     */
+    private int[] conversion(Case[][] p) {
+        int[] tab = new int[p.length*p[0].length];
+        int k = 0;
+        for (int i = 0; i < p.length; i++) {
+            for (int j = 0; j < p[i].length; j++) {
+                tab[k] = p[i][j].getNumero();
+                k++;
+            }
+        }
+        return tab;
+    }
+
+    /**
+     * Tri un tableau d'entiers dans l'ordre croissant
+     * @param p Tableau tableau de tableaux de Cases dont on va trier les cases
+     * @return le nombre d'&eacute;changes et de d&eacute;placements du 0
+     **/
+    private int[] tri(Case[][] p) {
+        int[] tab = conversion(p); // plateau convertit en tableau d'entiers
+        int[] res = new int[2];
+        int nbEchanges = 0; // nombre de deplacements total des Cases
+        int parite = 0; // nombre de deplacements du 0
+        int tmp = 0;
+        for (int i = 0; i < tab.length; i++) {
+            for (int j = 1; j < tab.length-i; j++) {
+                if (tab[j-1] > tab[j]) {
+                    if (tab[j] == 0)
+                        parite++;
+                    nbEchanges++;
+                    tmp = tab[j-1];
+                    tab[j-1] = tab[j];
+                    tab[j] = tmp;
+                }
+            }
+        }
+        res[0] = nbEchanges;
+        res[1] = parite;
+        return res;
+    }
+
+    /**
+     * Tri un tableau d'entiers dans l'ordre croissant avec le 0 a la fin
+     * @param p Tableau tableau de tableaux de Cases dont on va trier les cases
+     * @return le nombre d'&eacute;changes et de d&eacute;placements du 0
+     **/
+    private int[] tri2(Case[][] p) {
+        int[] tab = conversion(p); // plateau convertit en tableau d'entiers
+        int[] res = new int[2];
+        int nbEchanges = 0; // nombre de deplacements total des Cases
+        int parite = 0; // nombre de deplacements du 0
+        int tmp = 0;
+        for (int i = 0; i < tab.length; i++) {
+            for (int j = 1; j < tab.length-i; j++) {
+                if (tab[j-1] == 0) {
+                    parite++;
+                    nbEchanges++;
+                    tmp = tab[j];
+                    tab[j] = tab[j-1];
+                    tab[j-1] = tmp;
+                }
+                else if (tab[j] == 0) {
+                    continue;
+                }
+                else {
+                    if (tab[j - 1] > tab[j]) {
+                        nbEchanges++;
+                        tmp = tab[j - 1];
+                        tab[j - 1] = tab[j];
+                        tab[j] = tmp;
+                    }
+                }
+            }
+        }
+        res[0] = nbEchanges;
+        res[1] = parite;
+        return res;
+    }
+
+    /**
+     * Verifie la solvabilite du plateau en parametre
+     * @param p Tableau de tableaux de Cases
+     * @return true si le nombre d'&eacute;changes et la parite sont tous les 2 pairs ou impairs, false sinon
+     */
+    public boolean estSoluble(Case[][] p) {
+        System.out.println("echanges : " + tri(p)[0]);
+        System.out.println("parite : " + tri(p)[1]);
+        System.out.println("echanges : " + tri2(p)[0]);
+        System.out.println("parite : " + tri2(p)[1]);
+        return tri(p)[0] % 2 == tri(p)[1] % 2 || tri2(p)[0] % 2 == tri2(p)[1] % 2;
     }
 }
