@@ -7,10 +7,8 @@ public class Cellule {
 	private int x,y;
 	private int g,h,f ;
 	public int [][]tab;
-	private int valGlobalX, valGlobalY;
-	private int valGlobalG = 0;
-	private ArrayList<Cellule> entree = new ArrayList<Cellule>();
-	private ArrayList<Cellule> sortie = new ArrayList<Cellule>();
+	private ArrayList<Cellule> fval = new ArrayList<Cellule>();
+	private Plateau p = new Plateau (3,3);
 	
 	public Cellule (int [][]tab) {
 		initialisationValXY (tab);
@@ -42,7 +40,7 @@ public class Cellule {
 	}
 	// les méthodes Mouvements vérifie si un mouvement spécifique est possible ou non
 	public boolean MouvementBas (Cellule c) {
-				if (c.x==c.tab.length-1 && c.tab[c.x][c.y]==0) {
+				if (c.x==c.tab.length-1) {
 					return false;
 				}
 				
@@ -50,7 +48,7 @@ public class Cellule {
 		}
 	
 	public boolean MouvementHaut(Cellule c) {
-				if (c.x==0 && c.tab[c.x][c.y]==0) {
+				if (c.x==0) {
 					return false;
 				}
 				
@@ -58,7 +56,7 @@ public class Cellule {
 		}
 	
 	public boolean MouvementGauche(Cellule c) {
-				if (c.y==0 && c.tab[c.x][c.y]==0) {
+				if (c.y==0 ) {
 					return false;
 				}
 		
@@ -66,7 +64,7 @@ public class Cellule {
 	}
 	
 	public boolean MouvementDroit(Cellule c) {
-				if (c.y==this.tab.length-1 && c.tab[c.x][c.y]==0) {
+				if (c.y==this.tab[0].length-1) {
 					return false;
 				}
 		
@@ -176,7 +174,7 @@ public class Cellule {
 		int k = 0;
 		for (int i=0; i<c.tab.length; i++) {
 			for (int j=0; j<c.tab[i].length; j++) {
-				if (tab[i][j]!=finale[i][j] && tab[i][j]!=0) {
+				if (c.tab[i][j]!=finale[i][j] && c.tab[i][j]!=0 ) {
 					k++;
 				}
 			}
@@ -186,47 +184,70 @@ public class Cellule {
 		
 	}
 	//méthode qui permet de trouver la configuration la moins couteuse parmi les mouvements possibles de la cellule
-	public Cellule fminValCellule (Cellule c) {
-		ArrayList<Cellule> fval = new ArrayList<Cellule>();
+	public void fminValCellule (Cellule c) {
+		//ArrayList<Cellule> fval = new ArrayList<Cellule>();
+		int [] tab1 = new int [4];
 		Cellule cellFmin = null; //initialisation
 		//Cellule cellB = new Cellule (new int [c.tab.length][c.tab.length]);
 		if (MouvementBas(c)) {
 			int [][]tabB = constrTabBas(c.tab) ;
 			Cellule cellB = new Cellule (tabB);
 			cellB.x = c.x+1 ;
+			cellB.y = c.y;
 			cellB.g++;
 			cellB.h = distanceHammingHeuristique(cellB);
 			cellB.f = cellB.g + cellB.h;
-			fval.add(cellB);
+			tab1[0] = cellB.h;
 		}
-		else if (MouvementHaut(c)) {
+		else {
+			tab1[0] = -1;
+		}
+		
+		
+		 if (MouvementHaut(c)) {
 			int [][]tabH = constrTabHaut(c.tab);
-			Cellule cellH = new Cellule (c.tab);
+			Cellule cellH = new Cellule (tabH);
 			cellH.x = c.x-1;
+			cellH.y = c.y;
 			cellH.g++;
 			cellH.h = distanceHammingHeuristique(cellH);
 			cellH.f = cellH.g + cellH.h;
-			fval.add(cellH);
+			tab1[1] = cellH.h;
 		}
-		else if (MouvementGauche(c)) {
+		 else {
+				tab1[1] = -1;
+			}
+			
+		 if (MouvementGauche(c)) {
 			int [][]tabG = constrTabGauche(c.tab) ;
 			Cellule cellG = new Cellule (tabG);
 			cellG.y = c.y-1;
+			cellG.x = c.x;
 			cellG.g++;
 			cellG.h = distanceHammingHeuristique(cellG);
 			cellG.f = cellG.g + cellG.h;
-			fval.add(cellG);
+			tab1[2] = cellG.h;
 		}
-		else if (MouvementDroit(c)) {
+		 
+		 else {
+				tab1[2] = -1;
+			}
+			
+		if (MouvementDroit(c)) {
 			int [][]tabD = constrTabDroit(c.tab) ;
 			Cellule cellD = new Cellule (tabD);
 			cellD.y = c.y+1;
+			cellD.x = c.x;
 			cellD.g++;
 			cellD.h = distanceHammingHeuristique(cellD);
 			cellD.f = cellD.g + cellD.h;
-			fval.add(cellD);
+			tab1[3] = cellD.h;
 		}
-		int fminVal = fval.get(0).f; //initialisation
+		else {
+			tab1[3] = -1;
+		}
+		
+		/*int fminVal = fval.get(0).f; //initialisation
 		for (int i=1; i<fval.size(); i++) {
 			if (fval.get(i).f<fminVal) {
 				fminVal = fval.get(i).f;
@@ -237,10 +258,20 @@ public class Cellule {
 			if (fminVal == fval.get(i).f) {
 				cellFmin = fval.get(i);
 			}
-		}
+		}*/
 		
-		return cellFmin;
-	}
+		for (int i=0; i<tab1.length; i++) {
+					System.out.print(tab1[i]+ "  ");
+				}
+	
+			}
+
+
+		
+		//System.out.println(" ");
+		
+		//return cellFmin;
+	
 	//vérifie si la configuration du tableau d'une cellule est la même que la configuration finale
 	public boolean estAtteint(Cellule c) { 
 		for (int i=0; i<c.tab.length; i++) {
