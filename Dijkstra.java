@@ -1,62 +1,77 @@
 public class Dijkstra {
-    //private FilePriorite G; //a implementer
-    private int parent; //avant-dernier sommet
+    //private FilePriorite F; //a implementer
+    private Plateau parent; //avant-dernier sommet
+    private Plateau[] pi; //sommet precedent
+    private Plateau[] parcouru; //sommets visites
+    private int[] d; //priorite d'un element
 
-    public int getParent() {
+    public Plateau getParent() {
         return parent;
     }
 
-    //a modifier quand avec les files de priorite
-    //poids d'un arc
-    private int w(int u, int v) {
-        if (u == 0 || v == 0)
-            return 1;
-        else
-            return 0;
+    public void setParent(Plateau parent) {
+        this.parent = parent;
     }
 
-    public int dijkstra(Plateau p, int s) {
-        int[] graphe = p.conversion(p.plateau);
-        int[] pi = new int[graphe.length]; //sommet precedent
-        int[] d = new int[graphe.length]; //priorite = 0 si l'element est le sommet d'origine, 1 sinon
-        int[] parcouru = new int[graphe.length]; //sommets parcourus
+    //a modifier avec les files de priorite
+    //poids d'un arc
+    private int w(int u, int v) {
+        if (u == v)
+            return 0;
+        else
+            return 1;
+    }
+    
+    public Plateau[] dijkstraOTF(Plateau s, Plateau resolu) {
+        Plateau[] graphe = new Plateau[100]; //on cree le graphe au fur et a mesure
+        this.pi = new Plateau[s.plateau.length];
+        this.parcouru = new Plateau[s.plateau.length];
+        this.d = new int[s.plateau.length];
 
-        for (int u = 0; u < graphe.length; u++) {
-            pi[u] = 0;
-            parcouru[u] = -1;
-            if (u == s)
-                d[u] = 0;
-            else
-                d[u] = 1;
+        graphe[0] = s;
+        d[0] = 0;
+
+        for (int t = 1; t < d.length; t++) {
+            d[t] = 1;
         }
 
-        int min = graphe[0];
-        int fin = 0;
+        for (int x = 0; x < pi.length; x++) {
+            pi[x] = null;
+            parcouru[x] = null;
+        }
 
-        while (fin < graphe.length) {
-            for (int i = 0; i < graphe.length; i++) {
-                if (parcouru[i] == -1 && min > graphe[i])
-                    min = graphe[i];
+        Plateau min = null;
+        int fin = 0;
+        Plateau u = graphe[0];
+
+        while (graphe[fin] != resolu) { //tant qu'on n'atteint pas le sommet objectif
+            u = graphe[fin];
+            if (u == resolu) {
+                setParent(pi[fin]);
+                pi[fin] = graphe[fin];
+                return pi;
             }
 
-            for (int j = 0; j < graphe.length; j++) {
-                if (parcouru[j] == -1 && d[j] > d[min] + w(min, j)) {
-                    d[j] = d[min] + w(min, j);
-                    pi[j] = min;
-                    parcouru[j] = min;
+            for (int i = 0; i < graphe.length; i++) {
+                if (parcouru[i] == null)
+                    min = graphe[i];
+
+                if (parcouru[i] == null && d[i] > d[fin] + w(fin, i)) {
+                    d[i] = d[fin] + w(fin, i);
+                    pi[i] = min;
+                    parcouru[i] = min; //mettre a jour la file
+                }
+
+                else {
+                    d[i] = d[fin] + w(fin, i);
+                    pi[i] = graphe[fin];
+                    //ajouter dans la file
                 }
             }
-            graphe[min] = 999;
+            graphe[fin] = null;
             fin++;
         }
 
-        int dFinal = d[0];
-        for (int v = 0; v < d.length; v++) {
-           if (d[v] < dFinal)
-               dFinal = d[v];
-        }
-
-        this.parent = pi[dFinal];
-        return dFinal;
+        return parcouru;
     }
 }
