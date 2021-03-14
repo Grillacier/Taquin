@@ -1,3 +1,4 @@
+//import game_test.Case;
 
 public class Plateau {
     public Case[][] plateau; // double tableau
@@ -6,8 +7,38 @@ public class Plateau {
     public Plateau(int h, int l){
         this.hauteur = h;
         this.largeur = l;
-        this.plateau = new Case[this.hauteur][this.largeur];
+        this.plateau = tabNombreAleatoire(h, l);
     }
+    
+    public static void melangerTab(Case[][] tab) { //permet de mélanger un tableau donner en argument changeant aléatoirement les éléments du tableau
+		// Cette foncion permet également d'éviter la répétition de nombre dans le tableau
+		for (int i=0; i<tab.length; i++) {
+			for (int j=0; j<tab[i].length; j++) {
+				int i1 = (int)(Math.random()*tab.length-1); // choisi un indice i entre 0 et la taille du tableau -1
+				int j1 = (int)(Math.random()*tab[i].length-1);
+				Case temp = tab[i][j];
+				tab[i][j] = tab[i1][j1];
+				tab[i1][j1] = temp;
+				// échange simplement de manière aléatoire les éléments des indices
+			}
+		}
+	}
+    
+    public  Case[][] tabNombreAleatoire (int ligne, int colonne){ //Créée un tableau avec des nombre aléatoire compris de 0 à (ligne*colonne)-1
+		Case [][]tabTaquin = new Case [ligne][colonne];
+		int x = 0;
+		// ajoute dans un premier temps dans le tableau tabTaquin des chiffres compris entre 0 et (ligne * colonne)-1
+		for(int i=0; i < ligne; i++) {
+			for (int j=0; j<colonne; j++) {
+				tabTaquin[i][j] = new Case(x);
+				x++;
+					
+				}
+			}
+		melangerTab(tabTaquin); //  mélange le tableau aléatoirement
+		
+		return tabTaquin; 
+	}
 
     public void afficher(){
         char c = 'A';
