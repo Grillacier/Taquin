@@ -1,4 +1,3 @@
-//import game_test.Case;
 
 public class Plateau {
     public Case[][] plateau; // double tableau
@@ -35,7 +34,12 @@ public class Plateau {
 					
 				}
 			}
+	
 		melangerTab(tabTaquin); //  mélange le tableau aléatoirement
+		
+		while (!estSoluble(tabTaquin)) {
+			melangerTab(tabTaquin);
+		}
 		
 		return tabTaquin; 
 	}
@@ -186,7 +190,7 @@ public class Plateau {
      * V&eacute;rifie la solvabilit&eacute; du plateau
      * @return true si le nombre d'&eacute;changes et la parite sont tous les 2 pairs ou impairs, false sinon
      */
-    public boolean estSoluble() {
-        return tri(this.plateau)[0] % 2 == tri(this.plateau)[1] % 2;
+    public boolean estSoluble(Case [][]tab) {
+        return tri(tab)[0] % 2 == tri(tab)[1] % 2;
     }
 }
