@@ -13,6 +13,12 @@ public class Queue{
     this.courant.addCell(p);
 
   }
+  public boolean hasNext(){
+    if(this.courant.getSuivant() == null){
+      return false;
+    }
+    return true;
+  }
   /** Extract the board of the current cell and set the current cell to the next one
   *
   *@return The board of the Cell
