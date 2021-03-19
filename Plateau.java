@@ -1,4 +1,7 @@
+<<<<<<< Plateau.java
 import java.lang.*;
+=======
+>>>>>>> Plateau.java
 
 public class Plateau {
     public  Case[][] plateau; // double tableau
@@ -58,7 +61,9 @@ public class Plateau {
 
 				}
 			}
+	
 		melangerTab(tabTaquin); //  mélange le tableau aléatoirement
+<<<<<<< Plateau.java
     while (!estSoluble(tabTaquin)) {
 			melangerTab(tabTaquin);
 		}
@@ -66,6 +71,14 @@ public class Plateau {
 
 
 		return tabTaquin;
+=======
+		
+		while (!estSoluble(tabTaquin)) {
+			melangerTab(tabTaquin);
+		}
+		
+		return tabTaquin; 
+>>>>>>> Plateau.java
 	}
 
     public void afficher(){
@@ -223,8 +236,13 @@ public class Plateau {
      * V&eacute;rifie la solvabilit&eacute; du plateau
      * @return true si le nombre d'&eacute;changes et la parite sont tous les 2 pairs ou impairs, false sinon
      */
+<<<<<<< Plateau.java
 
     public boolean estSoluble(Case [][]tab) {
       return tri(tab)[0] % 2 == tri(tab)[1] % 2;
+=======
+    public boolean estSoluble(Case [][]tab) {
+        return tri(tab)[0] % 2 == tri(tab)[1] % 2;
+>>>>>>> Plateau.java
     }
 }
