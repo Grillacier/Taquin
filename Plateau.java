@@ -1,14 +1,38 @@
+import java.lang.*;
 
 public class Plateau {
-    public Case[][] plateau; // double tableau
+    public  Case[][] plateau; // double tableau
     public int hauteur, largeur; // taille du tableau
+    private final int compteur;
+    private final Plateau precedent;
 
     public Plateau(int h, int l){
         this.hauteur = h;
         this.largeur = l;
         this.plateau = tabNombreAleatoire(h, l);
+        this.compteur = 0;
+        this.precedent = null;
     }
-    
+    public Plateau(int c,Plateau p){
+        this.hauteur = p.hauteur;
+        this.largeur = p.largeur;
+        this.compteur = c;
+        this.precedent =p;
+        for(int i = 0;i<this.hauteur;i++){
+          for(int j = 0;i<this.largeur;j++){
+            this.plateau[i][j]= p.plateau[i][j];
+          }
+        }
+
+    }
+
+    public Plateau getPrecedent(){
+      return this.precedent;
+    }
+
+    public int getCompteur(){
+      return this.compteur;
+    }
     public static void melangerTab(Case[][] tab) { //permet de mélanger un tableau donner en argument changeant aléatoirement les éléments du tableau
 		// Cette foncion permet également d'éviter la répétition de nombre dans le tableau
 		for (int i=0; i<tab.length; i++) {
@@ -22,7 +46,7 @@ public class Plateau {
 			}
 		}
 	}
-    
+
     public  Case[][] tabNombreAleatoire (int ligne, int colonne){ //Créée un tableau avec des nombre aléatoire compris de 0 à (ligne*colonne)-1
 		Case [][]tabTaquin = new Case [ligne][colonne];
 		int x = 0;
@@ -31,17 +55,17 @@ public class Plateau {
 			for (int j=0; j<colonne; j++) {
 				tabTaquin[i][j] = new Case(x);
 				x++;
-					
+
 				}
 			}
-	
 		melangerTab(tabTaquin); //  mélange le tableau aléatoirement
-		
-		while (!estSoluble(tabTaquin)) {
+    while (!estSoluble(tabTaquin)) {
 			melangerTab(tabTaquin);
 		}
-		
-		return tabTaquin; 
+
+
+
+		return tabTaquin;
 	}
 
     public void afficher(){
@@ -72,17 +96,19 @@ public class Plateau {
      * @param tab un double tableau de Cases
      * @return true si tab est en position gagnante, false sinon
      */
-    public boolean jeuGagne(Case[][] tab){ //fonction qui évalue si le jeu est terminé (gagné) ou pas
-        if(tab[tab.length-1][tab[0].length-1].getNumero()!=0){
-            return false;
-        }
+    public boolean jeuGagne(){ //fonction qui évalue si le jeu est terminé (gagné) ou pas
+
 
         int k=1;
-        for(int i=0; i<tab.length-1; i++){
-            for(int j=0; j<tab[i].length; j++){
-                if(tab[i][j].getNumero()!=k){
+        for(int i=0; i<this.plateau.length; i++){
+            for(int j=0; j<this.plateau[i].length; j++){
+              if(i == (this.hauteur-1) && j == (this.largeur-1) && this.plateau[i][j].getNumero() == 0){
+                  return true;
+              }
+
+                if(this.plateau[i][j].getNumero()!=k){
                     return false;
-                }
+                  }
                 k++;
             }
         }
@@ -95,41 +121,49 @@ public class Plateau {
      *@param cibleh Coordonnée y (hauteur)
      *@param ciblel Coordonnée x (largeur)
      */
-    public void mouvement(int cibleh, int ciblel){
-        Case cible = this.plateau[cibleh][ciblel];
-        if(cibleh + 1 <hauteur){
-            if(this.plateau[cibleh+1][ciblel].getNumero() == 0){   //Je suppose que le case vide est la case 0
-                this.plateau[cibleh][ciblel] = this.plateau[cibleh+1][ciblel];
-                this.plateau[cibleh+1][ciblel] = cible;
-                return;
+
+    public void mouvement(String type){
+      int x = -1;
+      int y = -1;
+      for(int i = 0;i<this.hauteur;i++){
+        for(int j = 0;j<this.largeur;j++){
+            if(this.plateau[i][j].getNumero() == 0){
+               x = j;
+               y = i;
+
             }
         }
-        if(cibleh - 1 >-1){
-            if(this.plateau[cibleh-1][ciblel].getNumero() == 0){
-                this.plateau[cibleh][ciblel] = this.plateau[cibleh-1][ciblel];
-                this.plateau[cibleh-1][ciblel] = cible;
-                return;
-            }
+      }
+
+        if(type.equals("haut") && y>0){
+          Case tmp = plateau[y][x];
+          plateau[y][x] = plateau[y-1][x];
+          plateau[y-1][x] =tmp;
+          return;
+        }
+        if(type.equals("bas") && y<this.hauteur-1){
+          Case tmp = plateau[y][x];
+          plateau[y][x] = plateau[y+1][x];
+          plateau[y+1][x] =tmp;
+          return;
+        }
+        if(type.equals("droite") && x<this.largeur-1){
+          Case tmp = plateau[y][x];
+          plateau[y][x] = plateau[y][x+1];
+          plateau[y][x+1] =tmp;
+          return;
+        }
+        if(type.equals("gauche") && x>0){
+          Case tmp = plateau[y][x];
+          plateau[y][x] = plateau[y][x-1];
+          plateau[y][x-1] =tmp;
+          return;
+        }
+
 
         }
-        if(ciblel + 1 <largeur){
-            if(this.plateau[cibleh][ciblel+1].getNumero() == 0){
-                this.plateau[cibleh][ciblel] = this.plateau[cibleh][ciblel+1];
-                this.plateau[cibleh][ciblel+1] = cible;
-                return;
-            }
+      //  System.out.println("Impossible de deplacer la case de cette facon:  "+type);
 
-        }
-        if(ciblel - 1 >-1){
-            if(this.plateau[cibleh][ciblel-1].getNumero() == 0){
-                this.plateau[cibleh][ciblel] = this.plateau[cibleh][ciblel-1];
-                this.plateau[cibleh][ciblel-1] = cible;
-                return;
-            }
-
-        }
-        System.out.println("Impossible de deplacer la case cible x: "+ciblel+"   y: "+cibleh);
-    }
 
 
     /**
@@ -190,7 +224,8 @@ public class Plateau {
      * V&eacute;rifie la solvabilit&eacute; du plateau
      * @return true si le nombre d'&eacute;changes et la parite sont tous les 2 pairs ou impairs, false sinon
      */
+
     public boolean estSoluble(Case [][]tab) {
-        return tri(tab)[0] % 2 == tri(tab)[1] % 2;
+      return tri(tab)[0] % 2 == tri(tab)[1] % 2;
     }
 }
