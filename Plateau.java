@@ -62,6 +62,32 @@ public class Plateau {
   		}
   	}
   	
+ // méthode qui retourne la coordonnée X d'un numéro n dans le plateau
+   	public int xValue(int n) {
+   		int x = -1; //initialisation de x (-1 = c n'existe pas dans le plateau)
+   		for (int i=0; i<this.plateau.length; i++) {
+   			for (int j=0; j<this.plateau[i].length; j++) {
+   				if (this.plateau[i][j].getNumero()==n) {
+   					x = i;
+   				}
+   			}
+   		}
+   		return x;
+   	}
+   	// méthode qui retourne la coordonnée Y d'un numéro n dans le plateau
+   	public int yValue(int n) {
+   		int y = -1; //initialisation de y (-1 = c n'existe pas dans le plateau)
+   		for (int i=0; i<this.plateau.length; i++) {
+   			for (int j=0; j<this.plateau[i].length; j++) {
+   				if (this.plateau[i][j].getNumero()==n) {
+   					y = j;
+   				}
+   			}
+   		}
+   		return y;
+   	}
+     
+  	
     public static void melangerTab(Case[][] tab) { //permet de mélanger un tableau donner en argument changeant aléatoirement les éléments du tableau
 		// Cette foncion permet également d'éviter la répétition de nombre dans le tableau
 		for (int i=0; i<tab.length; i++) {
