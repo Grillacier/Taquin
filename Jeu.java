@@ -1,6 +1,6 @@
 
 public class Jeu {
-    private Plateau plateau;
+    private Configuration plateau;
     private Joueur joueur;
 
     public Jeu(){

@@ -3,15 +3,15 @@ import java.util.ArrayList;
 
 // version ArrayList : non bornee...
 
-// suppose que les Plateaux que l'on stocke, aient
+// suppose que les Configurations que l'on stocke, aient
 // une fct equals redefinie et une fct hashcode compatible
-// (pour que deux objets Plateaux consideres comme egaux soient geres
+// (pour que deux objets Configurations considere's comme egaux soient geres
 // de maniere identique... Important pour IndiceDansF)
 
 
-public class FdPg <Plateau> {
+public class FdPg <Configuration> {
   class Paire {
-    Plateau val;
+    Configuration val;
     int cle;
     
     public Paire () {
@@ -19,24 +19,24 @@ public class FdPg <Plateau> {
       cle = -1;
     }
 
-    public Paire(Plateau v, int c) {
+    public Paire(Configuration v, int c) {
       val = v;
       cle = c;
     }
   }
 
   ArrayList<Paire> T;
-  HashMap<Plateau,Integer> hmap;
+  HashMap<Configuration,Integer> hmap;
   int nb;
 
   public FdPg() {
     T = new ArrayList<Paire>();
-    hmap = new HashMap<Plateau,Integer>();
+    hmap = new HashMap<Configuration,Integer>();
     nb = 0;
     T.add(new Paire()); //on place une paire "bidon" a la position 0
   }
 
-  void Ajouter(Plateau n, int c) {
+  void Ajouter(Configuration n, int c) {
     Paire P = new Paire(n,c);
     T.add(P);
     nb = nb+1;
@@ -50,9 +50,9 @@ public class FdPg <Plateau> {
     hmap.put(n,i);
   }
 
-  Plateau ExtraireMin() {
+  Configuration ExtraireMin() {
     assert(nb > 0);
-    Plateau res = T.get(1).val;
+    Configuration res = T.get(1).val;
     T.set(1,T.get(nb));
     T.set(nb,null);
     hmap.remove(res);
@@ -85,14 +85,14 @@ public class FdPg <Plateau> {
     return (nb == 0);
   }
 
-  int IndiceDsF(Plateau n) {
+  int IndiceDsF(Configuration n) {
     if (hmap.containsKey(n))
       return hmap.get(n);
     else
       return -1;
   }
 
-  void MaJ(Plateau n, int c) {
+  void MaJ(Configuration n, int c) {
     int pos = this.IndiceDsF(n);
     assert(pos != -1);
     int excle = T.get(pos).cle;
@@ -107,6 +107,7 @@ public class FdPg <Plateau> {
     }
     T.set(i, P);
     hmap.put(n, i);
+
   }
 
   public String toString() {

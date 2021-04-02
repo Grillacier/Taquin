@@ -1,4 +1,4 @@
-public class Queue{
+/*public class Queue{
 
   private CellQueue courant;
 
@@ -9,7 +9,7 @@ public class Queue{
 *
 *@param p Board added to the new last cell
  */
-  public void addPlateau(Plateau p){
+  /*public void addPlateau(Plateau p){
     this.courant.addCell(p);
 
   }
@@ -23,9 +23,9 @@ public class Queue{
   *
   *@return The board of the Cell
   */
-  public Plateau extract(){
+  /*public Plateau extract(){
     CellQueue cible = this.courant;
     this.courant = this.courant.getSuivant();
     return cible.getPlateau();
   }
-}
+}*/

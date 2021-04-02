@@ -1,4 +1,4 @@
-public class CellQueue{
+/*public class CellQueue{
 
   private Plateau modele;
   private CellQueue suivant;
@@ -24,7 +24,7 @@ public class CellQueue{
   *
   *@param p The board added on the new cell
   */
-  public void addCell(Plateau p){
+  /*public void addCell(Plateau p){
     if(this.suivant == null){
       this.suivant = new CellQueue(p);
     }
@@ -33,4 +33,4 @@ public class CellQueue{
     }
 
   }
-}
+}*/
