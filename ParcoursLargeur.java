@@ -2,76 +2,81 @@ import java.util.*;
 
 public class ParcoursLargeur{
 
-    private Plateau p;
-    private Queue q;
-    private LinkedList marqueur;
+    private Configuration configuration;
+    private LinkedList<Configuration> marqueur; // nouveau nom : visite
 
-
-    public ParcoursLargeur(){
-        this.p=new Plateau(3,3);
-      //  this.p = new Plateau();
-        this.q=new Queue(this.p);
-        this.marqueur = new LinkedList();
-
-
-
+    public ParcoursLargeur(Configuration c){
+        this.configuration = c;
+        this.marqueur = new LinkedList<>();
     }
 
-    public boolean resolu(){
-      return this.p.jeuGagne();
+    public boolean resolu(Configuration x){
+        return x.jeuGagne();
     }
 
-    public boolean memePlateau(Plateau a){
-      boolean res = true;
-      int iterator =0;
-      for(int w = 0; w<this.marqueur.size();w++){
-        res = true;
-        Plateau b = (Plateau)this.marqueur.get(w);
+    public boolean plateauDifferent(Configuration a, String dir){
+        Configuration x, y;
+        boolean estDifferent;
+        y = new Configuration(a.getHauteur(), a.getLargeur());
+        y.copier(a);
+        y.mouvement(dir);
 
-        for(int i = 0; i<a.hauteur;i++){
-          for(int j = 0; j<a.largeur;j++){
-            if(a.plateau[i][j].getNumero() != b.plateau[i][j].getNumero()){
-                res = false;
+        for(int k = 0; k<this.marqueur.size(); k++){
+            estDifferent = false;
+            x = this.marqueur.get(k);
+            for(int i = 0; i<y.getHauteur(); i++){
+                for(int j = 0; j<y.getLargeur();j++){
+                    if(y.getTableau()[i][j] != x.getTableau()[i][j]){
+                        estDifferent = true;
+                    }
+                }
             }
-          }
+            if(!estDifferent){
+                return false;
+            }
         }
-        if(res == true){
-          return true;
-        }
-      }
-     return false;
-    }
-    public void parcours(){
-      this.marqueur.add(this.p);
-      Plateau up = new Plateau(this.p.getCompteur()+1,this.p);
-      up.mouvement("haut");
-      if(memePlateau(up)==false){
-
-          q.addPlateau(up);
-      }
-      Plateau down = new Plateau(this.p.getCompteur()+1,this.p);
-      up.mouvement("bas");
-      if(memePlateau(down)==false){
-          q.addPlateau(down);
-      }
-      Plateau right = new Plateau(this.p.getCompteur()+1,this.p);
-      up.mouvement("droite");
-      if(memePlateau(right)==false){
-          q.addPlateau(right);
-      }
-      Plateau left = new Plateau(this.p.getCompteur()+1,this.p);
-      up.mouvement("gauche");
-      if(memePlateau(left)==false){
-          q.addPlateau(left);
-      }
-
-    }
-    public boolean setNext(){
-      if(this.q.hasNext()){
-        this.p = this.q.extract();
         return true;
     }
-    return false;
-}
+
+    public Configuration parcours(){
+        LinkedList<Configuration> file = new LinkedList<Configuration>();
+        marqueur.add(this.configuration);
+        file.add(this.configuration);
+        int x = 0;
+        while(!file.isEmpty()){
+            System.out.println("Taille de la file (avant poll) : " + file.size());
+            Configuration a = file.poll();
+            System.out.println("Taille de la file (apres poll) : " + file.size());
+            a.afficher();
+            System.out.println("Taille du marqueur : " + marqueur.size());
+            if (a.jeuGagne()) {
+                return a;
+            }
+            if(plateauDifferent(a, "haut")){
+                Configuration y = new Configuration(a);
+                y.mouvement("haut");
+                marqueur.add(y);
+                file.addLast(y);
+            }if(plateauDifferent(a, "bas")){
+                Configuration y = new Configuration(a);
+                y.mouvement("bas");
+                marqueur.add(y);
+                file.addLast(y);
+            }if(plateauDifferent(a, "droite")){
+                Configuration y = new Configuration(a);
+                y.mouvement("droite");
+                marqueur.add(y);
+                file.addLast(y);
+            }if(plateauDifferent(a, "gauche")){
+                Configuration y = new Configuration(a);
+                y.mouvement("gauche");
+                marqueur.add(y);
+                file.addLast(y);
+            }
+        }
+        return null;
+    }
+
+
 
 }
