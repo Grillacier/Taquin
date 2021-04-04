@@ -77,11 +77,16 @@ public class Configuration {
 		}
 	}
 
+	// Renvoie un chiffre aleatoire entre [min, max]
 	public int chiffreAleatoire(int min, int max) {
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
 	}
+
 /*
+	A SUPPRIMER SI INUTILE
+	LA FONCTION "mouvement" DEVRAIT REMPLACER TOUT CA
+
 	public boolean MouvementBas () {
 		if (this.x==this.hauteur-1) {
 			return false;
@@ -112,8 +117,8 @@ public class Configuration {
 		}
 
 		return true;
-	}*/
-	/*
+	}
+
 	//construit un tableau avec les coordonnées x et y déplacée en bas
 	public Configuration constrTabBas(){
 		Configuration tabBas = copiePlateau();
@@ -181,6 +186,8 @@ public class Configuration {
 
 	}
 */
+
+	// Affiche la taquin de facon claire
 	public void afficher(){
 		char c = 'A';
 		int size;
@@ -204,7 +211,6 @@ public class Configuration {
 		System.out.println("---------");
 	}
 
-
 	// Vérifie si le plateau est en position finale et donc si je le jeu est finit
 	public boolean jeuGagne(){
 		int k=1;
@@ -221,13 +227,7 @@ public class Configuration {
 		return false;
 	}
 
-
-	/** Permet de deplacer la Case cible si le deplacement est valide
-	 *
-	 *param cibleh Coordonnée y (hauteur)
-	 *param ciblel Coordonnée x (largeur)
-	 */
-
+	// Permet de deplacer la case vide du taquin si le mouvement est autorise
 	public void mouvement(String dir){
 		if(dir.equals("haut") && this.x>0){
 			chemin += "H";
@@ -244,6 +244,7 @@ public class Configuration {
 		}
 	}
 
+	// Echange une case (en parametre) avec la case vide
 	public void echangeCase(int caseX, int caseY){
 		int case0 = this.tableau[this.x][this.y];
 		this.tableau[this.x][this.y] = this.tableau[caseX][caseY];
@@ -252,11 +253,18 @@ public class Configuration {
 		this.y = caseY;
 	}
 
+	// Renvoie un string du taquin
+	public String tableauEnString(){
+		String s = "";
+		for(int i=0; i<this.hauteur; i++){
+			for(int j=0; j<this.largeur; j++){
+				s += Integer.toString(this.tableau[i][j]);
+			}
+		}
+		return s;
+	}
 
-	/**
-	 * Convertit un double tableau de Cases en un tableau d'entiers
-	 * @return un tableau d'entiers contenant les num&eacute;ros des Cases sans en changer l'ordre
-	 */
+	// Renvoie un tableau d'entier du taquin
 	public int[] conversion() {
 		int[] tab = new int[this.hauteur*this.largeur];
 		int k = 0;
@@ -269,18 +277,13 @@ public class Configuration {
 		return tab;
 	}
 
-
-	/**
-	 * Tri un tableau d'entiers dans l'ordre croissant avec le 0 a la fin
-	 * param p Tableau tableau de tableaux de Cases dont on va trier les cases
-	 * return le nombre d'&eacute;changes et de d&eacute;placements du 0
-	 */
-	private int[] tri() {
+	// Tri le tableau du taquin afin de compter le nombre d'echanges et de deplacements
+	private int[] triEchangeParite() {
 		int[] tab = conversion(); // plateau convertit en tableau d'entiers
 		int[] res = new int[2];
 		int nbEchanges = 0; // nombre de deplacements total des Cases
 		int parite = 0; // nombre de deplacements du 0
-		int tmp = 0;
+		int tmp;
 		for (int i = 0; i < tab.length; i++) {
 			for (int j = 1; j < tab.length-i; j++) {
 				if (tab[j-1] == 0) {
@@ -308,12 +311,9 @@ public class Configuration {
 		return res;
 	}
 
-	/**
-	 * V&eacute;rifie la solvabilit&eacute; du plateau
-	 * @return true si le nombre d'&eacute;changes et la parite sont tous les 2 pairs ou impairs, false sinon
-	 */
+	// Verifie que le taquin est soluble : renvoie "true" si le nombre d'echanges et la parite sont tous deux pairs ou impairs, sinon, renvoie "false"
 	public boolean estSoluble() {
-		return tri()[0] % 2 == tri()[1] % 2;
+		return triEchangeParite()[0] % 2 == triEchangeParite()[1] % 2;
 	}
 
 	public int getX() {

@@ -1,77 +1,37 @@
 import java.util.*;
+import java.util.Queue;
 
 public class ParcoursLargeur{
-
     private Configuration configuration;
-    private LinkedList<Configuration> marqueur; // nouveau nom : visite
+    private HashSet<String> marqueur;
+    private Queue<Configuration> file;
+    private String[] deplacements;
 
+    // Constructeur prenant la configuration de depart
     public ParcoursLargeur(Configuration c){
         this.configuration = c;
-        this.marqueur = new LinkedList<>();
+        this.marqueur = new HashSet<>();
+        this.file = new LinkedList<>();
+        this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
     }
 
-    public boolean resolu(Configuration x){
-        return x.jeuGagne();
-    }
-
-    public boolean plateauDifferent(Configuration a, String dir){
-        Configuration x, y;
-        boolean estDifferent;
-        y = new Configuration(a.getHauteur(), a.getLargeur());
-        y.copier(a);
-        y.mouvement(dir);
-
-        for(int k = 0; k<this.marqueur.size(); k++){
-            estDifferent = false;
-            x = this.marqueur.get(k);
-            for(int i = 0; i<y.getHauteur(); i++){
-                for(int j = 0; j<y.getLargeur();j++){
-                    if(y.getTableau()[i][j] != x.getTableau()[i][j]){
-                        estDifferent = true;
-                    }
-                }
-            }
-            if(!estDifferent){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public Configuration parcours(){
-        LinkedList<Configuration> file = new LinkedList<Configuration>();
-        marqueur.add(this.configuration);
+    // Parcours en largeur qui marque les config deja visites et ajoute a la file les config a visister
+    public Configuration parcoursEnLargeur(){
+        marqueur.add(this.configuration.tableauEnString());
         file.add(this.configuration);
-        int x = 0;
         while(!file.isEmpty()){
-            System.out.println("Taille de la file (avant poll) : " + file.size());
             Configuration a = file.poll();
-            System.out.println("Taille de la file (apres poll) : " + file.size());
-            a.afficher();
-            System.out.println("Taille du marqueur : " + marqueur.size());
             if (a.jeuGagne()) {
+                System.out.println("Taille du marqueur : " + marqueur.size());
                 return a;
             }
-            if(plateauDifferent(a, "haut")){
-                Configuration y = new Configuration(a);
-                y.mouvement("haut");
-                marqueur.add(y);
-                file.addLast(y);
-            }if(plateauDifferent(a, "bas")){
-                Configuration y = new Configuration(a);
-                y.mouvement("bas");
-                marqueur.add(y);
-                file.addLast(y);
-            }if(plateauDifferent(a, "droite")){
-                Configuration y = new Configuration(a);
-                y.mouvement("droite");
-                marqueur.add(y);
-                file.addLast(y);
-            }if(plateauDifferent(a, "gauche")){
-                Configuration y = new Configuration(a);
-                y.mouvement("gauche");
-                marqueur.add(y);
-                file.addLast(y);
+            // Verifie chaque deplacement du taquin a
+            for(int i=0; i<deplacements.length; i++){
+                Configuration tmp = new Configuration(a);
+                tmp.mouvement(deplacements[i]);
+                if(this.marqueur.add(tmp.tableauEnString())){
+                    file.add(tmp);
+                }
             }
         }
         return null;
