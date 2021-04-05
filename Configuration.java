@@ -6,12 +6,15 @@ public class Configuration {
 	private int x , y; // coordonnées de la case vide
 	private int[][] tableau;
 	private String chemin;
+	private Configuration precedent;
 
 	public Configuration(int h, int l){
 		this.hauteur = h;
 		this.largeur = l;
 		this.tableau = new int[h][l];
 		this.creationTableau();
+		this.chemin = "";
+		this.precedent = null;
 	}
 
 	// Creer un objet similaire à un autre
@@ -367,4 +370,8 @@ public class Configuration {
 	public String getChemin() {
 		return chemin;
 	}
+
+    public void setPrecedent(Configuration precedent) {
+        this.precedent = precedent;
+    }
 }

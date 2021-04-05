@@ -29,35 +29,38 @@ public class Dijkstra {
         return val;
     }
 
-    /*
+
     public FdPg<Configuration> dijkstra() {
         FdPg<Configuration> chemin = new FdPg<>();
         Configuration u = this.sommet;
         chemin.Ajouter(u, 0);
+        /*
         while (!this.file.EstVide()) {
             u = this.file.ExtraireMin();
             if (u.equals(sommet.tableauGagnant()))
                 return chemin;
-            for (Configuration v : this.sommet.getSuccesseurs()) {
+
+            for (Configuration v : file) {
                 if (chemin.IndiceDsF(v) != -1) {
-                    if (v.getPriorite() > u.getPriorite() + distance) {
-                        v.setPriorite(u.getPriorite() + distance);
+                    if (file.IndiceDsF(v) > file.IndiceDsF(u) + distance) {
+                        file.MaJ(v, file.IndiceDsF(u) + distance);
                         v.setPrecedent(u);
-                        file.MaJ(v, v.getPriorite());
+                        file.MaJ(v, file.IndiceDsF(v));
                     }
                 }
                 else {
-                    if (v.getPriorite() < 0) {
-                        v.setPriorite(u.getPriorite() + distance);
+                    if (file.IndiceDsF(v) < 0) {
+                        file.MaJ(v, file.IndiceDsF(u) + distance);
                         v.setPrecedent(u);
-                        file.Ajouter(v, v.getPriorite());
+                        file.MaJ(v, file.IndiceDsF(v));
+                        chemin.Ajouter(u, file.IndiceDsF(u));
                     }
                 }
             }
-        }
+        }*/
         return chemin;
     }
-    */
+
 
     public void afficheChemin(FdPg<Configuration> chemin) {
         for (int i = 0; i < chemin.nb; i++) {
