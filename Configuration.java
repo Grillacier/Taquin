@@ -11,6 +11,10 @@ public class Configuration {
 		this.hauteur = h;
 		this.largeur = l;
 		this.tableau = new int[h][l];
+<<<<<<< HEAD
+		this.creationTableau();
+=======
+>>>>>>> master
 		this.chemin = "";
 	}
 
@@ -63,7 +67,11 @@ public class Configuration {
 	}
 
 	// Permet de créer un nouveau tableau mélangé et soluble
+<<<<<<< HEAD
+	public void creationTableau(){
+=======
 	public void nouveauTableau(){
+>>>>>>> master
 		int a = 0;
 		for(int i=0; i<this.hauteur; i++) {
 			for (int j=0; j<this.largeur; j++) {
