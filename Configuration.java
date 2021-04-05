@@ -6,19 +6,18 @@ public class Configuration {
 	private int x , y; // coordonnées de la case vide
 	private int[][] tableau;
 	private String chemin;
+	private Configuration precedent;
 
 	public Configuration(int h, int l){
 		this.hauteur = h;
 		this.largeur = l;
 		this.tableau = new int[h][l];
-<<<<<<< HEAD
 		this.creationTableau();
-=======
->>>>>>> master
 		this.chemin = "";
+		this.precedent = null;
 	}
 
-	// Créer un objet similaire à un autre
+	// Creer un objet similaire à un autre
 	public Configuration(Configuration c){
 		this.hauteur = c.hauteur;
 		this.largeur = c.largeur;
@@ -66,12 +65,8 @@ public class Configuration {
 		initialisationXY();
 	}
 
-	// Permet de créer un nouveau tableau mélangé et soluble
-<<<<<<< HEAD
+	// Permet de creer un nouveau tableau melange et soluble
 	public void creationTableau(){
-=======
-	public void nouveauTableau(){
->>>>>>> master
 		int a = 0;
 		for(int i=0; i<this.hauteur; i++) {
 			for (int j=0; j<this.largeur; j++) {
@@ -89,6 +84,22 @@ public class Configuration {
 	public int chiffreAleatoire(int min, int max) {
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
+	}
+
+	//construit un tableau en configuration gagnante
+	public Configuration tableauGagnant() {
+		Configuration g = new Configuration(this.hauteur, this.largeur);
+		int[][] tab = new int[this.hauteur][this.largeur];
+		int k = 1;
+		for (int i = 0; i < hauteur; i++) {
+			for (int j = 0; j < largeur; j++) {
+				tab[i][j] = k;
+				k++;
+			}
+		}
+		tab[tab.length-1][tab[0].length-1] = 0;
+		g.setTableau(tab);
+		return g;
 	}
 
 /*
@@ -359,4 +370,8 @@ public class Configuration {
 	public String getChemin() {
 		return chemin;
 	}
+
+    public void setPrecedent(Configuration precedent) {
+        this.precedent = precedent;
+    }
 }

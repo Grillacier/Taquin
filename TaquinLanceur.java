@@ -6,7 +6,7 @@ public class TaquinLanceur {
 
         //Test du parcours en largeur
         Configuration c = new Configuration(3,3); // taille a modif pour les test
-        c.nouveauTableau();
+        //c.nouveauTableau();
 
         // 3x3 de profondeur 1 en 0.04s
         //int[][] t = {{1,2,3},{4,5,0},{7,8,6}};
@@ -51,5 +51,8 @@ public class TaquinLanceur {
         System.out.println("Chemin : " + resolu.getChemin());
         System.out.println("Longueur du chemin : " + resolu.getChemin().length());
         System.out.println("Résolu en : " + ((timeStop-timeStart)/1000000)/1000.0 + "s");
+
+        Dijkstra dj = new Dijkstra(c);
+        dj.afficheChemin(dj.dijkstra());
     }
 }
