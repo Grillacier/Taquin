@@ -1,20 +1,18 @@
-import java.util.*;
 public class Dijkstra {
+    private Configuration sommet;
     private FdPg<Configuration> file;
-    private ArrayList<Configuration> sommet;
-   // private int distance;
+    private int distance;
 
-    public Dijkstra(/*Configuration sommet*/) {
-        //this.sommet = sommet;
+    public Dijkstra(Configuration sommet) {
+        this.sommet = sommet;
         this.file = new FdPg<Configuration>();
-        this.sommet = new ArrayList<Configuration>();
-        //this.file.Ajouter(sommet, 0);
-        //this.distance = manhattanHeuristic();
+        this.file.Ajouter(sommet, 0);
+        this.distance = manhattanHeuristic();
     }
 
 
     //pour A*
-   /* public int manhattanHeuristic() {
+    public int manhattanHeuristic() {
         int numero = 0;
         int val = 0;
         Configuration gagne = sommet.tableauGagnant();
@@ -29,51 +27,16 @@ public class Dijkstra {
             }
         }
         return val;
-    }*/
+    }
 
 
-    public FdPg<Configuration> dijkstra(Configuration depart) {
-        //FdPg<Configuration> chemin = new FdPg<>();
-        //Configuration u = this.sommet;
-        //chemin.Ajouter(u, 0);
-    	try {
-    	this.file.Ajouter(depart, 0);
-    	
-        
+    public FdPg<Configuration> dijkstra() {
+        FdPg<Configuration> chemin = new FdPg<>();
+        Configuration u = this.sommet;
+        chemin.Ajouter(u, 0);
+        /*
         while (!this.file.EstVide()) {
-        	Configuration min = this.file.ExtraireMin();
-        	this.sommet.add(min);
-        	if (min.jeuGagne()) {
-        		return this.file;
-        	}
-        	
-        	
-        	for (int i=0; i<min.getSuccesseur().size(); i++) {
-        		System.out.println(min.getSuccesseur().get(i));
-        	
-        		min.getSuccesseur().get(i).afficher();
-        		min.getSuccesseur().get(i).setDistance(min.getSuccesseur().get(i).getDistance()+1);
-        		System.out.println(min.getSuccesseur().get(i).getDistance());
-        		
-       
-        		if (!min.getSuccesseur().get(i).estPresent(sommet, file)){
-        			this.file.Ajouter(min.getSuccesseur().get(i), min.getSuccesseur().get(i).getDistance());
-        		}
-        		
-
-        	}
-        	
-        	
-        }
-    	}
-		catch(NullPointerException e) {
-			System.out.println();
-			e.getMessage();
-		}
-        return file;
-     }
-    
-           /* u = this.file.ExtraireMin();
+            u = this.file.ExtraireMin();
             if (u.equals(sommet.tableauGagnant()))
                 return chemin;
 
@@ -95,8 +58,8 @@ public class Dijkstra {
                 }
             }
         }*/
-       // return chemin;
-    
+        return chemin;
+    }
 
 
     public void afficheChemin(FdPg<Configuration> chemin) {

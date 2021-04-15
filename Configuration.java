@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.*;
 import java.util.Random;
 
 public class Configuration {
@@ -7,9 +6,7 @@ public class Configuration {
 	private int x , y; // coordonnées de la case vide
 	private int[][] tableau;
 	private String chemin;
-	private ArrayList<Configuration> parent;
-	private int distance; // poids d'une configuration
-	private ArrayList<Configuration> successeur;
+	private Configuration precedent;
 
 	public Configuration(int h, int l){
 		this.hauteur = h;
@@ -17,10 +14,7 @@ public class Configuration {
 		this.tableau = new int[h][l];
 		this.creationTableau();
 		this.chemin = "";
-		this.parent = new ArrayList<Configuration>();
-		this.successeur = successeurs ();
-		this.distance = distance(this);
-		
+		this.precedent = null;
 	}
 
 	// Creer un objet similaire à un autre
@@ -29,61 +23,7 @@ public class Configuration {
 		this.largeur = c.largeur;
 		this.tableau = new int[this.hauteur][this.largeur];
 		this.copier(c);
-		this.distance = distance(c);
 	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public int getHauteur() {
-		return hauteur;
-	}
-
-	public int getLargeur() {
-		return largeur;
-	}
-
-	public int[][] getTableau() {
-		return tableau;
-	}
-
-	public void setTableau(int[][] tableau) {
-		this.tableau = tableau;
-	}
-
-	public String getChemin() {
-		return chemin;
-	}
-
-    public ArrayList<Configuration> getParent() {
-        return this.parent;
-    }
-    
-    public int getDistance() {
-    	return this.distance;
-    }
-	
-	public void setDistance(int d) {
-		this.distance = d;
-	}
-	
-	public ArrayList<Configuration> getSuccesseur() {
-		return this.successeur;
-	}
-	
 
 	// copie le tableau de la configuration en parametre
 	public void copier(Configuration c){
@@ -96,7 +36,6 @@ public class Configuration {
 		this.x = c.x;
 		this.y = c.y;
 	}
-	
 
 	// Permet de trouver le X et Y du tableau
 	public void initialisationXY () {
@@ -148,7 +87,7 @@ public class Configuration {
 	}
 
 	//construit un tableau en configuration gagnante
-	public Configuration tableauFinal() {
+	public Configuration tableauGagnant() {
 		Configuration g = new Configuration(this.hauteur, this.largeur);
 		int[][] tab = new int[this.hauteur][this.largeur];
 		int k = 1;
@@ -163,9 +102,9 @@ public class Configuration {
 		return g;
 	}
 
-
-	/*A SUPPRIMER SI INUTILE
-	LA FONCTION "mouvement" DEVRAIT REMPLACER TOUT CA*/
+/*
+	A SUPPRIMER SI INUTILE
+	LA FONCTION "mouvement" DEVRAIT REMPLACER TOUT CA
 
 	public boolean MouvementBas () {
 		if (this.x==this.hauteur-1) {
@@ -201,13 +140,13 @@ public class Configuration {
 
 	//construit un tableau avec les coordonnées x et y déplacée en bas
 	public Configuration constrTabBas(){
-		Configuration tabBas = new Configuration(this);
+		Configuration tabBas = copiePlateau();
 		for (int i=0; i<tabBas.hauteur; i++) {
-			for (int j=0; j<tabBas.tableau[i].length; j++) {
-				if (i != tabBas.tableau.length-1 && tabBas.tableau[i][j]==0) {
-					int tmp = tabBas.tableau[i][j];
-					tabBas.tableau[i][j] = tabBas.tableau[i+1][j];
-					tabBas.tableau[i+1][j] = tmp;
+			for (int j=0; j<tabBas.plateau[i].length; j++) {
+				if (i != tabBas.plateau.length-1 && tabBas.plateau[i][j].getNumero()==0) {
+					Case tmp = tabBas.plateau[i][j];
+					tabBas.plateau[i][j] = tabBas.plateau[i+1][j];
+					tabBas.plateau[i+1][j] = tmp;
 					return tabBas;
 				}
 			}
@@ -217,13 +156,13 @@ public class Configuration {
 	}
 	//construit un tableau avec les coordonnées x et y déplacée en haut
 	public  Configuration constrTabHaut(){
-		Configuration tabHaut = new Configuration(this);
+		Configuration tabHaut = copiePlateau();
 		for (int i=0; i<tabHaut.hauteur; i++) {
-			for (int j=0; j<tabHaut.tableau[i].length; j++) {
-				if (i != 0 && tabHaut.tableau[i][j]==0) {
-					int tmp = tabHaut.tableau[i][j];
-					tabHaut.tableau[i][j] = tabHaut.tableau[i-1][j];
-					tabHaut.tableau[i-1][j] = tmp;
+			for (int j=0; j<tabHaut.plateau[i].length; j++) {
+				if (i != 0 && tabHaut.plateau[i][j].getNumero()==0) {
+					Case tmp = tabHaut.plateau[i][j];
+					tabHaut.plateau[i][j] = tabHaut.plateau[i-1][j];
+					tabHaut.plateau[i-1][j] = tmp;
 					return tabHaut;
 				}
 			}
@@ -234,13 +173,13 @@ public class Configuration {
 
 	//construit un tableau avec les coordonnées x et y déplacée à gauche
 	public Configuration constrTabGauche(){
-		Configuration tabGauche = new Configuration(this);
+		Plateau tabGauche = copiePlateau();
 		for (int i=0; i<tabGauche.hauteur; i++) {
-			for (int j=0; j<tabGauche.tableau[i].length; j++) {
-				if (j != 0 && tabGauche.tableau[i][j]==0) {
-					int tmp = tabGauche.tableau[i][j];
-					tabGauche.tableau[i][j] = tabGauche.tableau[i][j-1];
-					tabGauche.tableau[i][j-1] = tmp;
+			for (int j=0; j<tabGauche.plateau[i].length; j++) {
+				if (j != 0 && tabGauche.plateau[i][j].getNumero()==0) {
+					Case tmp = tabGauche.plateau[i][j];
+					tabGauche.plateau[i][j] = tabGauche.plateau[i][j-1];
+					tabGauche.plateau[i][j-1] = tmp;
 					return tabGauche;
 				}
 			}
@@ -250,13 +189,13 @@ public class Configuration {
 	}
 	// construit un tableau avec les coordonnées x et y déplacée à droite
 	public Configuration constrTabDroit(){
-		Configuration tabDroit = new Configuration(this);
+		Plateau tabDroit = copiePlateau();
 		for (int i=0; i<tabDroit.hauteur; i++) {
-			for (int j=0; j<tabDroit.tableau[i].length; j++) {
-				if (j != tabDroit.tableau[i].length-1 && tabDroit.tableau[i][j]==0) {
-					int tmp = tabDroit.tableau[i][j];
-					tabDroit.tableau[i][j] = tabDroit.tableau[i][j+1];
-					tabDroit.tableau[i][j+1] = tmp;
+			for (int j=0; j<tabDroit.plateau[i].length; j++) {
+				if (j != tabDroit.plateau[i].length-1 && tabDroit.plateau[i][j].getNumero()==0) {
+					Case tmp = tabDroit.plateau[i][j];
+					tabDroit.plateau[i][j] = tabDroit.plateau[i][j+1];
+					tabDroit.plateau[i][j+1] = tmp;
 					return tabDroit;
 				}
 			}
@@ -265,63 +204,7 @@ public class Configuration {
 		return null;
 
 	}
-
-	public int xValue(int n) {
-        int x = -1; //initialisation de x (-1 = c n'existe pas dans le plateau)
-        for (int i=0; i<this.tableau.length; i++) {
-            for (int j=0; j<this.tableau[i].length; j++) {
-                if (this.tableau[i][j]==n) {
-                    x = i;
-                }
-            }
-        }
-        return x;
-    }
-    // méthode qui retourne la coordonnée Y d'un numéro n dans le plateau
-    public int yValue(int n) {
-        int y = -1; //initialisation de y (-1 = c n'existe pas dans le plateau)
-        for (int i=0; i<this.tableau.length; i++) {
-            for (int j=0; j<this.tableau[i].length; j++) {
-                if (this.tableau[i][j]==n) {
-                    y = j;
-                }
-            }
-        }
-        return y;
-    }
-    	// méthode calculant le nombre de deplacement
-	 public int distance(Configuration initial) {
-	        int numero = 0;
-	        int val = 0;
-	        for (int i = 0; i < initial.tableau.length; i++) {
-	            for (int j = 0; j < initial.tableau[i].length; j++) {
-	                if (initial.tableau[i][j] != 0) {
-	                    numero = initial.tableau[i][j];
-	                    val+=(Math.abs(i-this.xValue(numero)));
-	                    val+=(Math.abs(j-this.yValue(numero)));
-	                }
-	            }
-	        }
-	        return val;
-	    }
-	
-	public boolean estPresent(ArrayList<Configuration> arr, FdPg <Configuration> f) {
-		boolean reponseArr = false;
-		boolean reponseF = false;
-		for (int i=0; i<arr.size(); i++) {
-			if (Arrays.deepEquals(arr.get(i).tableau,this.tableau)) {
-				reponseArr = true;
-			}
-		}
-		if (f.hmap.containsValue(this.tableau)) {
-			reponseF = true;
-		}
-		
-		if (reponseArr && reponseF) {
-			return true;
-		}
-		return false;
-	    }
+*/
 
 	// Affiche la taquin de facon claire
 	public void afficher(){
@@ -379,62 +262,6 @@ public class Configuration {
 			echangeCase(this.x, this.y-1);
 		}
 	}
-	
-	/*public /*ArrayList<Configuration> void successeurs(){
-		ArrayList<Configuration> successeurs = new ArrayList<Configuration>();
-		if(this.x>0){
-			Configuration haut = new Configuration (this);
-			chemin += "H";
-			echangeCase(haut.x-1, haut.y);
-			successeurs.add(haut);
-			
-		} if(this.x<this.hauteur-1){
-			Configuration bas = new Configuration (this);
-			chemin += "B";
-			echangeCase(bas.x+1, bas.y);
-			successeurs.add(bas);
-			
-		}if(this.y<this.largeur-1){
-			Configuration droit = new Configuration (this);
-			chemin += "D";
-			echangeCase(droit.x, droit.y+1);
-			successeurs.add(droit);
-			
-		}if(this.y>0){
-			Configuration gauche = new Configuration (this);
-			chemin += "G";
-			echangeCase(gauche.x, gauche.y-1);
-			successeurs.add(gauche);
-		}
-		
-		for (int i=0; i<successeurs.size(); i++) {
-			successeurs.get(i).afficher();
-			System.out.println();
-		}
-	}*/
-	
-	public ArrayList<Configuration> successeurs () {
-		ArrayList<Configuration> successeurs = new ArrayList<Configuration>();
-		if  (this.MouvementHaut()){
-			Configuration haut = this.constrTabHaut();
-			successeurs.add(haut);
-		}
-		if (this.MouvementBas()) {
-			Configuration bas = this.constrTabBas();
-			successeurs.add(bas);
-		}
-		if (this.MouvementGauche()) {
-			Configuration gauche = this.constrTabGauche();
-			successeurs.add(gauche);
-		}
-		if (this.MouvementDroit()) {
-			Configuration droite = this.constrTabDroit();
-			successeurs.add(droite);
-		}
-		return successeurs;
-	}
-	
-	
 
 	// Echange une case (en parametre) avec la case vide
 	public void echangeCase(int caseX, int caseY){
@@ -508,5 +335,43 @@ public class Configuration {
 		return triEchangeParite()[0] % 2 == triEchangeParite()[1] % 2;
 	}
 
-	
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getHauteur() {
+		return hauteur;
+	}
+
+	public int getLargeur() {
+		return largeur;
+	}
+
+	public int[][] getTableau() {
+		return tableau;
+	}
+
+	public void setTableau(int[][] tableau) {
+		this.tableau = tableau;
+	}
+
+	public String getChemin() {
+		return chemin;
+	}
+
+    public void setPrecedent(Configuration precedent) {
+        this.precedent = precedent;
+    }
 }
