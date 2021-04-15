@@ -10,6 +10,7 @@ public class Configuration {
 	private ArrayList<Configuration> parent;
 	private int distance; // poids d'une configuration
 	private ArrayList<Configuration> successeur;
+	private String[] deplacements;
 
 	public Configuration(int h, int l){
 		this.hauteur = h;
@@ -18,9 +19,10 @@ public class Configuration {
 		this.creationTableau();
 		this.chemin = "";
 		this.parent = new ArrayList<Configuration>();
+		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
 		this.successeur = successeurs ();
 		this.distance = distance(this);
-		
+
 	}
 
 	// Creer un objet similaire à un autre
@@ -30,60 +32,10 @@ public class Configuration {
 		this.tableau = new int[this.hauteur][this.largeur];
 		this.copier(c);
 		this.distance = distance(c);
+		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
 	}
 
-	public int getX() {
-		return x;
-	}
 
-	public int getY() {
-		return y;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public int getHauteur() {
-		return hauteur;
-	}
-
-	public int getLargeur() {
-		return largeur;
-	}
-
-	public int[][] getTableau() {
-		return tableau;
-	}
-
-	public void setTableau(int[][] tableau) {
-		this.tableau = tableau;
-	}
-
-	public String getChemin() {
-		return chemin;
-	}
-
-    public ArrayList<Configuration> getParent() {
-        return this.parent;
-    }
-    
-    public int getDistance() {
-    	return this.distance;
-    }
-	
-	public void setDistance(int d) {
-		this.distance = d;
-	}
-	
-	public ArrayList<Configuration> getSuccesseur() {
-		return this.successeur;
-	}
-	
 
 	// copie le tableau de la configuration en parametre
 	public void copier(Configuration c){
@@ -96,7 +48,7 @@ public class Configuration {
 		this.x = c.x;
 		this.y = c.y;
 	}
-	
+
 
 	// Permet de trouver le X et Y du tableau
 	public void initialisationXY () {
@@ -304,7 +256,7 @@ public class Configuration {
 	        }
 	        return val;
 	    }
-	
+
 	public boolean estPresent(ArrayList<Configuration> arr, FdPg <Configuration> f) {
 		boolean reponseArr = false;
 		boolean reponseF = false;
@@ -316,7 +268,7 @@ public class Configuration {
 		if (f.hmap.containsValue(this.tableau)) {
 			reponseF = true;
 		}
-		
+
 		if (reponseArr && reponseF) {
 			return true;
 		}
@@ -364,22 +316,27 @@ public class Configuration {
 	}
 
 	// Permet de deplacer la case vide du taquin si le mouvement est autorise
-	public void mouvement(String dir){
+	public boolean mouvement(String dir){
 		if(dir.equals("haut") && this.x>0){
 			chemin += "H";
 			echangeCase(this.x-1, this.y);
+			return true;
 		} else if(dir.equals("bas") && this.x<this.hauteur-1){
 			chemin += "B";
 			echangeCase(this.x+1, this.y);
+			return true;
 		}else if(dir.equals("droite") && this.y<this.largeur-1){
 			chemin += "D";
 			echangeCase(this.x, this.y+1);
+			return true;
 		}else if(dir.equals("gauche") && this.y>0){
 			chemin += "G";
 			echangeCase(this.x, this.y-1);
+			return true;
 		}
+		return false;
 	}
-	
+
 	/*public /*ArrayList<Configuration> void successeurs(){
 		ArrayList<Configuration> successeurs = new ArrayList<Configuration>();
 		if(this.x>0){
@@ -387,54 +344,45 @@ public class Configuration {
 			chemin += "H";
 			echangeCase(haut.x-1, haut.y);
 			successeurs.add(haut);
-			
+
 		} if(this.x<this.hauteur-1){
 			Configuration bas = new Configuration (this);
 			chemin += "B";
 			echangeCase(bas.x+1, bas.y);
 			successeurs.add(bas);
-			
+
 		}if(this.y<this.largeur-1){
 			Configuration droit = new Configuration (this);
 			chemin += "D";
 			echangeCase(droit.x, droit.y+1);
 			successeurs.add(droit);
-			
+
 		}if(this.y>0){
 			Configuration gauche = new Configuration (this);
 			chemin += "G";
 			echangeCase(gauche.x, gauche.y-1);
 			successeurs.add(gauche);
 		}
-		
+
 		for (int i=0; i<successeurs.size(); i++) {
 			successeurs.get(i).afficher();
 			System.out.println();
 		}
 	}*/
-	
-	public ArrayList<Configuration> successeurs () {
-		ArrayList<Configuration> successeurs = new ArrayList<Configuration>();
-		if  (this.MouvementHaut()){
-			Configuration haut = this.constrTabHaut();
-			successeurs.add(haut);
+
+	// renvoie la liste des successeurs du tableau
+	public ArrayList<Configuration> successeurs(){
+		ArrayList<Configuration> s = new ArrayList<>();
+		for(int i=0; i<deplacements.length; i++){
+			Configuration tmp = new Configuration(this);
+			if(tmp.mouvement(deplacements[i])){
+				s.add(tmp);
+			}
 		}
-		if (this.MouvementBas()) {
-			Configuration bas = this.constrTabBas();
-			successeurs.add(bas);
-		}
-		if (this.MouvementGauche()) {
-			Configuration gauche = this.constrTabGauche();
-			successeurs.add(gauche);
-		}
-		if (this.MouvementDroit()) {
-			Configuration droite = this.constrTabDroit();
-			successeurs.add(droite);
-		}
-		return successeurs;
+		return s;
 	}
-	
-	
+
+
 
 	// Echange une case (en parametre) avec la case vide
 	public void echangeCase(int caseX, int caseY){
@@ -508,5 +456,61 @@ public class Configuration {
 		return triEchangeParite()[0] % 2 == triEchangeParite()[1] % 2;
 	}
 
-	
+
+		public int getX() {
+			return x;
+		}
+
+		public int getY() {
+			return y;
+		}
+
+		public void setX(int x) {
+			this.x = x;
+		}
+
+		public void setY(int y) {
+			this.y = y;
+		}
+
+		public int getHauteur() {
+			return hauteur;
+		}
+
+		public int getLargeur() {
+			return largeur;
+		}
+
+		public int[][] getTableau() {
+			return tableau;
+		}
+
+		public void setTableau(int[][] tableau) {
+			this.tableau = tableau;
+		}
+
+		public String getChemin() {
+			return chemin;
+		}
+
+	    public ArrayList<Configuration> getParent() {
+	        return this.parent;
+	    }
+
+	    public int getDistance() {
+	    	return this.distance;
+	    }
+
+		public void setDistance(int d) {
+			this.distance = d;
+		}
+
+		public ArrayList<Configuration> getSuccesseur() {
+			return this.successeur;
+		}
+
+		public String[] getDeplacements() {
+			return deplacements;
+		}
+
 }
