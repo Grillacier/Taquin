@@ -1,4 +1,4 @@
-import java.util.*;
+
 public class TaquinLanceur {
 
     public static void main(String[] args) {
@@ -6,23 +6,7 @@ public class TaquinLanceur {
 
         //Test du parcours en largeur
         Configuration c = new Configuration(3,3); // taille a modif pour les test
-        //Configuration d = new Configuration(3,3);
-        //Configuration e = new Configuration(3,3);
-        Configuration w = c.tableauFinal();
-       // ArrayList<Configuration> a = new ArrayList<Configuration>();
-       /* a.add(d);
-        a.add(e);*/
-     Dijkstra b = new Dijkstra ();
-       b.dijkstra(c).toString();
-       // System.out.println(c.distance(c));
-      // System.out.println();
-       // b.dijkstra(c);
-        //c.afficher();
-        //System.out.println();
-        //d.afficher();
-        //System.out.println(c.distance(d));
-        //System.out.println(d.distance(d));
-        //c.nouveauTab;leau();
+        //c.nouveauTableau();
 
         // 3x3 de profondeur 1 en 0.04s
         //int[][] t = {{1,2,3},{4,5,0},{7,8,6}};
@@ -50,13 +34,13 @@ public class TaquinLanceur {
         Taille du marqueur : 11 399 742
          */
         // place du 0 a modif pour les test
-      /*  c.setX(1);
+        c.setX(1);
         c.setY(2);
         c.setTableau(t);
         c.afficher();
-        System.out.println("### Algo ###");*/
+        System.out.println("### Algo ###");
 
-       /* long timeStart;
+        long timeStart;
         long timeStop;
         ParcoursLargeur pl = new ParcoursLargeur(c);
         timeStart = System.nanoTime();
@@ -69,6 +53,6 @@ public class TaquinLanceur {
         System.out.println("Résolu en : " + ((timeStop-timeStart)/1000000)/1000.0 + "s");
 
         Dijkstra dj = new Dijkstra(c);
-        dj.afficheChemin(dj.dijkstra());*/
+        dj.afficheChemin(dj.dijkstra());
     }
 }
