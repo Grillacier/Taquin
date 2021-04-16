@@ -46,7 +46,7 @@ public class Dijkstra {
         	if (min.jeuGagne()) {
         		return this.file;
         	}
-        	
+        	min.successeurs();
         	
         	for (int i=0; i<min.getSuccesseur().size(); i++) {
         		System.out.println(min.getSuccesseur().get(i));
