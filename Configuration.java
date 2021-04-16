@@ -18,11 +18,10 @@ public class Configuration {
 		this.tableau = new int[h][l];
 		this.creationTableau();
 		this.chemin = "";
-		this.parent = new ArrayList<Configuration>();
+		this.parent = new ArrayList<>();
+		this.successeur = new ArrayList<>();
 		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
-		this.successeur = successeurs ();
 		this.distance = distance(this);
-
 	}
 
 	// Creer un objet similaire à un autre
@@ -371,15 +370,13 @@ public class Configuration {
 	}*/
 
 	// renvoie la liste des successeurs du tableau
-	public ArrayList<Configuration> successeurs(){
-		ArrayList<Configuration> s = new ArrayList<>();
+	public void successeurs(){
 		for(int i=0; i<deplacements.length; i++){
 			Configuration tmp = new Configuration(this);
 			if(tmp.mouvement(deplacements[i])){
-				s.add(tmp);
+				successeur.add(tmp);
 			}
 		}
-		return s;
 	}
 
 
