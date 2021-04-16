@@ -12,8 +12,21 @@ public class TaquinLanceur {
        // ArrayList<Configuration> a = new ArrayList<Configuration>();
        /* a.add(d);
         a.add(e);*/
-     Dijkstra b = new Dijkstra ();
-       b.dijkstra(c).toString();
+        
+        
+        //System.out.println(fdp.toString());
+        long timeStart;
+        long timeStop;
+        Dijkstra b = new Dijkstra (c);
+        timeStart = System.nanoTime();
+        FdPg<Configuration> resolu = b.dijkstra();
+        timeStop = System.nanoTime();
+
+        //resolu.afficher();
+        System.out.println("Chemin : " + resolu);
+        //System.out.println("Longueur du chemin : " + resolu.size());
+        System.out.println("Résolu en : " + ((timeStop-timeStart)/1000000)/1000.0 + "s");
+
        // System.out.println(c.distance(c));
       // System.out.println();
        // b.dijkstra(c);

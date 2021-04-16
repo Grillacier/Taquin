@@ -1,15 +1,14 @@
 import java.util.*;
 public class Dijkstra {
+    private Configuration depart;
     private FdPg<Configuration> file;
-    private ArrayList<Configuration> sommet;
+    private HashSet<String> vu;
    // private int distance;
 
-    public Dijkstra(/*Configuration sommet*/) {
-        //this.sommet = sommet;
+    public Dijkstra(Configuration d){
+        this.depart=d;
         this.file = new FdPg<Configuration>();
-        this.sommet = new ArrayList<Configuration>();
-        //this.file.Ajouter(sommet, 0);
-        //this.distance = manhattanHeuristic();
+        this.vu = new HashSet<>();
     }
 
 
@@ -32,45 +31,35 @@ public class Dijkstra {
     }*/
 
 
-    public FdPg<Configuration> dijkstra(Configuration depart) {
-        //FdPg<Configuration> chemin = new FdPg<>();
-        //Configuration u = this.sommet;
-        //chemin.Ajouter(u, 0);
-    	try {
+    public FdPg<Configuration> dijkstra() {
+        FdPg<Configuration> chemin = new FdPg<>();
+        chemin.Ajouter(depart, 0);
     	this.file.Ajouter(depart, 0);
-    	
-        
+        System.out.println(file.toString());
+        file.ExtraireMin().afficher();
         while (!this.file.EstVide()) {
-        	Configuration min = this.file.ExtraireMin();
-        	this.sommet.add(min);
+            Configuration min = this.file.ExtraireMin();
+            //vu.add(min.tableauEnString());
         	if (min.jeuGagne()) {
-        		return this.file;
+        		return chemin;
         	}
-        	min.successeurs();
+            ArrayList<Configuration> s=min.getSuccesseur();
+        	for (int i=0; i<s.size(); i++) {
+        		//System.out.println(s.get(i));
         	
-        	for (int i=0; i<min.getSuccesseur().size(); i++) {
-        		System.out.println(min.getSuccesseur().get(i));
-        	
-        		min.getSuccesseur().get(i).afficher();
-        		min.getSuccesseur().get(i).setDistance(min.getSuccesseur().get(i).getDistance()+1);
-        		System.out.println(min.getSuccesseur().get(i).getDistance());
-        		
-       
-        		if (!min.getSuccesseur().get(i).estPresent(sommet, file)){
-        			this.file.Ajouter(min.getSuccesseur().get(i), min.getSuccesseur().get(i).getDistance());
-        		}
-        		
+        		//s.get(i).afficher();
+        		s.get(i).setDistance(min.getDistance()+1);
+        		//System.out.println(s.get(i).getDistance());
+        		//vu.add(s.get(i).tableauEnString());
+                System.out.println(s.get(i).estPresent(s.get(i), file) );
+        		if (!s.get(i).estPresent(s.get(i), file) && this.vu.add(s.get(i).tableauEnString())){
+        			this.file.Ajouter(s.get(i), s.get(i).getDistance());
+                    chemin.Ajouter(s.get(i), s.get(i).getDistance());
 
+        		}
         	}
-        	
-        	
         }
-    	}
-		catch(NullPointerException e) {
-			System.out.println();
-			e.getMessage();
-		}
-        return file;
+        return chemin;
      }
     
            /* u = this.file.ExtraireMin();

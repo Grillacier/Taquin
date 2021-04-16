@@ -256,19 +256,19 @@ public class Configuration {
 	        return val;
 	    }
 
-	public boolean estPresent(ArrayList<Configuration> arr, FdPg <Configuration> f) {
-		boolean reponseArr = false;
+	public boolean estPresent(Configuration p, FdPg <Configuration> f) {
+		//boolean reponseArr = false;
 		boolean reponseF = false;
-		for (int i=0; i<arr.size(); i++) {
+		/*for (int i=0; i<arr.size(); i++) {
 			if (Arrays.deepEquals(arr.get(i).tableau,this.tableau)) {
 				reponseArr = true;
 			}
-		}
-		if (f.hmap.containsValue(this.tableau)) {
+		}*/
+		if (f.hmap.containsValue(p)) {
 			reponseF = true;
 		}
 
-		if (reponseArr && reponseF) {
+		if(reponseF) {
 			return true;
 		}
 		return false;
