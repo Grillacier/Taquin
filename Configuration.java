@@ -31,6 +31,7 @@ public class Configuration {
 		this.tableau = new int[this.hauteur][this.largeur];
 		this.copier(c);
 		this.distance = distance(c);
+        this.successeur = new ArrayList<>();
 		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
 	}
 
@@ -256,23 +257,28 @@ public class Configuration {
 	        return val;
 	    }
 
+	    /*
 	public boolean estPresent(Configuration p, FdPg <Configuration> f) {
 		//boolean reponseArr = false;
-		boolean reponseF = false;
-		/*for (int i=0; i<arr.size(); i++) {
+		//boolean reponseF = false;
+		for (int i=0; i<arr.size(); i++) {
 			if (Arrays.deepEquals(arr.get(i).tableau,this.tableau)) {
 				reponseArr = true;
 			}
-		}*/
-		if (f.hmap.containsValue(p)) {
-			reponseF = true;
 		}
-
+		if (f.hmap.containsValue(p)) {
+		    return true;
+			//reponseF = true;
+		}
+		else
+		    return false;
+        /*
 		if(reponseF) {
 			return true;
 		}
 		return false;
 	    }
+	    */
 
 	// Affiche la taquin de facon claire
 	public void afficher(){

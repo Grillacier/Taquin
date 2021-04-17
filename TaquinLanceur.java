@@ -13,19 +13,21 @@ public class TaquinLanceur {
        /* a.add(d);
         a.add(e);*/
         
-        
+        c.afficher();
         //System.out.println(fdp.toString());
         long timeStart;
         long timeStop;
+        System.out.println("Dijkstra :");
         Dijkstra b = new Dijkstra (c);
         timeStart = System.nanoTime();
-        FdPg<Configuration> resolu = b.dijkstra();
+        Configuration resolu = b.dijkstra();
         timeStop = System.nanoTime();
 
-        //resolu.afficher();
-        System.out.println("Chemin : " + resolu);
-        //System.out.println("Longueur du chemin : " + resolu.size());
+        resolu.afficher();
+        System.out.println("Chemin : " + resolu.getChemin());
+        System.out.println("Longueur du chemin : " + resolu.getChemin().length());
         System.out.println("Résolu en : " + ((timeStop-timeStart)/1000000)/1000.0 + "s");
+        System.out.println();
 
        // System.out.println(c.distance(c));
       // System.out.println();
@@ -70,18 +72,19 @@ public class TaquinLanceur {
         System.out.println("### Algo ###");*/
 
        /* long timeStart;
-        long timeStop;
+        long timeStop;*/
+        System.out.println("Parcours en largeur : ");
         ParcoursLargeur pl = new ParcoursLargeur(c);
         timeStart = System.nanoTime();
-        Configuration resolu = pl.parcoursEnLargeur();
+        Configuration res = pl.parcoursEnLargeur();
         timeStop = System.nanoTime();
 
         resolu.afficher();
-        System.out.println("Chemin : " + resolu.getChemin());
-        System.out.println("Longueur du chemin : " + resolu.getChemin().length());
+        System.out.println("Chemin : " + res.getChemin());
+        System.out.println("Longueur du chemin : " + res.getChemin().length());
         System.out.println("Résolu en : " + ((timeStop-timeStart)/1000000)/1000.0 + "s");
 
-        Dijkstra dj = new Dijkstra(c);
+       /* Dijkstra dj = new Dijkstra(c);
         dj.afficheChemin(dj.dijkstra());*/
     }
 }
