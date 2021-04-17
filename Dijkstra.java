@@ -1,15 +1,57 @@
 import java.util.*;
+
 public class Dijkstra {
     private Configuration depart;
-    private FdPg<Configuration> file;
     private HashSet<String> vu;
-   // private int distance;
+    private FdPg<Configuration> file;
 
     public Dijkstra(Configuration d){
-        this.depart=d;
-        this.file = new FdPg<Configuration>();
+        this.depart = d;
         this.vu = new HashSet<>();
+        this.file = new FdPg<Configuration>();
     }
+
+
+    public Configuration dijkstra() {
+        this.vu.add(this.depart.tableauEnString());
+        this.file.Ajouter(depart, 0);
+        int distance = 1;
+        while (!this.file.EstVide()) {
+            Configuration min = this.file.ExtraireMin();
+            if (min.jeuGagne()) {
+                System.out.println("Configurations explorees : " + vu.size());
+                return min;
+            }
+
+            min.successeurs();
+            ArrayList<Configuration> s = min.getSuccesseur();
+            for (int i = 0; i < s.size(); i++) {
+                Configuration tmp = s.get(i);
+                if (!file.hmap.containsValue(tmp) && this.vu.add(tmp.tableauEnString())) {
+                    this.file.Ajouter(tmp, distance);
+                }
+            }
+            distance++;
+        }
+        return null;
+    }
+                /*
+                //System.out.println(s.get(i));
+
+                //s.get(i).afficher();
+                s.get(i).setDistance(min.getDistance()+1);
+                //System.out.println(s.get(i).getDistance());
+                //vu.add(s.get(i).tableauEnString());
+                System.out.println(s.get(i).estPresent(s.get(i), file) );
+                if (!s.get(i).estPresent(s.get(i), file) && this.vu.add(s.get(i).tableauEnString())){
+                    this.file.Ajouter(s.get(i), s.get(i).getDistance());
+                    chemin.Ajouter(s.get(i), s.get(i).getDistance());
+
+                }
+            }
+        }
+        return chemin;
+    }*/
 
 
     //pour A*
@@ -30,7 +72,7 @@ public class Dijkstra {
         return val;
     }*/
 
-
+/*
     public FdPg<Configuration> dijkstra() {
         FdPg<Configuration> chemin = new FdPg<>();
         chemin.Ajouter(depart, 0);
@@ -61,6 +103,7 @@ public class Dijkstra {
         }
         return chemin;
      }
+     */
     
            /* u = this.file.ExtraireMin();
             if (u.equals(sommet.tableauGagnant()))
@@ -83,7 +126,7 @@ public class Dijkstra {
                     }
                 }
             }
-        }*/
+        }
        // return chemin;
     
 
@@ -93,5 +136,5 @@ public class Dijkstra {
             chemin.T.get(i).val.afficher();
             System.out.println();
         }
-    }
+    }*/
 }
