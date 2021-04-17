@@ -35,42 +35,6 @@ public class Dijkstra {
         }
         return null;
     }
-                /*
-                //System.out.println(s.get(i));
-
-                //s.get(i).afficher();
-                s.get(i).setDistance(min.getDistance()+1);
-                //System.out.println(s.get(i).getDistance());
-                //vu.add(s.get(i).tableauEnString());
-                System.out.println(s.get(i).estPresent(s.get(i), file) );
-                if (!s.get(i).estPresent(s.get(i), file) && this.vu.add(s.get(i).tableauEnString())){
-                    this.file.Ajouter(s.get(i), s.get(i).getDistance());
-                    chemin.Ajouter(s.get(i), s.get(i).getDistance());
-
-                }
-            }
-        }
-        return chemin;
-    }*/
-
-
-    //pour A*
-   /* public int manhattanHeuristic() {
-        int numero = 0;
-        int val = 0;
-        Configuration gagne = sommet.tableauGagnant();
-        for (int i = 0; i < sommet.getTableau().length; i++) {
-            for (int j = 0; j < sommet.getTableau()[i].length; j++) {
-                if (sommet.getTableau()[i][j] != 0) {
-                    numero = sommet.getTableau()[i][j];
-                    //modifié dans Configuration donc ne marche plus
-                    val+=(Math.abs(i-gagne.getX()));
-                    val+=(Math.abs(j-gagne.getY()));
-                }
-            }
-        }
-        return val;
-    }*/
 
 /*
     public FdPg<Configuration> dijkstra() {

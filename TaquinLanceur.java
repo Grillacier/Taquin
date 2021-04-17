@@ -17,6 +17,7 @@ public class TaquinLanceur {
         //System.out.println(fdp.toString());
         long timeStart;
         long timeStop;
+        /*
         System.out.println("Dijkstra :");
         Dijkstra b = new Dijkstra (c);
         timeStart = System.nanoTime();
@@ -28,6 +29,7 @@ public class TaquinLanceur {
         System.out.println("Longueur du chemin : " + resolu.getChemin().length());
         System.out.println("Résolu en : " + ((timeStop-timeStart)/1000000)/1000.0 + "s");
         System.out.println();
+        */
 
        // System.out.println(c.distance(c));
       // System.out.println();
@@ -79,12 +81,20 @@ public class TaquinLanceur {
         Configuration res = pl.parcoursEnLargeur();
         timeStop = System.nanoTime();
 
-        resolu.afficher();
+        res.afficher();
         System.out.println("Chemin : " + res.getChemin());
         System.out.println("Longueur du chemin : " + res.getChemin().length());
         System.out.println("Résolu en : " + ((timeStop-timeStart)/1000000)/1000.0 + "s");
+        System.out.println();
+        System.out.println("A* : ");
+        Aetoile a = new Aetoile(c);
+        timeStart = System.nanoTime();
+        Configuration result = a.aetoile();
+        timeStop = System.nanoTime();
 
-       /* Dijkstra dj = new Dijkstra(c);
-        dj.afficheChemin(dj.dijkstra());*/
+        result.afficher();
+        System.out.println("Chemin : " + result.getChemin());
+        System.out.println("Longueur du chemin : " + result.getChemin().length());
+        System.out.println("Résolu en : " + ((timeStop-timeStart)/1000000)/1000.0 + "s");
     }
 }
