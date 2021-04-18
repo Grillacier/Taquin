@@ -259,28 +259,6 @@ public class Configuration {
 
 
 	// Affiche la taquin de facon claire
-	public void afficherB(){
-		char c = 'A';
-		int size;
-		System.out.print("   "); // espaces de la premiere ligne
-		for(int i=0; i<this.largeur; i++) // affiche la premiere ligne
-			System.out.print(i+1 + "  ");
-		System.out.println();
-
-		for(int i=0; i<this.hauteur; i++){
-			System.out.print(c + "  "); // affiche la premiere colonne
-			for(int j=0; j<this.largeur; j++){
-				System.out.print(this.tableau[i][j] + " "); // affiche le num
-				size = String.valueOf(this.tableau[i][j]).length();
-				if(size == 1){ // si la taille=1, ajouter un espace
-					System.out.print(" ");
-				}
-			}
-			System.out.println();
-			c++;
-		}
-		System.out.println("---------");
-	}
 	public void afficher(){
 		int size;
 		for(int i=0; i<this.largeur; i++){
