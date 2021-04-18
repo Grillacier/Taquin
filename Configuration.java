@@ -259,7 +259,7 @@ public class Configuration {
 
 
 	// Affiche la taquin de facon claire
-	public void afficher(){
+	public void afficherB(){
 		char c = 'A';
 		int size;
 		System.out.print("   "); // espaces de la premiere ligne
@@ -280,6 +280,28 @@ public class Configuration {
 			c++;
 		}
 		System.out.println("---------");
+	}
+	public void afficher(){
+		int size;
+		for(int i=0; i<this.largeur; i++){
+			System.out.print(" ----");
+		}
+		System.out.println();
+		for(int i=0; i<this.largeur; i++){
+			for(int j=0; j<this.hauteur; j++){
+				size = String.valueOf(this.tableau[i][j]).length();
+				if(size == 1){ // si la taille=1, ajouter un espace
+					System.out.print("| " + this.tableau[i][j] + "  ");
+				}else{
+					System.out.print("| " + this.tableau[i][j] + " ");
+				}
+			}
+			System.out.println("|");
+			for(int k=0; k<this.largeur; k++){
+				System.out.print(" ----");
+			}
+			System.out.println();
+		}
 	}
 
 	// Verifie si le plateau est en position finale et donc si je le jeu est finit
