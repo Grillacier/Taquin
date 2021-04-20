@@ -25,9 +25,9 @@ public class TaquinLanceur {
         //int[][] t = {{2 , 6, 11, 3},{1 , 9 , 7 , 4},{5 , 10 , 12, 0},{13, 14, 15, 8}};
 
         Configuration c = new Configuration(3,3); // taille a modif pour les test
-        Algorithme pl = new Algorithme(c, new ParcoursLargeur(c));
+        //Algorithme pl = new Algorithme(c, new ParcoursLargeur(c));
         //Algorithme d = new Algorithme(c, new Dijkstra(c));
-        //Algorithme ae = new Algorithme(c, new Aetoile(c));
+        Algorithme ae = new Algorithme(c, new Aetoile(c));
         //Algorithme test = new Algorithme(c, new Joueur());
 
     }

@@ -23,7 +23,7 @@ public class Dijkstra {
                 return min;
             }
 
-            min.successeurs();
+            min.successeurs(); //Calcul des successeurs de la configuration minimale
             ArrayList<Configuration> s = min.getSuccesseur();
             for (int i = 0; i < s.size(); i++) {
                 Configuration tmp = s.get(i);

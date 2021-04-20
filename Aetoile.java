@@ -107,13 +107,16 @@ public class Aetoile {
 	public Configuration aetoile() {
 		this.vu.add(this.depart.tableauEnString());
 		this.file.Ajouter(depart, 0);
-		//int distance = 0;
+		int distance = 1;
 		while (!this.file.EstVide()) {
 			Configuration min = this.file.ExtraireMin();
+			terminer.add(min.tableauEnString());
 			if (min.jeuGagne()) {
                 System.out.println("Configurations explorees : " + vu.size());
                 return min;
             }
+			this.vu.remove(min);
+			this.terminer.add(min.tableauEnString());
 			min.successeurs();
             ArrayList<Configuration> s = min.getSuccesseur();
             for (int i = 0; i < s.size(); i++) {
@@ -121,7 +124,7 @@ public class Aetoile {
 				tmp.setDistance(tmp.distance(depart));
 				System.out.println("distance de tmp : " + tmp.getDistance());
 				int nouvDist = min.getDistance() + 1;
-				int cle=min.getDistance()+manhattanHeuristic(tmp);
+				int cle=nouvDist+manhattanHeuristic(tmp);
 				System.out.println("nouvelle distance : " + nouvDist);
 				if(file.hmap.containsValue(tmp)){
 					if (tmp.getDistance() > nouvDist) {
@@ -129,7 +132,7 @@ public class Aetoile {
 						this.vu.add(tmp.tableauEnString());
 						this.file.MaJ(tmp, cle);
 					}
-				}if(terminer.contains(tmp.tableauEnString())){
+				}else if(terminer.contains(tmp.tableauEnString())){
 					if (tmp.getDistance()> nouvDist) {
 						tmp.setDistance(nouvDist);
 						this.vu.add(tmp.tableauEnString());
@@ -142,10 +145,55 @@ public class Aetoile {
 					file.Ajouter(tmp, cle);
 				}
             }
-            //distance++;
+            distance++;
 		}
 		return null;
 	}
+
+	/*Version de Louis
+	public Configuration aetoile() {
+        this.vu.add(this.depart.tableauEnString());
+        this.file.Ajouter(depart, 0);
+        //int distance = 0;
+        while (!this.file.EstVide()) {
+            Configuration min = this.file.ExtraireMin();
+            this.vu.add(min.tableauEnString());
+            if (min.jeuGagne()) {
+                System.out.println("Configurations explorees : " + vu.size());
+                return min;
+            }
+
+            min.successeurs();
+            ArrayList<Configuration> configurationsAdj = min.getSuccesseur();
+            for (Configuration tmp : configurationsAdj) {
+                tmp.setDistance(tmp.distance(depart));
+                int nouvDist = min.getDistance() + 1;
+                int cle = min.getDistance() + manhattanHeuristic(tmp);
+
+                if (file.hmap.containsValue(tmp)) {
+                    if (tmp.getDistance() > nouvDist) {
+                        tmp.setDistance(nouvDist);
+                        this.vu.add(tmp.tableauEnString());
+                        this.file.MaJ(tmp, cle);
+                    }
+                }
+                if (this.vu.contains(tmp.tableauEnString())) {
+                    if (tmp.getDistance() > nouvDist) {
+                        tmp.setDistance(nouvDist);
+                        this.vu.remove(tmp.tableauEnString());
+                        this.vu.add(tmp.tableauEnString());
+                        file.Ajouter(tmp, cle);
+                    }
+                } else {
+                    tmp.setDistance(nouvDist);
+                    this.vu.add(tmp.tableauEnString());
+                    file.Ajouter(tmp, cle);
+                }
+            }
+            //distance++;
+        }
+        return null;
+    }*/
 }
 
 	
