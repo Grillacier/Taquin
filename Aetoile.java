@@ -5,17 +5,17 @@ public class Aetoile {
 	private Configuration depart;
     private HashSet<String> vu;
     private FdPg<Configuration> file;
-	private HashSet<String> terminer;
+	//private HashSet<String> terminer;
 	
 	public Aetoile (Configuration d) {
 		this.depart = d;
         this.vu = new HashSet<>();
         this.file = new FdPg<Configuration>();
-		this.terminer = new HashSet<>();
+		//this.terminer = new HashSet<>();
 		
 	}
 
-	//permet de calculer le nombre d'éléments mal placé dans le tableau d'une cellule
+	//permet de calculer le nombre de cases mal placees
 	public int distanceHammingHeuristique(Configuration c) {
 		Configuration finale = c.tableauFinal();
 		int k = 0;
@@ -103,7 +103,8 @@ public class Aetoile {
 		return cellFmin;
 	}
 	*/
-	
+
+	/*Version 1
 	public Configuration aetoile() {
 		this.vu.add(this.depart.tableauEnString());
 		this.file.Ajouter(depart, 0);
@@ -149,6 +150,7 @@ public class Aetoile {
 		}
 		return null;
 	}
+	*/
 
 	/*Version de Louis
 	public Configuration aetoile() {
@@ -194,6 +196,48 @@ public class Aetoile {
         }
         return null;
     }*/
+
+	public Configuration aetoile() {
+		this.file.Ajouter(depart, 0);
+		this.vu.add(this.depart.tableauEnString());
+
+		while (!this.file.EstVide()) {
+			Configuration min = this.file.ExtraireMin();
+			this.vu.add(min.tableauEnString());
+			//this.terminer.add(min.tableauEnString());
+			if (min.jeuGagne()) {
+				System.out.println("Configurations explorees : " + vu.size());
+				return min;
+			}
+
+			min.successeurs();
+			ArrayList<Configuration> configurationsAdj = min.getSuccesseur();
+			for (Configuration tmp : configurationsAdj) {
+				tmp.setDistance(tmp.distance(depart));
+				//int nouvDist = min.getDistance() + 1;
+				int cle = min.getDistance() + distanceHammingHeuristique(tmp);
+				tmp.setDistance(min.getDistance() + 1);
+
+				if (file.hmap.containsValue(tmp)) {
+					//if (tmp.getDistance() > nouvDist) {
+						//this.vu.add(tmp.tableauEnString());
+						this.file.MaJ(tmp, cle);
+					//}
+				}
+				else if (this.vu.contains(tmp.tableauEnString())) {
+					//if (tmp.getDistance() > nouvDist) {
+						//this.vu.add(tmp.tableauEnString());
+						this.vu.remove(tmp.tableauEnString());
+						//this.file.Ajouter(tmp, cle);
+					//}
+				} else {
+					this.vu.add(tmp.tableauEnString());
+					this.file.Ajouter(tmp, cle);
+				}
+			}
+		}
+		return null;
+	}
 }
 
 	
