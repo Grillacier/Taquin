@@ -115,115 +115,13 @@ public class Configuration {
 		return g;
 	}
 
-
-	/*A SUPPRIMER SI INUTILE
-	LA FONCTION "mouvement" DEVRAIT REMPLACER TOUT CA*/
-
-	public boolean MouvementBas () {
-		if (this.x==this.hauteur-1) {
-			return false;
-		}
-
-		return true;
-	}
-
-	public boolean MouvementHaut() {
-		if (this.x==0) {
-			return false;
-		}
-
-		return true;
-	}
-
-	public boolean MouvementGauche() {
-		if (this.y==0 ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	public boolean MouvementDroit() {
-		if (this.y==this.largeur-1) {
-			return false;
-		}
-
-		return true;
-	}
-
-	//construit un tableau avec les coordonnées x et y déplacée en bas
-	public Configuration constrTabBas(){
-		Configuration tabBas = new Configuration(this);
-		for (int i=0; i<tabBas.hauteur; i++) {
-			for (int j=0; j<tabBas.tableau[i].length; j++) {
-				if (i != tabBas.tableau.length-1 && tabBas.tableau[i][j]==0) {
-					int tmp = tabBas.tableau[i][j];
-					tabBas.tableau[i][j] = tabBas.tableau[i+1][j];
-					tabBas.tableau[i+1][j] = tmp;
-					return tabBas;
-				}
-			}
-		}
-
-		return null;
-	}
-	//construit un tableau avec les coordonnées x et y déplacée en haut
-	public  Configuration constrTabHaut(){
-		Configuration tabHaut = new Configuration(this);
-		for (int i=0; i<tabHaut.hauteur; i++) {
-			for (int j=0; j<tabHaut.tableau[i].length; j++) {
-				if (i != 0 && tabHaut.tableau[i][j]==0) {
-					int tmp = tabHaut.tableau[i][j];
-					tabHaut.tableau[i][j] = tabHaut.tableau[i-1][j];
-					tabHaut.tableau[i-1][j] = tmp;
-					return tabHaut;
-				}
-			}
-		}
-
-		return null;
-	}
-
-	//construit un tableau avec les coordonnées x et y déplacée à gauche
-	public Configuration constrTabGauche(){
-		Configuration tabGauche = new Configuration(this);
-		for (int i=0; i<tabGauche.hauteur; i++) {
-			for (int j=0; j<tabGauche.tableau[i].length; j++) {
-				if (j != 0 && tabGauche.tableau[i][j]==0) {
-					int tmp = tabGauche.tableau[i][j];
-					tabGauche.tableau[i][j] = tabGauche.tableau[i][j-1];
-					tabGauche.tableau[i][j-1] = tmp;
-					return tabGauche;
-				}
-			}
-		}
-
-		return null;
-	}
-	// construit un tableau avec les coordonnées x et y déplacée à droite
-	public Configuration constrTabDroit(){
-		Configuration tabDroit = new Configuration(this);
-		for (int i=0; i<tabDroit.hauteur; i++) {
-			for (int j=0; j<tabDroit.tableau[i].length; j++) {
-				if (j != tabDroit.tableau[i].length-1 && tabDroit.tableau[i][j]==0) {
-					int tmp = tabDroit.tableau[i][j];
-					tabDroit.tableau[i][j] = tabDroit.tableau[i][j+1];
-					tabDroit.tableau[i][j+1] = tmp;
-					return tabDroit;
-				}
-			}
-		}
-
-		return null;
-
-	}
-
 	public int xValue(int n) {
         int x = -1; //initialisation de x (-1 = c n'existe pas dans le plateau)
         for (int i=0; i<this.tableau.length; i++) {
             for (int j=0; j<this.tableau[i].length; j++) {
                 if (this.tableau[i][j]==n) {
                     x = i;
+                    break;
                 }
             }
         }
@@ -236,12 +134,14 @@ public class Configuration {
             for (int j=0; j<this.tableau[i].length; j++) {
                 if (this.tableau[i][j]==n) {
                     y = j;
+                    break;
                 }
             }
         }
         return y;
     }
-    	// méthode calculant le nombre de deplacement
+
+    // methode calculant le nombre de deplacements
 	 public int distance(Configuration initial) {
 	        int numero = 0;
 	        int val = 0;
@@ -255,7 +155,22 @@ public class Configuration {
 	            }
 	        }
 	        return val;
-	    }
+	}
+
+	/*
+	public int distance(Configuration c) {
+		//Configuration finale = c.tableauFinal();
+		int k = 0;
+		for (int i = 0; i < hauteur; i++) {
+			for (int j = 0; j < largeur; j++) {
+				if (c.getTableau()[i][j] != this.getTableau()[i][j] && c.getTableau()[i][j] != 0) {
+					k++;
+				}
+			}
+		}
+		return k;
+	}
+	*/
 
 
 	// Affiche la taquin de facon claire

@@ -26,7 +26,8 @@ public class Dijkstra {
             ArrayList<Configuration> s = min.getSuccesseur();
             for (int i = 0; i < s.size(); i++) {
                 Configuration tmp = s.get(i);
-                if (!file.hmap.containsValue(tmp) && this.vu.add(tmp.tableauEnString())) {
+                //int distance = tmp.getDistance() + 1;
+                if (this.vu.add(tmp.tableauEnString())) {
                     this.file.Ajouter(tmp, distance);
                 }
             }
