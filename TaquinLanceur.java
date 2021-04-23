@@ -4,7 +4,7 @@ public class TaquinLanceur {
 
 
     public static void main(String[] args) {
-        new Jeu();
+        //new Jeu();
 
         // Test des algorithmes
 
