@@ -12,6 +12,14 @@ public class Configuration {
 	private ArrayList<Configuration> successeur;
 	private String[] deplacements;
 
+	/** Constructeur de la Configuration
+	*
+	*@param h
+	*      Hauteur de la nouvelle configuration
+	 *
+	 *@param l
+	 *    Largeur de la nouvelle configuration
+	 */
 	public Configuration(int h, int l){
 		this.hauteur = h;
 		this.largeur = l;
@@ -24,7 +32,13 @@ public class Configuration {
 		this.distance = distance(this);
 	}
 
-	// Creer un objet similaire à un autre
+	/** Constructeur de configuration qui copie une configuration deja existante
+	*
+	*@param c
+	*   Configuration a copier
+	*
+	*/
+
 	public Configuration(Configuration c){
 		this.hauteur = c.hauteur;
 		this.largeur = c.largeur;
@@ -37,7 +51,12 @@ public class Configuration {
 
 
 
-	// copie le tableau de la configuration en parametre
+	/** Copie la configuration entré et modifie avant que la configuration courante soit pareil
+	*
+	*@param c
+	*     Configuration utilisé pour modele
+	 *
+	 */
 	public void copier(Configuration c){
 		for (int i=0; i<this.hauteur; i++) {
 			for (int j=0; j<this.largeur; j++) {
@@ -50,7 +69,9 @@ public class Configuration {
 	}
 
 
-	// Permet de trouver le X et Y du tableau
+	/** Initialise la configuration en placant de facon ordonné les valeurs
+	*
+	*/
 	public void initialisationXY () {
 		for (int i=0; i<this.hauteur; i++) {
 			for (int j=0; j<this.largeur; j++) {
@@ -62,7 +83,9 @@ public class Configuration {
 		}
 	}
 
-	// Mélange le tableau
+	/** Melange le tableau afin d'obtenir une configuration aleatoire
+	*
+	*/
 	public void melangerTableau(){
 		for (int i=0; i<this.hauteur; i++) {
 			for (int j=0; j<this.largeur; j++) {
@@ -78,7 +101,9 @@ public class Configuration {
 		initialisationXY();
 	}
 
-	// Permet de creer un nouveau tableau melange et soluble
+	/** Melange le tableau afin d'obtenir une configuration aleatoire et soluble
+	*
+	*/
 	public void creationTableau(){
 		int a = 0;
 		for(int i=0; i<this.hauteur; i++) {
@@ -93,13 +118,23 @@ public class Configuration {
 		}
 	}
 
-	// Renvoie un chiffre aleatoire entre [min, max]
+	/** Renvoie un chiffre aleatoire dans un intervale bornée
+	*@param min
+	*   Valeur minimal de l'intervale
+	*@param max
+	*   Valeur maximal de l'intervale
+	*@return
+	*    Valeur aleatoire retournée
+	*
+	*/
 	public int chiffreAleatoire(int min, int max) {
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
 	}
 
-	//construit un tableau en configuration gagnante
+	/** Modifie la coniguration pour la rendre gagante
+	*
+	*/
 	public Configuration tableauFinal() {
 		Configuration g = new Configuration(this.hauteur, this.largeur);
 		int[][] tab = new int[this.hauteur][this.largeur];
@@ -114,7 +149,12 @@ public class Configuration {
 		g.setTableau(tab);
 		return g;
 	}
-
+	/** Recherche une valeur dans la configuration et renvoie sa coordonnée X
+	*@param n
+	*    Valeur recherché
+	*@return
+	*   Coordonnée X de l'element recherché
+	*/
 	public int xValue(int n) {
         int x = -1; //initialisation de x (-1 = c n'existe pas dans le plateau)
         for (int i=0; i<this.tableau.length; i++) {
@@ -127,7 +167,12 @@ public class Configuration {
         }
         return x;
     }
-    // méthode qui retourne la coordonnée Y d'un numéro n dans le plateau
+		/** Recherche une valeur dans la configuration et renvoie sa coordonnée Y
+		*@param n
+		*    Valeur recherché
+		*@return
+		*   Coordonnée Y de l'element recherché
+		*/
     public int yValue(int n) {
         int y = -1; //initialisation de y (-1 = c n'existe pas dans le plateau)
         for (int i=0; i<this.tableau.length; i++) {
@@ -141,7 +186,13 @@ public class Configuration {
         return y;
     }
 
-    // methode calculant le nombre de deplacements
+		/**Renvoie la distance entre la confiuration actuel et celle entré en parametre
+		*
+		*@param initial
+		*   Configuration initial a comparé avec la configuration courante
+		*@return
+		*   Distance entre la configuration entré en parametre et la courante
+		*/
 	 public int distance(Configuration initial) {
 	        int numero = 0;
 	        int val = 0;
@@ -173,7 +224,9 @@ public class Configuration {
 	*/
 
 
-	// Affiche la taquin de facon claire
+	/** Affiche la taquin de facon claire
+	*
+	*/
 	public void afficher(){
 		int size;
 		for(int i=0; i<this.largeur; i++){
@@ -197,7 +250,10 @@ public class Configuration {
 		}
 	}
 
-	// Verifie si le plateau est en position finale et donc si je le jeu est finit
+	/**Verifie si le plateau est en position finale et donc si je le jeu est finit
+	*@return
+	*   Return true si la configuration est resolu, false sinon
+	*/
 	public boolean jeuGagne(){
 		int k=1;
 		for(int i=0; i<this.hauteur; i++){
@@ -213,7 +269,13 @@ public class Configuration {
 		return false;
 	}
 
-	// Permet de deplacer la case vide du taquin si le mouvement est autorise
+	/** Permet de deplacer la case vide du taquin en entrant la direction si le mouvement est autorisé
+	*
+	*@param dir
+	*   Direction demandé, "haut" , "bas", "droite" ou "gauche"
+	*@return
+	*   Renvoie true si le deplacement est possible et appliqué, sinon false
+	*/
     public boolean mouvement(String dir){
         if(haut(dir) && this.x>0){
             chemin += "H";
@@ -236,7 +298,8 @@ public class Configuration {
     }
 
 
-	// renvoie la liste des successeurs du tableau
+		/** Renvoie la liste des successeurs du tableau
+		*/
 	public void successeurs(){
 		for(int i=0; i<deplacements.length; i++){
 			Configuration tmp = new Configuration(this);
@@ -246,7 +309,12 @@ public class Configuration {
 		}
 	}
 
-	// Echange une case (en parametre) avec la case vide
+	/** Echange une case en parametre avec la case vide
+	*@param caseX
+	*   Coordonnée X de la case à echanger
+	*@param caseY
+	*    Coordonnée Y de la case à echanger
+	*/
 	public void echangeCase(int caseX, int caseY){
 		int case0 = this.tableau[this.x][this.y];
 		this.tableau[this.x][this.y] = this.tableau[caseX][caseY];
@@ -255,7 +323,10 @@ public class Configuration {
 		this.y = caseY;
 	}
 
-	// Renvoie un string du taquin
+	/** Renvoie la configuration sous forme de String
+	*
+	*@return Configuration renvoyée
+	*/
 	public String tableauEnString(){
 		String s = "";
 		for(int i=0; i<this.hauteur; i++){
@@ -266,7 +337,10 @@ public class Configuration {
 		return s;
 	}
 
-	// Renvoie un tableau d'entier du taquin
+	/** Renvoie la configuration sous forme d'un tableau int
+	*
+	*@return Configuration renvoyée
+	*/
 	public int[] conversion() {
 		int[] tab = new int[this.hauteur*this.largeur];
 		int k = 0;
@@ -279,7 +353,11 @@ public class Configuration {
 		return tab;
 	}
 
-	// Tri le tableau du taquin afin de compter le nombre d'echanges et de deplacements
+	/** Tri le tableau du taquin afin de compter le nombre d'echanges et de deplacements
+	*
+	*@return
+	*    Nombre d'echanges et deplacement [a confirmer]
+	*/
 	private int[] triEchangeParite() {
 		int[] tab = conversion(); // plateau convertit en tableau d'entiers
 		int[] res = new int[2];
@@ -313,11 +391,21 @@ public class Configuration {
 		return res;
 	}
 
-	// Verifie que le taquin est soluble : renvoie "true" si le nombre d'echanges et la parite sont tous deux pairs ou impairs, sinon, renvoie "false"
+	/** Verifie que la configuration est est soluble
+	*
+	*@return
+	*     renvoie true si la configuration est soluble, sinon non
+	*
+	*/
 	public boolean estSoluble() {
 		return triEchangeParite()[0] % 2 == triEchangeParite()[1] % 2;
 	}
 
+ /** Verifie que la chaine est bien accepté pour "Haut"
+ *
+ *@return
+ *   renvoie true si la chaine est accepté, false sinon
+ */
 	public boolean haut(String h) {
         switch (h) {
             case "h":
@@ -330,7 +418,11 @@ public class Configuration {
                 return false;
         }
     }
-
+		/** Verifie que la chaine est bien accepté pour "Bas"
+	  *
+	  *@return
+	  *   renvoie true si la chaine est accepté, false sinon
+	  */
     public boolean bas(String b) {
         switch (b) {
             case "b":
@@ -343,7 +435,11 @@ public class Configuration {
                 return false;
         }
     }
-
+		/** Verifie que la chaine est bien accepté pour "Gauche"
+	  *
+	  *@return
+	  *   renvoie true si la chaine est accepté, false sinon
+	  */
     public boolean gauche(String g) {
         switch (g) {
             case "g":
@@ -356,7 +452,11 @@ public class Configuration {
                 return false;
         }
     }
-
+		/** Verifie que la chaine est bien accepté pour "Droite"
+ 	 *
+ 	 *@return
+ 	 *   renvoie true si la chaine est accepté, false sinon
+ 	 */
     public boolean droite(String d) {
         switch (d) {
             case "d":
