@@ -3,18 +3,53 @@ import java.util.HashSet;
 
 public class Aetoile {
 	private Configuration depart;
-    private HashSet<String> vu;
-    private FdPg<Configuration> file;
+    private HashSet<String> ferme;
+    private FdPg<Configuration> ouvert;
 	//private HashSet<String> terminer;
 	
 	public Aetoile (Configuration d) {
 		this.depart = d;
-        this.vu = new HashSet<>();
-        this.file = new FdPg<Configuration>();
-		//this.terminer = new HashSet<>();
+        this.ferme = new HashSet<>();
+        this.ouvert = new FdPg<Configuration>();
 		
 	}
 
+
+	public Configuration aetoile(){
+		ouvert.Ajouter(this.depart, 0);
+		ferme.add(this.depart.tableauEnString());
+		while(!ouvert.EstVide()){
+			Configuration min = ouvert.ExtraireMin();
+			ferme.add(min.tableauEnString());
+			if(min.jeuGagne()){
+				return min;
+			}
+			int distanceMin = min.getChemin().length();
+			int distanceTmp = distanceMin++;
+			min.successeurs();
+			ArrayList<Configuration> fils = min.getSuccesseur();
+			for(Configuration tmp : fils){
+				int cleMin = distanceMin + min.manhattanHeuristique();
+				int cleTmp = distanceTmp + tmp.manhattanHeuristique();
+				if(ouvert.IndiceDsF(tmp) != -1){
+					if(cleTmp < cleMin){
+						ouvert.MaJ(tmp, cleTmp);
+						if(ferme.contains(tmp.tableauEnString())){
+							ferme.remove(tmp.tableauEnString());
+						}
+					}
+				}else if(!ferme.contains(tmp.tableauEnString())){
+					ouvert.Ajouter(tmp, cleTmp);
+				}
+			}
+		}
+		return null;
+	}
+
+
+
+
+/* deplacements de manhattan et hamming dans Confguration
 	//permet de calculer le nombre de cases mal placees
 	public int distanceHammingHeuristique(Configuration c) {
 		Configuration finale = c.tableauFinal();
@@ -43,7 +78,7 @@ public class Aetoile {
             }
         }
         return val;
-    }
+    }*/
 
 	/*
 	//méthode qui permet de trouver la configuration la moins couteuse parmi les mouvements possibles de la cellule
@@ -196,7 +231,7 @@ public class Aetoile {
         }
         return null;
     }*/
-
+/* Ancienne version
 	public Configuration aetoile() {
 		this.file.Ajouter(depart, 0);
 		this.vu.add(this.depart.tableauEnString());
@@ -237,7 +272,7 @@ public class Aetoile {
 			}
 		}
 		return null;
-	}
+	}*/
 }
 
 	
