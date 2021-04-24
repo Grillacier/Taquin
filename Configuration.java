@@ -337,6 +337,27 @@ public class Configuration {
 		return s;
 	}
 
+	// Heuristique de manhattan
+	public int manhattanHeuristique(){
+		Configuration fin = this.tableauFinal();
+		int val = 0;
+		for(int i=0; i<this.hauteur; i++){
+			for(int j=0; j<this.largeur; j++){
+				int tile = this.tableau[i][j];
+				if(tile != 0){
+					for(int a=0; a<this.hauteur; a++){
+						for(int b=0; b<this.largeur; b++){
+							if(fin.tableau[a][b] == tile){
+								val += Math.abs(a-i) + Math.abs(b-j);
+							}
+						}
+					}
+				}
+			}
+		}
+		return val;
+	}
+
 	/** Renvoie la configuration sous forme d'un tableau int
 	*
 	*@return Configuration renvoyée
@@ -391,7 +412,7 @@ public class Configuration {
 		return res;
 	}
 
-	/** Verifie que la configuration est est soluble
+	/** Verifie que la configuration est soluble
 	*
 	*@return
 	*     renvoie true si la configuration est soluble, sinon non
@@ -526,5 +547,19 @@ public class Configuration {
 		public String[] getDeplacements() {
 			return deplacements;
 		}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Configuration that = (Configuration) o;
+		return Arrays.deepEquals(tableau, that.tableau);
+	}
+
+	@Override
+	public int hashCode() {
+		return Arrays.deepHashCode(tableau);
+	}
+
 
 }
