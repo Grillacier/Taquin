@@ -14,11 +14,10 @@ public class Algorithme {
     public void executerAlgorithme(){
         Configuration resultat = null;
         long tempsDebut, tempsFin;
-        this.config.afficher();
+        //this.config.afficher();
         System.out.println();
-        tempsDebut = System.nanoTime();
-
         try {
+            tempsDebut = System.nanoTime();
             if(this.algo instanceof ParcoursLargeur){
                 System.out.println("Résolution du taquin avec le Parcours en Largeur :");
                 ParcoursLargeur pl = new ParcoursLargeur(this.config);
@@ -39,8 +38,7 @@ public class Algorithme {
             System.out.println("Longueur du chemin : " + resultat.getChemin().length());
             System.out.println("Chemin de résolution : " + resultat.getChemin());
         }catch (NullPointerException npe) {
-            System.out.println("Cet algorithme n'existe pas.");
-            System.out.println(this.algo);
+            System.out.println("Aucune solutions ne peut être trouvé");
         }
     }
 
