@@ -411,8 +411,9 @@ public class Configuration {
         }
         if (tab[tab.length-1] != 0)
             d += 1;
-        return d % 2 == 0;
+        return d % 2 == 1;
 	}
+
 
     /**
      * V&eacute;rifie que la cha&icirc;ne corresponde au mouvement "haut"
