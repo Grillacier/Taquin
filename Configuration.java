@@ -43,6 +43,18 @@ public class Configuration {
 		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
 	}
 
+	public Configuration(int[][] t) {
+	    this.hauteur = t.length;
+	    this.largeur = t[0].length;
+	    this.tableau = t;
+	    initialisationXY();
+        this.chemin = "";
+        this.parent = new ArrayList<>();
+        this.successeur = new ArrayList<>();
+        this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
+        this.distance = distance(this);
+    }
+
 
 	/**
 	 * Copie la configuration entr&eacute;e afin que la configuration courante soit identique
@@ -358,27 +370,43 @@ public class Configuration {
 		return tab;
 	}
 
+    /**
+     * Renvoie la configuration sous forme d'un tableau de tableaux d'int
+     * @return un tableau de tableaux de int correspondant &agrave; la configuration actuelle
+     */
+	public int[][] copierTab() {
+	    int[][] tab = new int[this.hauteur][this.largeur];
+	    for (int i = 0; i < this.hauteur; i++) {
+	        for (int j = 0; j < this.largeur; j++) {
+	            tab[i][j] = this.tableau[i][j];
+            }
+        }
+	    return tab;
+    }
+
 	/**
      * Tri le tableau du taquin afin de compter le nombre d'echanges et de deplacements
 	 * @return nombre d'&eacute;changes et nombre de d&eacute;placements de la case vide
 	 */
-	/*
     public int[] triEchangeParite() {
-        int[] tab = conversion(); // plateau convertit en tableau d'entiers
+        int[] tab = conversion(); // plateau converti en tableau d'entiers
+        Configuration copie = new Configuration(copierTab()); // plateau converti en tableau de tableaux d'entiers
         int[] res = new int[2];
         int nbEchanges = 0; // nombre de deplacements total des Cases
-        int parite = 0; // nombre de deplacements du 0
+        //int parite = 0; // nombre de deplacements du 0
         int tmp;
+
+        //calcul du nombre d'echanges
         for (int i = 0; i < tab.length-1; i++) {
             for (int j = i+1; j < tab.length; j++) {
                 if (tab[i] == 0) {
-                    parite++;
+                    //parite++;
                     nbEchanges++;
                     tmp = tab[j];
                     tab[j] = tab[i];
                     tab[i] = tmp;
                 }
-                else if (tab[j] == 0) {
+                 if (tab[j] == 0) {
                     continue;
                 }
                 else {
@@ -391,16 +419,24 @@ public class Configuration {
                 }
             }
         }
-        res[0] = nbEchanges;
-        res[1] = parite;
-        return res;
-    }*/
 
-	/**
-     * V&eacute;rifie que la configuration est soluble
-	 * @return true si la configuration est soluble, sinon non
-	 */
-	public boolean estSoluble() {
+        //calcul de la parite du 0
+        while (copie.tableau[copie.hauteur-1][copie.largeur-1] != 0) {
+            copie.mouvement("droite");
+            copie.mouvement("bas");
+        }
+
+        res[0] = nbEchanges;
+        //res[1] = parite;
+        res[1] = copie.chemin.length();
+        return res;
+    }
+
+    /**
+     * Calcule le coefficient de d&eacute;sordre de la configuration actuelle
+     * @return le nombre de cases mal plac&eacute;es dans la configuration
+     */
+    /*public int desordre() {
         int d = 0;
         int[] tab = conversion();
         for (int i = 0; i < tab.length-1; i++) {
@@ -409,9 +445,15 @@ public class Configuration {
                     d++;
             }
         }
-        if (tab[tab.length-1] != 0)
-            d += 1;
-        return d % 2 == 1;
+        return d;
+    }*/
+
+	/**
+     * V&eacute;rifie que la configuration est soluble en fonction de la position de la case vide
+	 * @return true si la configuration est soluble, sinon non
+	 */
+	public boolean estSoluble() {
+	    return triEchangeParite()[0] % 2 == triEchangeParite()[1] % 2;
 	}
 
 
