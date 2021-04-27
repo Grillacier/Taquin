@@ -1,5 +1,7 @@
 import java.lang.reflect.Type;
 import java.util.*;
+
+import org.graalvm.compiler.graph.Graph;
 public class TaquinLanceur {
 
 
@@ -22,7 +24,7 @@ public class TaquinLanceur {
         //Algorithme pl = new Algorithme(c, new ParcoursLargeur(c));
         //Algorithme d = new Algorithme(c, new Dijkstra(c));
 
-
+        Graphique g=new Graphique();
 
     }
 }
