@@ -133,7 +133,8 @@ public class EntreListener extends KeyAdapter implements KeyListener{
 
     //Nouvelle page pour le bouton jouer
     //a relier avec le ActionMouseListener
-    JFrame play=new JFrame();
+    //a revoir
+    /*JFrame play=new JFrame();
     play.setTitle("Lancement du jeu");
     play.setSize(600,400);
     play.setBackground(Color.GREEN);
@@ -149,7 +150,7 @@ public class EntreListener extends KeyAdapter implements KeyListener{
     //A redimensionner en fonction du rendu pour l'esthetique
     trois.setBounds(40, 40, 100, 50);
     quatre.setBounds(70, 70, 100, 50);
-    cinq.setBounds(100, 100, 100, 50);
+    cinq.setBounds(100, 100, 100, 50);*/
 
 
     entre.setMaximumSize(new Dimension(250,70));
