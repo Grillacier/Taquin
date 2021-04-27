@@ -5,12 +5,20 @@ public class Dijkstra {
     private HashSet<String> vu;
     private FdPg<Configuration> file;
 
+    /**
+     * Contructeur de l'algorithme du parcours en largeur
+     * @param d Configuration initiale
+     */
     public Dijkstra(Configuration d){
         this.depart = d;
         this.vu = new HashSet<>();
         this.file = new FdPg<Configuration>();
     }
 
+    /**
+     * R&eacute;sout un taquin avec l'algorithme de Dijkstra
+     * @return la configuration r&eacute;solue &agrave; partir d'une configuration quelconque
+     */
     public Configuration dijkstra() {
         this.vu.add(this.depart.tableauEnString());
         this.file.Ajouter(depart, 0);
@@ -26,7 +34,6 @@ public class Dijkstra {
             ArrayList<Configuration> s = min.getSuccesseur();
             for (int i = 0; i < s.size(); i++) {
                 Configuration tmp = s.get(i);
-                //int distance = tmp.getDistance() + 1;
                 if (this.vu.add(tmp.tableauEnString())) {
                     this.file.Ajouter(tmp, distance);
                 }

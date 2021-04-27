@@ -8,7 +8,6 @@ public class Configuration {
 	private int[][] tableau;
 	private String chemin;
 	private ArrayList<Configuration> parent;
-	private int distance; // poids d'une configuration
 	private ArrayList<Configuration> successeur;
 	private String[] deplacements;
 
@@ -26,7 +25,6 @@ public class Configuration {
 		this.parent = new ArrayList<>();
 		this.successeur = new ArrayList<>();
 		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
-		this.distance = distance(this);
 	}
 
     /**
@@ -38,11 +36,14 @@ public class Configuration {
 		this.largeur = c.largeur;
 		this.tableau = new int[this.hauteur][this.largeur];
 		this.copier(c);
-		this.distance = distance(c);
         this.successeur = new ArrayList<>();
 		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
 	}
 
+	/**
+	 * Constructeur de Configuration qui initialise le taquin &agrave; partir d'un tableau de tableaux
+	 * @param t tableau &agrave; copier
+	 */
 	public Configuration(int[][] t) {
 	    this.hauteur = t.length;
 	    this.largeur = t[0].length;
@@ -52,7 +53,6 @@ public class Configuration {
         this.parent = new ArrayList<>();
         this.successeur = new ArrayList<>();
         this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
-        this.distance = distance(this);
     }
 
 
@@ -184,41 +184,6 @@ public class Configuration {
         return y;
     }
 
-    /**
-     * Renvoie la distance entre la confiuration actuelle et celle entr&eacute;e en param&egrave;tre
-     * @param initial Configuration initiale a compar&eacute;e avec la configuration courante
-     * @return distance entre la configuration entr&eacute;e en parametre et la courante
-     */
-	 public int distance(Configuration initial) {
-	        int numero = 0;
-	        int val = 0;
-	        for (int i = 0; i < initial.tableau.length; i++) {
-	            for (int j = 0; j < initial.tableau[i].length; j++) {
-	                if (initial.tableau[i][j] != 0) {
-	                    numero = initial.tableau[i][j];
-	                    val+=(Math.abs(i-this.xValue(numero)));
-	                    val+=(Math.abs(j-this.yValue(numero)));
-	                }
-	            }
-	        }
-	        return val;
-	}
-
-	/*
-	public int distance(Configuration c) {
-		int k = 0;
-		for (int i = 0; i < hauteur; i++) {
-			for (int j = 0; j < largeur; j++) {
-				if (c.getTableau()[i][j] != this.getTableau()[i][j] && c.getTableau()[i][j] != 0) {
-					k++;
-				}
-			}
-		}
-		return k;
-	}
-	*/
-
-
 	/**
      * Affiche la taquin de facon claire
 	 */
@@ -270,19 +235,19 @@ public class Configuration {
 	 * @return true si le d&eacute;placement est possible et appliqu&eacute;, sinon false
 	 */
     public boolean mouvement(String dir){
-        if(haut(dir) && this.x>0){
+        if(dir.toLowerCase().charAt(0) == 'h' && this.x>0){
             chemin += "H";
             echangeCase(this.x-1, this.y);
             return true;
-        } else if(bas(dir) && this.x<this.hauteur-1){
+        } else if(dir.toLowerCase().charAt(0) == 'b' && this.x<this.hauteur-1){
             chemin += "B";
             echangeCase(this.x+1, this.y);
             return true;
-        }else if(droite(dir) && this.y<this.largeur-1){
+        }else if(dir.toLowerCase().charAt(0) == 'd' && this.y<this.largeur-1){
             chemin += "D";
             echangeCase(this.x, this.y+1);
             return true;
-        }else if(gauche(dir) && this.y>0){
+        }else if(dir.toLowerCase().charAt(0) == 'g' && this.y>0){
             chemin += "G";
             echangeCase(this.x, this.y-1);
             return true;
@@ -393,14 +358,12 @@ public class Configuration {
         Configuration copie = new Configuration(copierTab()); // plateau converti en tableau de tableaux d'entiers
         int[] res = new int[2];
         int nbEchanges = 0; // nombre de deplacements total des Cases
-        //int parite = 0; // nombre de deplacements du 0
         int tmp;
 
         //calcul du nombre d'echanges
         for (int i = 0; i < tab.length-1; i++) {
             for (int j = i+1; j < tab.length; j++) {
                 if (tab[i] == 0) {
-                    //parite++;
                     nbEchanges++;
                     tmp = tab[j];
                     tab[j] = tab[i];
@@ -427,26 +390,9 @@ public class Configuration {
         }
 
         res[0] = nbEchanges;
-        //res[1] = parite;
         res[1] = copie.chemin.length();
         return res;
     }
-
-    /**
-     * Calcule le coefficient de d&eacute;sordre de la configuration actuelle
-     * @return le nombre de cases mal plac&eacute;es dans la configuration
-     */
-    /*public int desordre() {
-        int d = 0;
-        int[] tab = conversion();
-        for (int i = 0; i < tab.length-1; i++) {
-            for (int j = i+1; j < tab.length; j++) {
-                if (tab[i] > tab[j] && tab[j] != 0)
-                    d++;
-            }
-        }
-        return d;
-    }*/
 
 	/**
      * V&eacute;rifie que la configuration est soluble en fonction de la position de la case vide
@@ -455,79 +401,6 @@ public class Configuration {
 	public boolean estSoluble() {
 	    return triEchangeParite()[0] % 2 == triEchangeParite()[1] % 2;
 	}
-
-
-    /**
-     * V&eacute;rifie que la cha&icirc;ne corresponde au mouvement "haut"
-     * @param h une String qui doit correspondre au mouvement "haut"
-     * @return true si la cha&icirc;ne est accept&eacute;e, false sinon
-     */
-	public boolean haut(String h) {
-        switch (h) {
-            case "h":
-            case "H":
-            case "haut":
-            case "Haut":
-            case "HAUT":
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    /**
-     * V&eacute;rifie que la cha&icirc;ne corresponde au mouvement "bas"
-     * @param b une String qui doit correspondre au mouvement "bas"
-     * @return true si la cha&icirc;ne est accept&eacute;e, false sinon
-     */
-    public boolean bas(String b) {
-        switch (b) {
-            case "b":
-            case "B":
-            case "bas":
-            case "Bas":
-            case "BAS":
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    /**
-     * V&eacute;rifie que la cha&icirc;ne corresponde au mouvement "gauche"
-     * @param g une String qui doit correspondre au mouvement "gauche"
-     * @return true si la cha&icirc;ne est accept&eacute;e, false sinon
-     */
-    public boolean gauche(String g) {
-        switch (g) {
-            case "g":
-            case "G":
-            case "gauche":
-            case "Gauche":
-            case "GAUCHE":
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    /**
-     * V&eacute;rifie que la cha&icirc;ne corresponde au mouvement "droite"
-     * @param d une String qui doit correspondre au mouvement "droite"
-     * @return true si la cha&icirc;ne est accept&eacute;e, false sinon
-     */
-    public boolean droite(String d) {
-        switch (d) {
-            case "d":
-            case "D":
-            case "droite":
-            case "Droite":
-            case "DROITE":
-                return true;
-            default:
-                return false;
-        }
-    }
 
 
 		public int getX() {
@@ -569,14 +442,6 @@ public class Configuration {
 	    public ArrayList<Configuration> getParent() {
 	        return this.parent;
 	    }
-
-	    public int getDistance() {
-	    	return this.distance;
-	    }
-
-		public void setDistance(int d) {
-			this.distance = d;
-		}
 
 		public ArrayList<Configuration> getSuccesseur() {
 			return this.successeur;

@@ -6,23 +6,20 @@ public class ParcoursLargeur{
     private HashSet<String> marqueur;
     private Queue<Configuration> file;
 
-    // Constructeur prenant la configuration de depart
-
-    /** Contructeur de l'algorithme du parcours en largeur
-      * @param c
-      *    Configuration initiale
-    */
+    /**
+     * Contructeur de l'algorithme du parcours en largeur
+     * @param c Configuration initiale
+     */
     public ParcoursLargeur(Configuration c){
         this.configuration = c;
         this.marqueur = new HashSet<>();
         this.file = new LinkedList<>();
     }
 
-    // Parcours en largeur qui marque les config deja visites et ajoute a la file les config a visister
-
-    /** Algorithme du parcours en largeur
-      *
-      */
+    /**
+     * R&eacute;sout un taquin avec l'algorithme de parcours en largeur
+     * @return la configuration r&eacute;solue &agrave; partir d'une configuration quelconque
+     */
     public Configuration parcoursEnLargeur(){
         marqueur.add(this.configuration.tableauEnString());
         file.add(this.configuration);
@@ -43,7 +40,4 @@ public class ParcoursLargeur{
         }
         return null;
     }
-
-
-
 }
