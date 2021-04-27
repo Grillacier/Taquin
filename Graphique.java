@@ -75,6 +75,16 @@ public class EntreListener extends KeyAdapter implements KeyListener{
     this.getContentPane().add(interaction);
     this.getContentPane().add(module);
 
+    //titre d'accueil et image
+    JLabel titre=new JLabel("Le jeu du Taquin      ");
+    titre.setFont(new Font("New Times Roman", Font.BOLD, 40));
+    module.add(titre);
+
+    String name="taquin.png";
+    ImageIcon picture=new ImageIcon(name);
+    JLabel insertionImage=new JLabel(picture, JLabel.CENTER);
+    module.add(insertionImage);
+
     //les boutons
     //interaction.setLayout(new BoxLayout(interaction,BoxLayout.Y_AXIS));
     interaction.setLayout(null);
@@ -121,13 +131,33 @@ public class EntreListener extends KeyAdapter implements KeyListener{
     r.setMinimumSize(new Dimension(250,100));
     r.setPreferredSize(new Dimension(250,100));
 
+    //Nouvelle page pour le bouton jouer
+    //a relier avec le ActionMouseListener
+    JFrame play=new JFrame();
+    play.setTitle("Lancement du jeu");
+    play.setSize(600,400);
+    play.setBackground(Color.GREEN);
+    JLabel choix=new JLabel("Choisissez la taille du taquin :");
+    play.add(choix);
+    //Ajout des boutons à cette nouvelle page
+    JButton trois=new JButton("3x3");
+    JButton quatre=new JButton("4x4");
+    JButton cinq=new JButton("5x5");
+    play.add(trois);
+    play.add(quatre);
+    play.add(cinq);
+    //A redimensionner en fonction du rendu pour l'esthetique
+    trois.setBounds(40, 40, 100, 50);
+    quatre.setBounds(70, 70, 100, 50);
+    cinq.setBounds(100, 100, 100, 50);
+
 
     entre.setMaximumSize(new Dimension(250,70));
     entre.setMinimumSize(new Dimension(250,70));
     entre.setPreferredSize(new Dimension(250,70));
     entre.addKeyListener(new EntreListener(entre,userGUI));
 
-      this.setVisible(true);
+    this.setVisible(true);
 
  }
 
