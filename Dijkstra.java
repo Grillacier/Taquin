@@ -21,24 +21,20 @@ public class Dijkstra {
      */
     public Configuration dijkstra() {
         this.vu.add(this.depart.tableauEnString());
-        this.file.Ajouter(depart, 0);
-        int distance = 1;
+        this.file.Ajouter(this.depart, 0);
         while (!this.file.EstVide()) {
             Configuration min = this.file.ExtraireMin();
-            if (min.jeuGagne()) {
-                System.out.println("Configurations explorees : " + vu.size());
+            this.vu.add(min.tableauEnString());
+            if (min.jeuGagne())
                 return min;
-            }
-
-            min.successeurs(); //Calcul des successeurs de la configuration minimale
-            ArrayList<Configuration> s = min.getSuccesseur();
-            for (int i = 0; i < s.size(); i++) {
-                Configuration tmp = s.get(i);
+            int distance = min.getChemin().length();
+            min.successeurs();
+            ArrayList<Configuration> fils = min.getSuccesseur();
+            for (Configuration tmp : fils) {
                 if (this.vu.add(tmp.tableauEnString())) {
-                    this.file.Ajouter(tmp, distance);
+                    this.file.Ajouter(tmp, distance + 1);
                 }
             }
-            distance++;
         }
         return null;
     }
