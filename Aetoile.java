@@ -25,6 +25,41 @@ public class Aetoile {
 				return min;
 			}
 			int distanceMin = min.getChemin().length();
+			int distanceTmp = distanceMin + 1;
+			min.successeurs();
+			ArrayList<Configuration> fils = min.getSuccesseur();
+			for(Configuration tmp : fils){
+				int cle = distanceTmp + tmp.manhattanHeuristique();
+				int cleExiste = ouvert.IndiceDsF(tmp);
+				if(cleExiste != -1){
+					if(cleExiste > cle){
+						ouvert.MaJ(tmp, cle);
+					}
+				}else if(ferme.contains(tmp.tableauEnString())){
+					if(cleExiste > cle){
+						ferme.remove(tmp.tableauEnString());
+						ouvert.Ajouter(tmp, cle);
+					}
+				}else{
+					ouvert.Ajouter(tmp, cle);
+				}
+			}
+		}
+		return null;
+	}
+
+/*
+	// VERSION EFFICACE
+	public Configuration aetoile2(){
+		ouvert.Ajouter(this.depart, 0);
+		ferme.add(this.depart.tableauEnString());
+		while(!ouvert.EstVide()){
+			Configuration min = ouvert.ExtraireMin();
+			ferme.add(min.tableauEnString());
+			if(min.jeuGagne()){
+				return min;
+			}
+			int distanceMin = min.getChemin().length();
 			int distanceTmp = distanceMin++;
 			min.successeurs();
 			ArrayList<Configuration> fils = min.getSuccesseur();
@@ -45,7 +80,7 @@ public class Aetoile {
 		}
 		return null;
 	}
-
+*/
 
 
 
