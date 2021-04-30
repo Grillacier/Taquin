@@ -24,23 +24,22 @@ public class Aetoile {
 			if(min.jeuGagne()){
 				return min;
 			}
-			int distanceMin = min.getChemin().length();
-			int distanceTmp = distanceMin + 1;
+			int distanceTmp = min.getChemin().length() + 1;
 			min.successeurs();
 			ArrayList<Configuration> fils = min.getSuccesseur();
 			for(Configuration tmp : fils){
 				int cle = distanceTmp + tmp.manhattanHeuristique();
 				int cleExiste = ouvert.IndiceDsF(tmp);
-				if(cleExiste != -1){
-					if(cleExiste > cle){
-						ouvert.MaJ(tmp, cle);
-					}
-				}else if(ferme.contains(tmp.tableauEnString())){
+				if(ferme.contains(tmp.tableauEnString())){
 					if(cleExiste > cle){
 						ferme.remove(tmp.tableauEnString());
 						ouvert.Ajouter(tmp, cle);
 					}
-				}else{
+				}else if(cleExiste != -1){
+					if(cleExiste > cle){
+						ouvert.MaJ(tmp, cle);
+					}
+				}else {
 					ouvert.Ajouter(tmp, cle);
 				}
 			}
