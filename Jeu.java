@@ -167,14 +167,18 @@ public class Jeu {
 
     // verifie que le string du mouvement existe
     public String mouvementExiste(String s){
-        switch (s.toLowerCase().charAt(0)) {
-            case 'h':
+        switch (s.toLowerCase()) {
+            case "h":
+            case "haut":
                 return "haut";
-            case 'b':
+            case "b":
+            case "bas":
                 return "bas";
-            case 'g':
+            case "g":
+            case "gauche":
                 return "gauche";
-            case 'd':
+            case "d":
+            case "droite":
                 return "droite";
         }
         return null;

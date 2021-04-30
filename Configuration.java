@@ -235,19 +235,19 @@ public class Configuration {
 	 * @return true si le d&eacute;placement est possible et appliqu&eacute;, sinon false
 	 */
     public boolean mouvement(String dir){
-        if(dir.toLowerCase().charAt(0) == 'h' && this.x>0){
+        if((dir.toLowerCase().charAt(0) == 'h' || dir.toLowerCase().equals("haut")) && this.x>0){
             chemin += "H";
             echangeCase(this.x-1, this.y);
             return true;
-        } else if(dir.toLowerCase().charAt(0) == 'b' && this.x<this.hauteur-1){
+        } else if((dir.toLowerCase().charAt(0) == 'b' || dir.toLowerCase().equals("bas")) && this.x<this.hauteur-1){
             chemin += "B";
             echangeCase(this.x+1, this.y);
             return true;
-        }else if(dir.toLowerCase().charAt(0) == 'd' && this.y<this.largeur-1){
+        } else if((dir.toLowerCase().charAt(0) == 'd' || dir.toLowerCase().equals("droite")) && this.y<this.largeur-1){
             chemin += "D";
             echangeCase(this.x, this.y+1);
             return true;
-        }else if(dir.toLowerCase().charAt(0) == 'g' && this.y>0){
+        } else if((dir.toLowerCase().charAt(0) == 'g' || dir.toLowerCase().equals("gauche")) && this.y>0){
             chemin += "G";
             echangeCase(this.x, this.y-1);
             return true;
