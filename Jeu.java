@@ -12,38 +12,6 @@ public class Jeu {
         this.nouvellePartie();
     }
 
-    /*public boolean oui(String o) {
-        switch (o) {
-            case "oui":
-            case "Oui":
-            case "OUI":
-            case "o":
-            case "O":
-            case "yes":
-            case "Yes":
-            case "YES":
-            case "y":
-            case "Y":
-                return true;
-            default: return false;
-        }
-    }
-
-    public boolean non(String n) {
-        switch (n) {
-            case "non":
-            case "Non":
-            case "NON":
-            case "n":
-            case "N":
-            case "no":
-            case "No":
-            case "NO":
-                return true;
-            default: return false;
-        }
-    }*/
-
     public void nouvellePartie(){
         System.out.println("  ------");
         System.out.println("| TAQUIN |");
@@ -150,7 +118,7 @@ public class Jeu {
             this.joueur.setRobot(true);
             System.out.println("Votre robot doit fonctionner avec quel algorithme?");
             System.out.println("(p)arcours en largeur, (d)ijkstra, (a)etoile");
-            System.out.println("/!\\ Les algorithme ne peuvent pas résoudre tous les taquins.");
+            System.out.println("/!\\ Les algorithmes ne peuvent pas résoudre tous les taquins.");
             System.out.println("/!\\ A* est à privilégier");
             choixAlgo();
         }else{

@@ -10,11 +10,12 @@ public class Algorithme {
         executerAlgorithme();
     }
 
-    // Permet d'afficher les infos a propos de l'execution d'un algorithme quelconque
+    /**
+     * Affiche les infos a propos de l'ex&eacute;cution d'un algorithme quelconque
+     */
     public void executerAlgorithme(){
         Configuration resultat = null;
         long tempsDebut, tempsFin;
-        //this.config.afficher();
         System.out.println();
         try {
             tempsDebut = System.nanoTime();
@@ -38,9 +39,7 @@ public class Algorithme {
             System.out.println("Longueur du chemin : " + resultat.getChemin().length());
             System.out.println("Chemin de résolution : " + resultat.getChemin());
         }catch (NullPointerException npe) {
-            System.out.println("Aucune solutions ne peut être trouvé");
+            System.out.println("Aucune solution ne peut être trouvée");
         }
     }
-
-
 }
