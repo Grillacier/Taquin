@@ -28,7 +28,7 @@ public class Accueil extends JFrame{
         titre.setText("Bienvenue sur le jeu du Taquin !");
         titre.setFont(new Font("New Times Roman", Font.BOLD, 40));
         titre.setHorizontalAlignment(SwingConstants.CENTER);
-        titre.setVerticalAlignment(SwingConstants.TOP); 
+        titre.setVerticalAlignment(SwingConstants.TOP);
         this.getContentPane().add(titre);
 
         //Initialisation d'un JPanel
@@ -50,6 +50,11 @@ public class Accueil extends JFrame{
         j.setBounds(100,20,300,90);
         c.setBounds(430,20,300,90);
         r.setBounds(760,20,300,90);
+
+        j.addActionListener((event) ->{System.out.println("Jouer pressed");});
+        c.addActionListener((event) ->{System.out.println("Charger pressed");});
+        r.addActionListener((event) ->{System.out.println("Regle pressed");});
+
 
         JLabel id=new JLabel();
         id.setText("Entrez votre pseudo :");
