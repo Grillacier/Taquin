@@ -21,49 +21,73 @@ import java.awt.event.KeyEvent;
 
 public class Accueil extends JFrame{
     public Accueil(){
-        this.setTitle("Bienvenue ! Welcome !");
+        this.setTitle("Projet Taquin 4");
         this.setSize(1250, 800);
-        //Titre de la page
-        JLabel titre=new JLabel();
+        this.setResizable(false);
+
+        // JFRAME
+        getContentPane().setLayout(new GridLayout(2,1));
+
+        // JPANEL
+        JPanel panneauHaut = new JPanel();
+        JPanel panneauBas = new JPanel();
+
+        panneauHaut.setBackground(Color.WHITE);
+        panneauBas.setBackground(Color.GRAY);
+
+        panneauHaut.setLayout(null);
+        panneauBas.setLayout(null);
+
+        getContentPane().add(panneauHaut);
+        getContentPane().add(panneauBas);
+
+
+        // Panneau HAUT
+        JLabel titre = new JLabel();
         titre.setText("Bienvenue sur le jeu du Taquin !");
         titre.setFont(new Font("New Times Roman", Font.BOLD, 40));
         titre.setHorizontalAlignment(SwingConstants.CENTER);
         titre.setVerticalAlignment(SwingConstants.TOP);
-        this.getContentPane().add(titre);
+        titre.setBounds(150,20,1000,50);
+        panneauHaut.add(titre);
 
-        //Initialisation d'un JPanel
-        JPanel panneau=new JPanel();
-        panneau.setBackground(Color.GRAY);
-        panneau.setLayout(new BorderLayout());
-        getContentPane().setLayout(new GridLayout(2,1));
-        getContentPane().add(panneau);
+        JLabel id=new JLabel("Votre pseudo :");
+        id.setBounds(450,100,300,50);
+        panneauHaut.add(id);
 
-        //Initialisation des boutons de sélection
+        JTextField pseudo = new JTextField("");
+        pseudo.setBounds(480,150,300,50);
+        //pseudo.setBackground(Color.YELLOW);
+        //pseudo.setForeground(Color.GRAY);
+        panneauHaut.add(pseudo);
 
-        panneau.setLayout(null);
+        JButton v=new JButton("Valider");
+        panneauHaut.add(v);
+        v.setBounds(790,150,100,50);
+
+        //Panneau BAS
         JButton j=new JButton("Jouer/Play");
         JButton c=new JButton("Charger/Load");
         JButton r=new JButton("Règles du jeu");
-        panneau.add(j);
-        panneau.add(c);
-        panneau.add(r);
-        j.setBounds(100,20,300,90);
-        c.setBounds(430,20,300,90);
-        r.setBounds(760,20,300,90);
+        panneauBas.add(j);
+        panneauBas.add(c);
+        panneauBas.add(r); 
+        j.setBounds(150,100,300,90);
+        c.setBounds(480,100,300,90);
+        r.setBounds(810,100,300,90);
+
+
 
         j.addActionListener((event) ->{System.out.println("Jouer pressed");});
         c.addActionListener((event) ->{System.out.println("Charger pressed");});
         r.addActionListener((event) ->{System.out.println("Regle pressed");});
 
+        /*pseudo.addActionListener((event) ->{
 
-        JLabel id=new JLabel();
-        id.setText("Entrez votre pseudo :");
-        id.setBounds(250,200,300,50);
-        panneau.add(id);
-
-        JTextField player_name=new JTextField();
-        player_name.setBounds(430,200,300,50);
-        panneau.add(player_name);
+            pseudo.setText("");
+            pseudo.repaint();
+            pseudo.revalidate();
+        });*/
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
