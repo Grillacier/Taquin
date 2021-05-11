@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Map;
 
 // version ArrayList : non bornee...
 
@@ -108,6 +109,15 @@ public class FdPg <Configuration> {
     T.set(i, P);
     hmap.put(n, i);
 
+  }
+
+  Configuration GetSommet(int key){
+    for(Map.Entry<Configuration, Integer> entry : hmap.entrySet()){
+      if(entry.getValue().equals(key)){
+        return entry.getKey();
+      }
+    }
+    return null;
   }
 
   public String toString() {
