@@ -451,11 +451,17 @@ public class Configuration {
 			return deplacements;
 		}
 
+	public void setChemin(String chemin) {
+		this.chemin = chemin;
+	}
+
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)return true;
+		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
+
 		Configuration that = (Configuration) o;
+
 		return Arrays.deepEquals(tableau, that.tableau);
 	}
 
