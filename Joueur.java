@@ -1,17 +1,48 @@
 import java.io.*;
-import java.util.Scanner;
 
-public class Joueur {
+public class Joueur implements Serializable{
     private String nom;
-    private int age;
-    private Scanner scanReponse;
     private boolean robot;
+    private static final long serialVersionUID = 5030499181306931978L;
 
     public Joueur() {
         this.nom = "Anonyme"; // Pseudo par défaut
-        this.scanReponse = new Scanner(System.in);
         this.robot = false;
     }
+
+    public void sauvegarder(){
+        try {
+            File f = new File("joueur.dat");
+            if(f.delete()){ // permet de mettre a jour les informations
+                FileOutputStream fichier = new FileOutputStream("joueur.dat");
+                ObjectOutputStream oos = new ObjectOutputStream(fichier);
+                oos.writeObject(this);
+                oos.flush();
+                oos.close();
+            }else{
+                System.out.println("Erreur lors de la sauvegarde");
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+    }
+
+    public void lire(){
+        try{
+            File f = new File("joueur.dat");
+            if(f.createNewFile()){
+                this.sauvegarder();
+            }
+            FileInputStream fichier = new FileInputStream("joueur.dat");
+            ObjectInputStream ois = new ObjectInputStream(fichier);
+            Joueur j = (Joueur) ois.readObject();
+            this.nom = j.nom;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public String getNom() {
         return nom;
@@ -27,14 +58,5 @@ public class Joueur {
 
     public void setRobot(boolean robot) {
         this.robot = robot;
-    }
-
-    public String demanderStr(String q) {
-        System.out.println(q);
-        return scanReponse.next();
-    }
-
-    public void finir() {
-        this.scanReponse.close();
     }
 }
