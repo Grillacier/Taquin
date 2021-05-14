@@ -20,8 +20,12 @@ import javax.imageio.*;
 import java.awt.event.KeyEvent;
 
 public class Accueil extends JFrame{
+    private Joueur joueur;
+
     public Accueil(){
-        this.setTitle("Projet Taquin 4");
+        joueur = new Joueur();
+        joueur.lire();
+        this.setTitle("Taquin 4");
         this.setSize(1250, 800);
         this.setResizable(false);
 
@@ -55,7 +59,7 @@ public class Accueil extends JFrame{
         id.setBounds(450,100,300,50);
         panneauHaut.add(id);
 
-        JTextField pseudo = new JTextField("");
+        JTextField pseudo = new JTextField(joueur.getNom());
         pseudo.setBounds(480,150,300,50);
         //pseudo.setBackground(Color.YELLOW);
         //pseudo.setForeground(Color.GRAY);
@@ -66,9 +70,9 @@ public class Accueil extends JFrame{
         v.setBounds(790,150,100,50);
 
         //Panneau BAS
-        JButton j=new JButton("Jouer/Play");
-        JButton c=new JButton("Charger/Load");
-        JButton r=new JButton("Règles du jeu");
+        JButton j=new JButton("Jouer");
+        JButton c=new JButton("Charger");
+        JButton r=new JButton("Règles");
         panneauBas.add(j);
         panneauBas.add(c);
         panneauBas.add(r); 
@@ -81,13 +85,12 @@ public class Accueil extends JFrame{
         j.addActionListener((event) ->{System.out.println("Jouer pressed");});
         c.addActionListener((event) ->{System.out.println("Charger pressed");});
         r.addActionListener((event) ->{System.out.println("Regle pressed");});
+        v.addActionListener((event) ->{
+            joueur.setNom(pseudo.getText());
+            joueur.sauvegarder();
+            System.out.println("Valider pressed");
+        });
 
-        /*pseudo.addActionListener((event) ->{
-
-            pseudo.setText("");
-            pseudo.repaint();
-            pseudo.revalidate();
-        });*/
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
