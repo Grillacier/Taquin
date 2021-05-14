@@ -16,7 +16,7 @@ public class Jeu {
         System.out.println("  ------");
         System.out.println("| TAQUIN |");
         System.out.println("  ------");
-        this.joueur.setNom(joueur.demanderStr("Comment vous appelez-vous ?"));
+        this.joueur.setNom(demanderStr("Comment vous appelez-vous ?"));
         System.out.println("Bienvenue " + joueur.getNom() + " !");
         if(!jouerOuRegles()){
             reglesDuTaquin();
@@ -27,7 +27,7 @@ public class Jeu {
     public void jouer() {
         System.out.println();
         System.out.println("Jouons, mais commençons par créer le taquin \n" +
-                            "De quelle taile voulez vous que votre Taquin soit ?");
+                "De quelle taile voulez vous que votre Taquin soit ?");
         creationTaquin();
         this.configuration.afficher();
         joueurOuRobot();
@@ -53,12 +53,12 @@ public class Jeu {
         }else if (reponseEstVraie(s, "non")) {
             return false;
         }
-        String rep = this.joueur.demanderStr("Je n'ai pas compris (o)ui ou (n)on?");
+        String rep = this.demanderStr("Je n'ai pas compris (o)ui ou (n)on?");
         return ouiOuNon(rep);
     }
 
     public boolean jouerOuRegles() {
-        String reponse = this.joueur.demanderStr("Voulez-vous (j)ouer ou (a)pprendre les règles?");
+        String reponse = this.demanderStr("Voulez-vous (j)ouer ou (a)pprendre les règles?");
         if (reponseEstVraie(reponse, "jouer")) {
             return true;
         } else if (reponseEstVraie(reponse, "apprendre")) {
@@ -71,13 +71,13 @@ public class Jeu {
 
     public void reglesDuTaquin(){
         System.out.println("  ----------------\n"    +
-                           "| Règles du Taquin |\n" +
-                           "  ----------------");
+                "| Règles du Taquin |\n" +
+                "  ----------------");
         System.out.println("Règles : \n"                                                                                        +
-                           "     -Vous avez un tableau de N*N cases \n"                                                         +
-                           "     -Le tableau est mélangé avec des cases allant de 0 à N*N - 1 \n"                               +
-                           "     -La case vide (0) doit être déplacé (si c'est possible) vers le haut, bas, gauche et droite\n" +
-                           "     -Votre but est de le trier (at d'arriver a la configuration finale le plus rapidement possible, avec un minimum de coups");
+                "     -Vous avez un tableau de N*N cases \n"                                                         +
+                "     -Le tableau est mélangé avec des cases allant de 0 à N*N - 1 \n"                               +
+                "     -La case vide (0) doit être déplacé (si c'est possible) vers le haut, bas, gauche et droite\n" +
+                "     -Votre but est de le trier (at d'arriver a la configuration finale le plus rapidement possible, avec un minimum de coups");
         System.out.println("Exemple :");
         System.out.println(" Un tableau de taille 3 x 3 ressemble à : ");
         Configuration exemple = new Configuration(3, 3);
@@ -91,7 +91,7 @@ public class Jeu {
     }
 
     public void creationTaquin(){
-        String rep = this.joueur.demanderStr("Choisissez une taille entre 3 et 10 compris : ");
+        String rep = this.demanderStr("Choisissez une taille entre 3 et 10 compris : ");
         if(estInteger(rep)){
             int x = Integer.parseInt(rep);
             if(x < 3 || x > 10){
@@ -109,7 +109,7 @@ public class Jeu {
     }
 
     public void joueurOuRobot(){
-        String rep = this.joueur.demanderStr("Souhaitez-vous (j)ouer ou laisser le (r)obot faire?");
+        String rep = this.demanderStr("Souhaitez-vous (j)ouer ou laisser le (r)obot faire?");
         if(reponseEstVraie(rep, "jouer")){
             this.joueur.setRobot(false);
             System.out.println("Bonne chance");
@@ -144,7 +144,7 @@ public class Jeu {
     }
 
     public void demanderMouvement(){
-        String s = joueur.demanderStr("Où voulez-vous déplacer le 0 ? ( (h)aut, (b)as, (g)auche, (d)roite )");
+        String s = demanderStr("Où voulez-vous déplacer le 0 ? ( (h)aut, (b)as, (g)auche, (d)roite )");
         if(mouvementExiste(s) == null || !this.configuration.mouvement(s)){
             System.out.println("Mouvement non valide.");
             demanderMouvement();
@@ -152,9 +152,9 @@ public class Jeu {
     }
 
     public void rejouerOuQuitter(){
-        String rep = joueur.demanderStr("Souhaitez-vous (r)ejouer ou (q)uitter ?");
+        String rep = demanderStr("Souhaitez-vous (r)ejouer ou (q)uitter ?");
         if(reponseEstVraie(rep, "quitter")){
-            this.joueur.finir();
+            this.scanner.close();
             System.out.println("A bientôt");
             System.exit(0);
         }else if(reponseEstVraie(rep, "rejouer")){
@@ -200,6 +200,12 @@ public class Jeu {
         if(donne.toLowerCase().equals(voulu.toLowerCase())) // donne == voulu
             return true;
         return donne.toLowerCase().equals("" + voulu.toLowerCase().charAt(0)); // si donne == v return true, false sinon
+    }
+
+
+    public String demanderStr(String q) {
+        System.out.println(q);
+        return scanner.next();
     }
 
 }
