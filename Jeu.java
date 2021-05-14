@@ -27,7 +27,7 @@ public class Jeu {
     public void jouer() {
         System.out.println();
         System.out.println("Jouons, mais commençons par créer le taquin \n" +
-                            "De quelle taile voulez vous que votre Taquin soit ?");
+                "De quelle taile voulez vous que votre Taquin soit ?");
         creationTaquin();
         this.configuration.afficher();
         joueurOuRobot();
@@ -71,13 +71,13 @@ public class Jeu {
 
     public void reglesDuTaquin(){
         System.out.println("  ----------------\n"    +
-                           "| Règles du Taquin |\n" +
-                           "  ----------------");
+                "| Règles du Taquin |\n" +
+                "  ----------------");
         System.out.println("Règles : \n"                                                                                        +
-                           "     -Vous avez un tableau de N*N cases \n"                                                         +
-                           "     -Le tableau est mélangé avec des cases allant de 0 à N*N - 1 \n"                               +
-                           "     -La case vide (0) doit être déplacé (si c'est possible) vers le haut, bas, gauche et droite\n" +
-                           "     -Votre but est de le trier (at d'arriver a la configuration finale le plus rapidement possible, avec un minimum de coups");
+                "     -Vous avez un tableau de N*N cases \n"                                                         +
+                "     -Le tableau est mélangé avec des cases allant de 0 à N*N - 1 \n"                               +
+                "     -La case vide (0) doit être déplacé (si c'est possible) vers le haut, bas, gauche et droite\n" +
+                "     -Votre but est de le trier (at d'arriver a la configuration finale le plus rapidement possible, avec un minimum de coups");
         System.out.println("Exemple :");
         System.out.println(" Un tableau de taille 3 x 3 ressemble à : ");
         Configuration exemple = new Configuration(3, 3);
