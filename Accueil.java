@@ -184,12 +184,17 @@ public class Accueil extends JFrame{
     public JPanel getHelpPanel(){
       JPanel help = new JPanel();
       help.setLayout(null);
-      JButton toAcceuil = new JButton("Retour a la page d accueil");
+      JButton toAcceuil = new JButton("Retour a la page d'accueil");
       help.add(toAcceuil);
       toAcceuil.setBounds(100,500,1050,150);
-      JLabel regle = new JLabel("Mettre help");
-      help.add(regle);
-      regle.setBounds(50,50,1150,400);
+      JLabel texte=new JLabel("<html>Résolution manuelle :<br>Afin de résoudre le célèbre jeu du taquin, il faut déplacer les cases verticalement et horizontalement sur la case vide.<br>Une fois avoir déplacer les cases nécéssaires et qu'elles sont dans l'ordre croissant, vous avez gagnez !<br><br>Résolution automatique :<br>Sélectionner la taille de la configuation de taquin souhaité.<br>Choisir l'algorithme de votre choix.<br>Cliquez sur Lancer !<br></html>");
+      JLabel continuation=new JLabel("Profitez bien du jeu !!!");
+      texte.setFont(new Font("New Times Roman", Font.BOLD, 15));
+      texte.setBounds(50,50,1150,400);
+      continuation.setBounds(500,150,1150,400);
+      continuation.setFont(new Font("New Times Roman", Font.BOLD, 17));
+      help.add(texte);
+      help.add(continuation);
 
       toAcceuil.addActionListener(
           (ActionEvent e)->{
