@@ -16,7 +16,9 @@ public class Jeu {
         System.out.println("  ------");
         System.out.println("| TAQUIN |");
         System.out.println("  ------");
-        this.joueur.setNom(demanderStr("Comment vous appelez-vous ?"));
+        System.out.println("Comment vous appelez-vous ?");
+        String pseudo = scanner.nextLine();
+        this.joueur.setNom(pseudo);
         System.out.println("Bienvenue " + joueur.getNom() + " !");
         if(!jouerOuRegles()){
             reglesDuTaquin();
@@ -53,12 +55,14 @@ public class Jeu {
         }else if (reponseEstVraie(s, "non")) {
             return false;
         }
-        String rep = this.demanderStr("Je n'ai pas compris (o)ui ou (n)on?");
+        System.out.println("Je n'ai pas compris (o)ui ou (n)on?");
+        String rep = scanner.nextLine();
         return ouiOuNon(rep);
     }
 
     public boolean jouerOuRegles() {
-        String reponse = this.demanderStr("Voulez-vous (j)ouer ou (a)pprendre les règles?");
+        System.out.println("Voulez-vous (j)ouer ou (a)pprendre les règles?");
+        String reponse = scanner.nextLine();
         if (reponseEstVraie(reponse, "jouer")) {
             return true;
         } else if (reponseEstVraie(reponse, "apprendre")) {
@@ -91,7 +95,8 @@ public class Jeu {
     }
 
     public void creationTaquin(){
-        String rep = this.demanderStr("Choisissez une taille entre 3 et 10 compris : ");
+        System.out.println("Choisissez une taille entre 3 et 10 compris : ");
+        String rep = scanner.nextLine();
         if(estInteger(rep)){
             int x = Integer.parseInt(rep);
             if(x < 3 || x > 10){
@@ -109,7 +114,8 @@ public class Jeu {
     }
 
     public void joueurOuRobot(){
-        String rep = this.demanderStr("Souhaitez-vous (j)ouer ou laisser le (r)obot faire?");
+        System.out.println("Souhaitez-vous (j)ouer ou laisser le (r)obot faire?");
+        String rep = scanner.nextLine();
         if(reponseEstVraie(rep, "jouer")){
             this.joueur.setRobot(false);
             System.out.println("Bonne chance");
@@ -144,7 +150,8 @@ public class Jeu {
     }
 
     public void demanderMouvement(){
-        String s = demanderStr("Où voulez-vous déplacer le 0 ? ( (h)aut, (b)as, (g)auche, (d)roite )");
+        System.out.println("Où voulez-vous déplacer le 0 ? ( (h)aut, (b)as, (g)auche, (d)roite )");
+        String s = scanner.nextLine();
         if(mouvementExiste(s) == null || !this.configuration.mouvement(s)){
             System.out.println("Mouvement non valide.");
             demanderMouvement();
@@ -152,7 +159,8 @@ public class Jeu {
     }
 
     public void rejouerOuQuitter(){
-        String rep = demanderStr("Souhaitez-vous (r)ejouer ou (q)uitter ?");
+        System.out.println("Souhaitez-vous (r)ejouer ou (q)uitter ?");
+        String rep = scanner.nextLine();
         if(reponseEstVraie(rep, "quitter")){
             this.scanner.close();
             System.out.println("A bientôt");
@@ -202,10 +210,5 @@ public class Jeu {
         return donne.toLowerCase().equals("" + voulu.toLowerCase().charAt(0)); // si donne == v return true, false sinon
     }
 
-
-    public String demanderStr(String q) {
-        System.out.println(q);
-        return scanner.next();
-    }
 
 }
