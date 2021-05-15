@@ -1,4 +1,3 @@
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Jeu {
@@ -6,12 +5,19 @@ public class Jeu {
     private Joueur joueur;
     private Configuration configuration;
 
+    /**
+     * Constructeur de la classe Jeu
+     */
+
     public Jeu() {
         this.scanner = new Scanner(System.in);
         this.joueur = new Joueur();
         this.nouvellePartie();
     }
 
+    /**
+     * Appelle les fonctions pour cr&eacute;er une partie de taquin du début &agrave; la fin
+     */
     public void nouvellePartie(){
         System.out.println("  ------");
         System.out.println("| TAQUIN |");
@@ -25,6 +31,10 @@ public class Jeu {
         }
         jouer();
     }
+
+    /**
+     * M&eacute;thode demandant la taille du taquin souhait&eacute; et si on r&eacute;sout le taquin manuellement ou automatiquement
+     */
 
     public void jouer() {
         System.out.println();
@@ -49,16 +59,10 @@ public class Jeu {
         rejouerOuQuitter();
     }
 
-    public boolean ouiOuNon(String s){
-        if (reponseEstVraie(s, "oui")) {
-            return true;
-        }else if (reponseEstVraie(s, "non")) {
-            return false;
-        }
-        System.out.println("Je n'ai pas compris (o)ui ou (n)on?");
-        String rep = scanner.nextLine();
-        return ouiOuNon(rep);
-    }
+    /**
+     * Cette fonction retourne soit la partie à jouer ou afficher les r&egrave; du jeu
+     * @return
+     */
 
     public boolean jouerOuRegles() {
         System.out.println("Voulez-vous (j)ouer ou (a)pprendre les règles?");
@@ -72,6 +76,10 @@ public class Jeu {
             return jouerOuRegles();
         }
     }
+
+    /**
+     * Affichage des regles du jeu
+     */
 
     public void reglesDuTaquin(){
         System.out.println("  ----------------\n"    +
@@ -94,6 +102,10 @@ public class Jeu {
         System.out.println("  " + res.getChemin());
     }
 
+    /**
+     * Cr&eacute;ation d'une configuration avec la taille souhaité
+     */
+
     public void creationTaquin(){
         System.out.println("Choisissez une taille entre 3 et 10 compris : ");
         String rep = scanner.nextLine();
@@ -112,6 +124,10 @@ public class Jeu {
             creationTaquin();
         }
     }
+    
+    /**
+     * Fonction donnant le choix entre une resolution manuelle ou automatique avec un des algorithmes
+     */
 
     public void joueurOuRobot(){
         System.out.println("Souhaitez-vous (j)ouer ou laisser le (r)obot faire?");
@@ -149,6 +165,10 @@ public class Jeu {
         }
     }
 
+    /**
+     * Fonction demandant notre choix de déplacement
+     */
+
     public void demanderMouvement(){
         System.out.println("Où voulez-vous déplacer le 0 ? ( (h)aut, (b)as, (g)auche, (d)roite )");
         String s = scanner.nextLine();
@@ -157,6 +177,10 @@ public class Jeu {
             demanderMouvement();
         }
     }
+
+    /**
+     * Fonction de fin de partie, le joueur peut choisir entre partir ou de rejouer une nouvelle partie
+     */
 
     public void rejouerOuQuitter(){
         System.out.println("Souhaitez-vous (r)ejouer ou (q)uitter ?");
@@ -173,7 +197,11 @@ public class Jeu {
         }
     }
 
-    // verifie que le string du mouvement existe
+    /**
+     * Verification si les mouvements demand&eacute;s sont existants
+     * @param s une chaine de caract&egrave;
+     * @return chaine de caracteme si elle est valide
+     */
     public String mouvementExiste(String s){
         switch (s.toLowerCase()) {
             case "h":

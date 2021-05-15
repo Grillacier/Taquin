@@ -1,8 +1,12 @@
-import java.lang.reflect.Type;
-
 public class Algorithme {
     private Object algo;
     private Configuration config;
+
+    /**
+     * Constructeur de la classe Algorithme
+     * @param c Configuration initiale
+     * @param a Algorithme qu'on utilise pour la r&eacute;solution
+     */
 
     public Algorithme(Configuration c, Object a){
         this.algo = a;

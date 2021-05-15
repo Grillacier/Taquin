@@ -10,6 +10,10 @@ public class Joueur implements Serializable{
         this.robot = false;
     }
 
+    /**
+     * Fonction de sauvegarde
+     */
+
     public void sauvegarder(){
         try {
             File f = new File("joueur.dat");

@@ -1,6 +1,4 @@
-import java.util.Arrays;
 import java.util.*;
-import java.util.Random;
 
 public class Configuration {
 	private int hauteur, largeur; // taille du tableau
@@ -149,40 +147,6 @@ public class Configuration {
 		g.setTableau(tab);
 		return g;
 	}
-
-	/** Recherche une valeur dans la configuration et renvoie sa coordonn&eacute;e X
-	* @param n valeur recherch&eacute;e
-	* @return coordonn&eacute;e X de l'&eacute;l&eacute;ment recherch&eacute;
-	*/
-	public int xValue(int n) {
-        int x = -1; //initialisation de x (-1 = c n'existe pas dans le plateau)
-        for (int i=0; i<this.tableau.length; i++) {
-            for (int j=0; j<this.tableau[i].length; j++) {
-                if (this.tableau[i][j]==n) {
-                    x = i;
-                    break;
-                }
-            }
-        }
-        return x;
-    }
-
-    /** Recherche une valeur dans la configuration et renvoie sa coordonn&eacute;e Y
-     * @param n valeur recherch&eacute;e
-     * @return coordonn&eacute;e Y de l'&eacute;l&eacute;ment recherch&eacute;
-     */
-    public int yValue(int n) {
-        int y = -1; //initialisation de y (-1 = c n'existe pas dans le plateau)
-        for (int i=0; i<this.tableau.length; i++) {
-            for (int j=0; j<this.tableau[i].length; j++) {
-                if (this.tableau[i][j]==n) {
-                    y = j;
-                    break;
-                }
-            }
-        }
-        return y;
-    }
 
 	/**
      * Affiche la taquin de facon claire
@@ -454,6 +418,10 @@ public class Configuration {
 	public void setChemin(String chemin) {
 		this.chemin = chemin;
 	}
+
+	/**
+	 * Surcharge de la méthode equals()
+	 */
 
 	@Override
 	public boolean equals(Object o) {
