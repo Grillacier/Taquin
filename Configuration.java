@@ -9,6 +9,7 @@ public class Configuration implements Serializable {
 	private ArrayList<Configuration> parent;
 	private ArrayList<Configuration> successeur;
 	private String[] deplacements;
+	private static final long serialVersionUID = 2700826667261131736L;
 
 	/**
 	 * Constructeur de Configuration
