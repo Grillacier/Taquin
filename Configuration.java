@@ -1,25 +1,23 @@
-import java.io.Serializable;
 import java.util.*;
 
-public class Configuration implements Serializable {
+public class Configuration {
 	private int hauteur, largeur; // taille du tableau
 	private int x , y; // coordonnees de la case vide
-	private int[][] tableau, tableauInitial;
+	private int[][] tableau;
 	private String chemin;
 	private ArrayList<Configuration> parent;
 	private ArrayList<Configuration> successeur;
 	private String[] deplacements;
 
 	/**
-	 * Constructeur de Configuration
+     * Constructeur de Configuration
 	 * @param h Hauteur de la nouvelle configuration
-	 * @param l Largeur de la nouvelle configuration
+     * @param l Largeur de la nouvelle configuration
 	 */
 	public Configuration(int h, int l){
 		this.hauteur = h;
 		this.largeur = l;
 		this.tableau = new int[h][l];
-		this.tableauInitial = this.tableau;
 		this.creationTableau();
 		this.chemin = "";
 		this.parent = new ArrayList<>();
@@ -27,16 +25,16 @@ public class Configuration implements Serializable {
 		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
 	}
 
-	/**
-	 * Constructeur de Configuration qui copie une Configuration d&eacute;j&agrave; existante
-	 * @param c Configuration &agrave; copier
-	 */
+    /**
+     * Constructeur de Configuration qui copie une Configuration d&eacute;j&agrave; existante
+     * @param c Configuration &agrave; copier
+     */
 	public Configuration(Configuration c){
 		this.hauteur = c.hauteur;
 		this.largeur = c.largeur;
 		this.tableau = new int[this.hauteur][this.largeur];
 		this.copier(c);
-		this.successeur = new ArrayList<>();
+        this.successeur = new ArrayList<>();
 		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
 	}
 
@@ -45,15 +43,15 @@ public class Configuration implements Serializable {
 	 * @param t tableau &agrave; copier
 	 */
 	public Configuration(int[][] t) {
-		this.hauteur = t.length;
-		this.largeur = t[0].length;
-		this.tableau = t;
-		initialisationXY();
-		this.chemin = "";
-		this.parent = new ArrayList<>();
-		this.successeur = new ArrayList<>();
-		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
-	}
+	    this.hauteur = t.length;
+	    this.largeur = t[0].length;
+	    this.tableau = t;
+	    initialisationXY();
+        this.chemin = "";
+        this.parent = new ArrayList<>();
+        this.successeur = new ArrayList<>();
+        this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
+    }
 
 
 	/**
@@ -66,15 +64,14 @@ public class Configuration implements Serializable {
 				this.tableau[i][j] = c.tableau[i][j];
 			}
 		}
-		this.tableauInitial = c.tableauInitial;
 		this.chemin = c.chemin;
 		this.x = c.x;
 		this.y = c.y;
 	}
 
-	/**
-	 * Initialise les coordonn&eacute;es x et y de la case vide
-	 */
+    /**
+     * Initialise les coordonn&eacute;es x et y de la case vide
+     */
 	public void initialisationXY () {
 		for (int i=0; i<this.hauteur; i++) {
 			for (int j=0; j<this.largeur; j++) {
@@ -87,8 +84,8 @@ public class Configuration implements Serializable {
 	}
 
 	/**
-	 * M&eacute;lange le tableau afin d'obtenir une configuration al&eacute;atoire
-	 */
+	* M&eacute;lange le tableau afin d'obtenir une configuration al&eacute;atoire
+	*/
 	public void melangerTableau(){
 		for (int i=0; i<this.hauteur; i++) {
 			for (int j=0; j<this.largeur; j++) {
@@ -105,8 +102,8 @@ public class Configuration implements Serializable {
 	}
 
 	/**
-	 * M&eacute;lange le tableau afin d'obtenir une configuration al&eacute;atoire et soluble
-	 */
+	* M&eacute;lange le tableau afin d'obtenir une configuration al&eacute;atoire et soluble
+	*/
 	public void creationTableau(){
 		int a = 0;
 		for(int i=0; i<this.hauteur; i++) {
@@ -121,21 +118,21 @@ public class Configuration implements Serializable {
 		}
 	}
 
-	/**
-	 * Renvoie un chiffre al&eacute;atoire dans un intervalle born&eacute;
-	 * @param min valeur minimale de l'intervalle
-	 * @param max valeur maximale de l'intervalle
-	 * @return int al&eacute;atoire dont la valeur est comprise entre min et max
-	 */
+    /**
+     * Renvoie un chiffre al&eacute;atoire dans un intervalle born&eacute;
+     * @param min valeur minimale de l'intervalle
+     * @param max valeur maximale de l'intervalle
+     * @return int al&eacute;atoire dont la valeur est comprise entre min et max
+     */
 	public int chiffreAleatoire(int min, int max) {
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
 	}
 
-	/**
-	 * Modifie la configuration pour la rendre gagante
-	 * @return une configuration dont les cases sont rang&eacute;es dans l'ordre croissant
-	 */
+    /**
+     * Modifie la configuration pour la rendre gagante
+     * @return une configuration dont les cases sont rang&eacute;es dans l'ordre croissant
+     */
 	public Configuration tableauFinal() {
 		Configuration g = new Configuration(this.hauteur, this.largeur);
 		int[][] tab = new int[this.hauteur][this.largeur];
@@ -151,9 +148,8 @@ public class Configuration implements Serializable {
 		return g;
 	}
 
-
 	/**
-	 * Affiche la taquin de facon claire
+     * Affiche la taquin de facon claire
 	 */
 	public void afficher(){
 		int size;
@@ -179,7 +175,7 @@ public class Configuration implements Serializable {
 	}
 
 	/**
-	 * V&eacute;rifie si le plateau est en position finale et donc si je le jeu est fini
+     * V&eacute;rifie si le plateau est en position finale et donc si je le jeu est fini
 	 * @return true si la configuration est r&eacute;solue, false sinon
 	 */
 	public boolean jeuGagne(){
@@ -198,35 +194,35 @@ public class Configuration implements Serializable {
 	}
 
 	/**
-	 * Permet de deplacer la case vide du taquin en entrant la direction si le mouvement est autoris&eacute;
+     * Permet de deplacer la case vide du taquin en entrant la direction si le mouvement est autoris&eacute;
 	 * @param dir direction demand&eacute;e, "haut" , "bas", "droite" ou "gauche"
 	 * @return true si le d&eacute;placement est possible et appliqu&eacute;, sinon false
 	 */
-	public boolean mouvement(String dir){
-		if((dir.toLowerCase().charAt(0) == 'h' || dir.toLowerCase().equals("haut")) && this.x>0){
-			chemin += "H";
-			echangeCase(this.x-1, this.y);
-			return true;
-		} else if((dir.toLowerCase().charAt(0) == 'b' || dir.toLowerCase().equals("bas")) && this.x<this.hauteur-1){
-			chemin += "B";
-			echangeCase(this.x+1, this.y);
-			return true;
-		} else if((dir.toLowerCase().charAt(0) == 'd' || dir.toLowerCase().equals("droite")) && this.y<this.largeur-1){
-			chemin += "D";
-			echangeCase(this.x, this.y+1);
-			return true;
-		} else if((dir.toLowerCase().charAt(0) == 'g' || dir.toLowerCase().equals("gauche")) && this.y>0){
-			chemin += "G";
-			echangeCase(this.x, this.y-1);
-			return true;
-		}
-		return false;
-	}
+    public boolean mouvement(String dir){
+        if((dir.toLowerCase().charAt(0) == 'h' || dir.toLowerCase().equals("haut")) && this.x>0){
+            chemin += "H";
+            echangeCase(this.x-1, this.y);
+            return true;
+        } else if((dir.toLowerCase().charAt(0) == 'b' || dir.toLowerCase().equals("bas")) && this.x<this.hauteur-1){
+            chemin += "B";
+            echangeCase(this.x+1, this.y);
+            return true;
+        } else if((dir.toLowerCase().charAt(0) == 'd' || dir.toLowerCase().equals("droite")) && this.y<this.largeur-1){
+            chemin += "D";
+            echangeCase(this.x, this.y+1);
+            return true;
+        } else if((dir.toLowerCase().charAt(0) == 'g' || dir.toLowerCase().equals("gauche")) && this.y>0){
+            chemin += "G";
+            echangeCase(this.x, this.y-1);
+            return true;
+        }
+        return false;
+    }
 
 
-	/**
-	 * Rempli la liste des successeurs du tableau
-	 */
+    /**
+     * Rempli la liste des successeurs du tableau
+     */
 	public void successeurs(){
 		for(int i=0; i<deplacements.length; i++){
 			Configuration tmp = new Configuration(this);
@@ -237,10 +233,10 @@ public class Configuration implements Serializable {
 	}
 
 	/**
-	 * &Eacute;change une case en param&egrave;tre avec la case vide
+     * &Eacute;change une case en param&egrave;tre avec la case vide
 	 * @param caseX coordonn&eacute;e X de la case &agrave; &eacute;changer
 	 * @param caseY coordonn&eacute;e Y de la case &agrave; &eacute;changer
-	 */
+	*/
 	public void echangeCase(int caseX, int caseY){
 		int case0 = this.tableau[this.x][this.y];
 		this.tableau[this.x][this.y] = this.tableau[caseX][caseY];
@@ -250,7 +246,7 @@ public class Configuration implements Serializable {
 	}
 
 	/**
-	 * Renvoie la configuration sous forme de String
+     * Renvoie la configuration sous forme de String
 	 * @return String correspondant &agrave; la configuration actuelle
 	 */
 	public String tableauEnString(){
@@ -263,10 +259,10 @@ public class Configuration implements Serializable {
 		return s;
 	}
 
-	/**
-	 * Heuristique de manhattan
-	 * @return la distance s&eacute;parant la configuration actuelle &agrave; celle r&eacute;solue
-	 */
+    /**
+     * Heuristique de manhattan
+     * @return la distance s&eacute;parant la configuration actuelle &agrave; celle r&eacute;solue
+     */
 	public int manhattanHeuristique(){
 		Configuration fin = this.tableauFinal();
 		int val = 0;
@@ -288,7 +284,7 @@ public class Configuration implements Serializable {
 	}
 
 	/**
-	 * Renvoie la configuration sous forme d'un tableau d'int
+     * Renvoie la configuration sous forme d'un tableau d'int
 	 * @return un tableau de int correspondant &agrave; la configuration actuelle
 	 */
 	public int[] conversion() {
@@ -303,129 +299,129 @@ public class Configuration implements Serializable {
 		return tab;
 	}
 
-	/**
-	 * Renvoie la configuration sous forme d'un tableau de tableaux d'int
-	 * @return un tableau de tableaux de int correspondant &agrave; la configuration actuelle
-	 */
+    /**
+     * Renvoie la configuration sous forme d'un tableau de tableaux d'int
+     * @return un tableau de tableaux de int correspondant &agrave; la configuration actuelle
+     */
 	public int[][] copierTab() {
-		int[][] tab = new int[this.hauteur][this.largeur];
-		for (int i = 0; i < this.hauteur; i++) {
-			for (int j = 0; j < this.largeur; j++) {
-				tab[i][j] = this.tableau[i][j];
-			}
-		}
-		return tab;
-	}
+	    int[][] tab = new int[this.hauteur][this.largeur];
+	    for (int i = 0; i < this.hauteur; i++) {
+	        for (int j = 0; j < this.largeur; j++) {
+	            tab[i][j] = this.tableau[i][j];
+            }
+        }
+	    return tab;
+    }
 
 	/**
-	 * Tri le tableau du taquin afin de compter le nombre d'echanges et de deplacements
+     * Tri le tableau du taquin afin de compter le nombre d'echanges et de deplacements
 	 * @return nombre d'&eacute;changes et nombre de d&eacute;placements de la case vide
 	 */
-	public int[] triEchangeParite() {
-		int[] tab = conversion(); // plateau converti en tableau d'entiers
-		Configuration copie = new Configuration(copierTab()); // plateau converti en tableau de tableaux d'entiers
-		int[] res = new int[2];
-		int nbEchanges = 0; // nombre de deplacements total des Cases
-		int tmp;
+    public int[] triEchangeParite() {
+        int[] tab = conversion(); // plateau converti en tableau d'entiers
+        Configuration copie = new Configuration(copierTab()); // plateau converti en tableau de tableaux d'entiers
+        int[] res = new int[2];
+        int nbEchanges = 0; // nombre de deplacements total des Cases
+        int tmp;
 
-		//calcul du nombre d'echanges
-		for (int i = 0; i < tab.length-1; i++) {
-			for (int j = i+1; j < tab.length; j++) {
-				if (tab[i] == 0) {
-					nbEchanges++;
-					tmp = tab[j];
-					tab[j] = tab[i];
-					tab[i] = tmp;
-				}
-				if (tab[j] == 0) {
-					continue;
-				}
-				else {
-					if (tab[i] > tab[j]) {
-						nbEchanges++;
-						tmp = tab[i];
-						tab[i] = tab[j];
-						tab[j] = tmp;
-					}
-				}
-			}
-		}
+        //calcul du nombre d'echanges
+        for (int i = 0; i < tab.length-1; i++) {
+            for (int j = i+1; j < tab.length; j++) {
+                if (tab[i] == 0) {
+                    nbEchanges++;
+                    tmp = tab[j];
+                    tab[j] = tab[i];
+                    tab[i] = tmp;
+                }
+                 if (tab[j] == 0) {
+                    continue;
+                }
+                else {
+                    if (tab[i] > tab[j]) {
+                        nbEchanges++;
+                        tmp = tab[i];
+                        tab[i] = tab[j];
+                        tab[j] = tmp;
+                    }
+                }
+            }
+        }
 
-		//calcul de la parite du 0
-		while (copie.tableau[copie.hauteur-1][copie.largeur-1] != 0) {
-			copie.mouvement("droite");
-			copie.mouvement("bas");
-		}
+        //calcul de la parite du 0
+        while (copie.tableau[copie.hauteur-1][copie.largeur-1] != 0) {
+            copie.mouvement("droite");
+            copie.mouvement("bas");
+        }
 
-		res[0] = nbEchanges;
-		res[1] = copie.chemin.length();
-		return res;
-	}
+        res[0] = nbEchanges;
+        res[1] = copie.chemin.length();
+        return res;
+    }
 
 	/**
-	 * V&eacute;rifie que la configuration est soluble en fonction de la position de la case vide
+     * V&eacute;rifie que la configuration est soluble en fonction de la position de la case vide
 	 * @return true si la configuration est soluble, sinon non
 	 */
 	public boolean estSoluble() {
-		return triEchangeParite()[0] % 2 == triEchangeParite()[1] % 2;
+	    return triEchangeParite()[0] % 2 == triEchangeParite()[1] % 2;
 	}
 
 
-	public int getX() {
-		return x;
-	}
+		public int getX() {
+			return x;
+		}
 
-	public int getY() {
-		return y;
-	}
+		public int getY() {
+			return y;
+		}
 
-	public void setX(int x) {
-		this.x = x;
-	}
+		public void setX(int x) {
+			this.x = x;
+		}
 
-	public void setY(int y) {
-		this.y = y;
-	}
+		public void setY(int y) {
+			this.y = y;
+		}
 
-	public int getHauteur() {
-		return hauteur;
-	}
+		public int getHauteur() {
+			return hauteur;
+		}
 
-	public int getLargeur() {
-		return largeur;
-	}
+		public int getLargeur() {
+			return largeur;
+		}
 
-	public int[][] getTableau() {
-		return tableau;
-	}
+		public int[][] getTableau() {
+			return tableau;
+		}
 
-	public void setTableau(int[][] tableau) {
-		this.tableau = tableau;
-	}
+		public void setTableau(int[][] tableau) {
+			this.tableau = tableau;
+		}
 
-	public String getChemin() {
-		return chemin;
-	}
+		public String getChemin() {
+			return chemin;
+		}
 
-	public ArrayList<Configuration> getParent() {
-		return this.parent;
-	}
+	    public ArrayList<Configuration> getParent() {
+	        return this.parent;
+	    }
 
-	public ArrayList<Configuration> getSuccesseur() {
-		return this.successeur;
-	}
+		public ArrayList<Configuration> getSuccesseur() {
+			return this.successeur;
+		}
 
-	public String[] getDeplacements() {
-		return deplacements;
-	}
+		public String[] getDeplacements() {
+			return deplacements;
+		}
 
 	public void setChemin(String chemin) {
 		this.chemin = chemin;
 	}
 
-	public int[][] getTableauInitial() {
-		return tableauInitial;
-	}
+	/**
+	 * Surcharge de la méthode equals()
+	 */
 
 	@Override
 	public boolean equals(Object o) {
