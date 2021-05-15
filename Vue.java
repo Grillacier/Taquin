@@ -83,7 +83,7 @@ public class Vue extends JFrame{
         });
 
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }
 

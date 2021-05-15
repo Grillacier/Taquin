@@ -1,10 +1,13 @@
 import java.lang.reflect.Type;
 import java.util.*;
 import javax.swing.*;
+import java.util.Scanner;
 
 public class TaquinLanceur {
 
     public static void main(String[] args) {
+	
+	
 
         //Jeu jeu = new Jeu();
 
@@ -30,6 +33,39 @@ public class TaquinLanceur {
         //Algorithme d = new Algorithme(c, new Dijkstra(c));
 
         //Graphique g=new Graphique();
-        Accueil a=new Accueil();  
+         //Accueil a=new Accueil();  
+
+	boolean run = true;
+	while(run == true){
+		run = launcher();
+
+	}
+	System.out.println("Fermeture");
+
+	
+	
+	 
     }
+
+    public static boolean launcher(){
+	Scanner scan = new Scanner(System.in);
+	System.out.println("Souhaitez vous lancer le taquin en mode (t)erminal, en mode (g)raphique ou bien (q)uitter?");
+	
+	String command = scan.next();
+	if(command.equals("t") == true){
+		Jeu jeu = new Jeu();
+		return true;
+	}
+	if(command.equals("g")== true){
+		Vue a=new Vue();
+		return true;
+	}
+	if(command.equals("q")== true){
+		return false;
+		
+	}
+	System.out.println("Commande inconnue");
+	return true;	
+
+	}
 }

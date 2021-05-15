@@ -186,9 +186,7 @@ public class Jeu {
         System.out.println("Souhaitez-vous (r)ejouer ou (q)uitter ?");
         String rep = scanner.nextLine();
         if(reponseEstVraie(rep, "quitter")){
-            this.scanner.close();
             System.out.println("A bientôt");
-            System.exit(0);
         }else if(reponseEstVraie(rep, "rejouer")){
             jouer();
         }else{
