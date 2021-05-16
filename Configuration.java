@@ -285,6 +285,23 @@ public class Configuration implements Serializable {
 		return val;
 	}
 
+	public String directionMouvement(int caseX, int caseY){
+		int differenceCaseVide = Math.abs(caseX-this.x) + Math.abs(caseY-this.y);
+		String dir = " ";
+		if(differenceCaseVide == 1){
+			if(caseX > this.x){
+				dir = "bas";
+			}else if(caseX < this.x){
+				dir = "haut";
+			}else if(caseY > this.y){
+				dir = "droite";
+			}else if(caseY < this.y){
+				dir = "gauche";
+			}
+		}
+		return dir;
+	}
+
 	/**
 	 * Renvoie la configuration sous forme d'un tableau d'int
 	 * @return un tableau de int correspondant &agrave; la configuration actuelle

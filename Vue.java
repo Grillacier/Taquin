@@ -14,10 +14,12 @@ public class Vue extends JFrame{
     private JButton jouer, charger, regles, validerPseudo, retourAccueil, pcel, aEtoile, dijk, generer;
     private JSlider taille;
     private JTextField pseudo;
+    private Configuration configuration;
 
     public Vue(){
         joueur = new Joueur();
         joueur.lire();
+        configuration = new Configuration(3,3);
         this.setTitle("Taquin 4");
         this.setSize(1250, 800);
         this.setResizable(false);
@@ -183,20 +185,20 @@ public class Vue extends JFrame{
     }
 
     public void taquinCharger(Configuration c){
-        JPanel chargerTaquin = new JPanel();
-        chargerTaquin.setLayout(null);
-        getContentPane().add(chargerTaquin);
-        chargerTaquin.add(charger);
-        charger.setBounds(530,20,170,80);
-        int tailleBouton = 500/c.getLargeur();
-        for(int i=0; i<c.getHauteur(); i++){
-            for(int j=0; j<c.getLargeur(); j++){
-                int x = c.getTableau()[i][j];
-                if(x != 0) {
-                    JButton tmp = new JButton("" + x);
-                    tmp.setBounds(350+tailleBouton*j, 140+tailleBouton*i,tailleBouton, tailleBouton);
-                    chargerTaquin.add(tmp);
-                }
+            JPanel chargerTaquin = new JPanel();
+            chargerTaquin.setLayout(null);
+            getContentPane().add(chargerTaquin);
+            chargerTaquin.add(charger);
+            charger.setBounds(530,20,170,80);
+            int tailleBouton = 500/c.getLargeur();
+            for(int i=0; i<c.getHauteur(); i++){
+                for(int j=0; j<c.getLargeur(); j++){
+                    int x = c.getTableau()[i][j];
+                    if(x != 0) {
+                        JButton tmp = new JButton("" + x);
+                        tmp.setBounds(350+tailleBouton*j, 140+tailleBouton*i,tailleBouton, tailleBouton);
+                        chargerTaquin.add(tmp);
+                    }
 
             }
         }
@@ -257,72 +259,46 @@ public class Vue extends JFrame{
         this.pageDeJeu.add(this.aEtoile);
         this.pageDeJeu.add(this.pcel);
         this.pageDeJeu.add(this.algo);
-        taquinGenerator(150, 8, 3, 158, 158); // taquin par défaut 3*3;
+        genererTaquin();
 
         this.generer.addActionListener((event) -> {
-            if (this.taille.getValue()==3) {
-                this.panelJeu.removeAll();
-                taquinGenerator(150, 8, 3, 158, 158);
-                this.panelJeu.validate();
-                this.panelJeu.repaint();
-            }
-
-            if (this.taille.getValue()==2) {
-                this.panelJeu.removeAll();
-                taquinGenerator(150, 8, 2, 240, 240);
-                this.panelJeu.validate();
-                this.panelJeu.repaint();
-            }
-
-            if (this.taille.getValue()==4) {
-                this.panelJeu.removeAll();
-                taquinGenerator(155, 14, 4, 115, 115);
-                this.panelJeu.validate();
-                this.panelJeu.repaint();
-            }
-
-            if(this.taille.getValue()==5) {
-                this.panelJeu.removeAll();
-                taquinGenerator(155, 10, 5, 92, 92);
-                this.panelJeu.validate();
-                this.panelJeu.repaint();
-            }
-
-            if(this.taille.getValue()==6) {
-                this.panelJeu.removeAll();
-                taquinGenerator(155, 10, 6, 76, 76);
-                this.panelJeu.validate();
-                this.panelJeu.repaint();
-            }
+            int t = this.taille.getValue();
+            this.panelJeu.removeAll();
+            this.configuration = new Configuration(t,t);
+            genererTaquin();
+            this.panelJeu.validate();
+            this.panelJeu.repaint();
         });
     }
-    // méthode qui affiche le taquin par défaut ici 3*3 dans l'interface graphique
-    public void taquinGenerator(int xPos, int yPos, int taille, int buttonWidth, int buttonHeight) {
-        int xTemp = xPos;
-        Configuration configDefault = new Configuration(taille,taille);
-        for (int i=0; i<configDefault.getHauteur(); i++) {
-            for (int j=0; j<configDefault.getLargeur(); j++) {
-                String b = Integer.toString(configDefault.getTableau()[i][j]);
-                JButton b1 = new JButton (b);
-                b1.setSize(buttonWidth, buttonHeight);
-                b1.setLocation(0+xPos, 0+yPos);
-                b1.setBackground(new Color(252,242,216));
-                xPos+=buttonWidth+5;
-                if (j==taille-1) {
-                    xPos = xTemp;
-                    yPos+=buttonHeight+5;
-                }
-                /*
-                 * je fais en sorte que la case avec un 0 soit vide en étant transparent
-                 * */
-                if (b1.getText().equals("0")) {
-                    b1.setBackground(new Color(139,69,19));
-                    b1.setText(" ");
-                }
 
-                this.panelJeu.add(b1);
+    public void genererTaquin(){
+        int tailleBtn = 460/configuration.getLargeur();
+        for(int i=0; i<configuration.getHauteur(); i++){
+            for(int j=0; j<configuration.getLargeur(); j++){
+                int n = configuration.getTableau()[i][j];
+                if(n != 0) {
+                    String num = Integer.toString(configuration.getTableau()[i][j]);
+                    JButton btn = new JButton(num);
+                    btn.setBounds(180+tailleBtn*j, 20+tailleBtn*i,tailleBtn, tailleBtn);
+                    this.panelJeu.add(btn);
+
+                    int finalI = i;
+                    int finalJ = j;
+
+                    btn.addActionListener((event)->{
+                        configuration.afficher();
+                        String dir = configuration.directionMouvement(finalI, finalJ);
+                        configuration.mouvement(dir);
+                        this.panelJeu.removeAll();
+                        genererTaquin();
+                        this.panelJeu.revalidate();
+                        this.panelJeu.repaint();
+                    });
+                }
             }
-        }}
+        }
+    }
+
 
 
 
