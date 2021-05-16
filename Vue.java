@@ -1,23 +1,11 @@
 import java.util.*;
 import java.io.*;
-import java.lang.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
-import javax.swing.ImageIcon;
-import javax.swing.event.MouseInputListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.BorderLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyListener;
 import java.io.*;
 import javax.imageio.*;
-import java.awt.event.KeyEvent;
 
 public class Vue extends JFrame{
     private Joueur joueur;
@@ -306,156 +294,7 @@ public class Vue extends JFrame{
                 this.panelJeu.validate();
                 this.panelJeu.repaint();
             }
-
-
         });
-
-				/*if(this.hauteur.getValue()==3) {
-					this.panelJeu.removeAll();
-					Configuration c3 = new Configuration (this.hauteur.getValue(),this.largeur.getValue());
-					this.panelJeu.setBounds(140, 210, 430, 420);
-			int a = 11;
-			int c = 5;
-			for (int i=0; i<c3.getHauteur(); i++) {
-				for (int j=0; j<c3.getLargeur(); j++) {
-				String b = Integer.toString(c3.getTableau()[i][j]);
-				JButton b1 = new JButton (b);
-				Bouton b2 = new Bouton (i,j,b1);
-				b2.getButton().setSize(133, 133);
-				b2.getButton().setLocation(0+a, 0+c);
-				b2.getButton().setBackground(new Color(252,242,216));
-				a+=138;
-				 if (j==this.largeur.getValue()-1) {
-						a = 11;
-						c+=138;
-					}
-				 if (b2.getButton().getText().equals("0")) {
-					 b2.getButton().setBackground(new Color(139,69,19));
-					 b2.getButton().setText(" ");
-				 }
-				 jButtonAction(b2,c3);
-
-				this.panelJeu.add(b2.getButton());
-				}
-
-			}
-			}
-				this.panelJeu.revalidate();
-	            this.panelJeu.repaint();
-
-	            if (this.hauteur.getValue()==4) {
-	            	this.panelJeu.removeAll();
-	            	Configuration c4 = new Configuration (this.hauteur.getValue(),this.largeur.getValue());
-	            	this.panelJeu.setBounds(100, 110, 540, 540);
-	            	int a = 13;
-	        		int c = 14;
-	        		for (int i=0; i<c4.getHauteur(); i++) {
-	        			for (int j=0; j<c4.getLargeur(); j++) {
-	        			String b = Integer.toString(c4.getTableau()[i][j]);
-	        			JButton b1 = new JButton (b);
-	        			Bouton b2 = new Bouton (i,j,b1);
-	        			b2.getButton().setSize(125, 125);
-	        			b2.getButton().setLocation(0+a, 0+c);
-	        			b2.getButton().setBackground(new Color(252,242,216));
-	        			a+=130;
-	        			 if (j==3) {
-	        					a = 13;
-	        					c+=130;
-	        				}
-	        			 if (b2.getButton().getText().equals("0")) {
-	        				 b2.getButton().setBackground(new Color(139,69,19));
-	        				 b2.getButton().setText(" ");
-	        			 }
-
-	        			this.panelJeu.add(b2.getButton());
-	        			}
-
-	        		}
-	            }
-
-				this.panelJeu.revalidate();
-	            this.panelJeu.repaint();
-
-	            if(this.hauteur.getValue()==5) {
-	            	this.panelJeu.removeAll();
-	            	Configuration c5 = new Configuration (this.hauteur.getValue(),this.largeur.getValue());
-	            	this.panelJeu.setBounds(100, 110, 540, 540);
-	            	int a = 10;
-	        		int c = 10;
-	        		for (int i=0; i<c5.getHauteur(); i++) {
-	        			for (int j=0; j<c5.getLargeur(); j++) {
-	        			String b = Integer.toString(c5.getTableau()[i][j]);
-	        			JButton b1 = new JButton (b);
-	        			Bouton b2 = new Bouton (i,j,b1);
-	        			b2.getButton().setSize(100, 100);
-	        			b2.getButton().setLocation(0+a, 0+c);
-	        			b2.getButton().setBackground(new Color(252,242,216));
-	        			a+=105;
-	        			 if (j==4) {
-	        					a = 10;
-	        					c+=105;
-	        				}
-	        			 if (b2.getButton().getText().equals("0")) {
-	        				 b2.getButton().setBackground(new Color(139,69,19));
-	        				 b2.getButton().setText(" ");
-	        			 }
-
-	        			this.panelJeu.add(b2.getButton());
-	        			}
-	        	}
-	            }
-	            this.panelJeu.revalidate();
-	            this.panelJeu.repaint();
-
-			}});
-		int a = 11;
-		int c = 5;
-		Configuration cDefault = new Configuration(3,3);
-		for (int i=0; i<cDefault.getHauteur(); i++) {
-			for (int j=0; j<cDefault.getLargeur(); j++) {
-			String b = Integer.toString(cDefault.getTableau()[i][j]);
-			JButton b1 = new JButton (b);
-			Bouton b2 = new Bouton (i,j,b1);
-			b2.getButton().setSize(133, 133);
-			b2.getButton().setLocation(0+a, 0+c);
-			b2.getButton().setBackground(new Color(252,242,216));
-			a+=138;
-			 if (j==this.largeur.getValue()-1) {
-					a = 11;
-					c+=138;
-				}
-			 if (b2.getButton().getText().equals("0")) {
-				 b2.getButton().setBackground(new Color(139,69,19));
-				 b2.getButton().setText(" ");
-			 }
-
-			this.panelJeu.add(b2.getButton());
-			}
-
-		}
-
-	}*/
-
-	/*public void jButtonAction(Configuration c) {
-
-			for (int i=0; i<c.getHauteur(); i++) {
-				for (int j=0; j<c.getLargeur(); j++) {
-						jb.getButton().addActionListener((event) -> {
-							if (c.getTableau()[jb.getX()][jb.getY()]==2) {
-								JButton h = new JButton();
-								Bouton x = new Bouton(0,0,h);
-								jb.setButton(h);
-							}
-							//c.mouvement(c.positionCaseVide(jb.getX(), jb.getY(), c.getTableau()));
-
-							//c.echangeCase(iValue-1, jValue);
-						});
-
-					}
-
-				}*/
-
-
     }
     // méthode qui affiche le taquin par défaut ici 3*3 dans l'interface graphique
     public void taquinGenerator(int xPos, int yPos, int taille, int buttonWidth, int buttonHeight) {
