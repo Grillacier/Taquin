@@ -6,7 +6,6 @@ public class Configuration implements Serializable {
 	private int x , y; // coordonnees de la case vide
 	private int[][] tableau, tableauInitial;
 	private String chemin;
-	private ArrayList<Configuration> parent;
 	private ArrayList<Configuration> successeur;
 	private String[] deplacements;
 	private static final long serialVersionUID = 2700826667261131736L;
@@ -23,7 +22,6 @@ public class Configuration implements Serializable {
 		this.tableauInitial = this.tableau;
 		this.creationTableau();
 		this.chemin = "";
-		this.parent = new ArrayList<>();
 		this.successeur = new ArrayList<>();
 		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
 	}
@@ -51,7 +49,6 @@ public class Configuration implements Serializable {
 		this.tableau = t;
 		initialisationXY();
 		this.chemin = "";
-		this.parent = new ArrayList<>();
 		this.successeur = new ArrayList<>();
 		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
 	}
@@ -406,10 +403,6 @@ public class Configuration implements Serializable {
 
 	public String getChemin() {
 		return chemin;
-	}
-
-	public ArrayList<Configuration> getParent() {
-		return this.parent;
 	}
 
 	public ArrayList<Configuration> getSuccesseur() {
