@@ -10,7 +10,7 @@ import javax.imageio.*;
 public class Vue extends JFrame{
     private Joueur joueur;
     private JPanel accueilHaut, accueilBas, reglesDuJeu, chargerJeux, pageDeJeu, panelJeu;
-    private JLabel height, algo;
+    private JLabel  height, algo, chemin, nbreMouvement, temps;
     private JButton jouer, charger, regles, validerPseudo, retourAccueil, pcel, aEtoile, dijk, generer;
     private JSlider taille;
     private JTextField pseudo;
@@ -270,6 +270,54 @@ public class Vue extends JFrame{
             this.panelJeu.validate();
             this.panelJeu.repaint();
         });
+        
+        this.pcel.addActionListener((event) -> {
+        	long tempsDebut = System.nanoTime();
+        	ParcoursLargeur pl = new ParcoursLargeur(this.configuration);
+        	Configuration c = pl.parcoursEnLargeur();
+        	long tempsFin = System.nanoTime();
+        	String tps = Double.toString(((tempsFin - tempsDebut)/1000000)/1000.0);
+        	this.temps = new JLabel ();
+        	temps = new JLabel("résolu en : "+tps + "s");
+        	temps.setBounds(270, 140, 400, 50);
+        	temps.setFont(new Font("Serif",Font.CENTER_BASELINE,15));
+        	this.pageDeJeu.add(temps);
+        	AffichageAlgo(c);
+        	this.repaint();
+        	this.revalidate();
+        });
+        
+        this.dijk.addActionListener((event) -> {
+        	long tempsDebut = System.nanoTime();
+        	Dijkstra d = new Dijkstra(this.configuration);
+        	Configuration c = d.dijkstra();
+        	long tempsFin = System.nanoTime();
+        	String tps = Double.toString(((tempsFin - tempsDebut)/1000000)/1000.0);
+        	this.temps = new JLabel ();
+        	temps = new JLabel("résolu en : "+tps + "s");
+        	temps.setBounds(270, 140, 400, 50);
+        	temps.setFont(new Font("Serif",Font.CENTER_BASELINE,15));
+        	this.pageDeJeu.add(temps);
+        	AffichageAlgo(c);
+        	this.repaint();
+        	this.revalidate();
+        });
+        
+        this.aEtoile.addActionListener((event) -> {
+        	long tempsDebut = System.nanoTime();
+        	Aetoile ae = new Aetoile(this.configuration);
+        	Configuration c = ae.aetoile();
+        	long tempsFin = System.nanoTime();
+        	String tps = Double.toString(((tempsFin - tempsDebut)/1000000)/1000.0);
+        	this.temps = new JLabel ();
+        	temps = new JLabel("résolu en : "+tps + "s");
+        	temps.setBounds(270, 140, 400, 50);
+        	temps.setFont(new Font("Serif",Font.CENTER_BASELINE,15));
+        	this.pageDeJeu.add(temps);
+        	AffichageAlgo(c);
+        	this.repaint();
+        	this.revalidate();
+        });
     }
 
     public void genererTaquin(){
@@ -333,10 +381,21 @@ public class Vue extends JFrame{
             this.panelJeu.revalidate();
         }
     }
+    
 
-
-
-
-
+    public void AffichageAlgo(Configuration c) {
+    	String ch = c.getChemin(); //affichage du chemin
+    	String nbr = Integer.toString(c.getChemin().length());
+    	ParcoursLargeur pl = new ParcoursLargeur(this.configuration);
+    	chemin = new JLabel(ch);
+    	chemin.setBounds(580, 140, 400, 50);
+    	chemin.setFont(new Font("Serif",Font.CENTER_BASELINE,15));
+    	nbreMouvement = new JLabel(nbr+" Mouvements :");
+    	nbreMouvement.setBounds(430, 140, 400, 50);
+    	nbreMouvement.setFont(new Font("Serif",Font.CENTER_BASELINE,15));
+    	this.pageDeJeu.add(chemin);
+    	this.pageDeJeu.add(nbreMouvement);
+    	
+    }
 
 }
