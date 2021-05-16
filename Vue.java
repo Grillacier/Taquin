@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.io.*;
 import javax.imageio.*;
 
+/**
+* Classe utilisé pour la creation de l'interfaca graphique
+*/
 public class Vue extends JFrame{
     private Joueur joueur;
     private JPanel accueilHaut, accueilBas, reglesDuJeu, chargerJeux, pageDeJeu, panelJeu;
@@ -16,6 +19,10 @@ public class Vue extends JFrame{
     private JTextField pseudo;
     private Configuration configuration;
 
+    /**
+    *Créer une page d'accueil lors de la creation de l'objet
+    *
+    */
     public Vue(){
         joueur = new Joueur();
         joueur.lire();
@@ -77,7 +84,10 @@ public class Vue extends JFrame{
         this.setVisible(true);
     }
 
-
+    /**
+    * Permet de charger la page d'accueil dans la fenetre
+    *
+    */
     public void panelAcceuil(){
         JPanel accueil = new JPanel();
 
@@ -122,7 +132,10 @@ public class Vue extends JFrame{
         regles.setBounds(810,100,300,90);
     }
 
-
+    /**
+    *Permet de charger la page de regle dans la fenetre
+    *
+    */
     public JPanel panelRegles(){
         reglesDuJeu = new JPanel();
         reglesDuJeu.setLayout(null);
@@ -139,6 +152,10 @@ public class Vue extends JFrame{
         return reglesDuJeu;
     }
 
+    /**
+    *Permet de charger le panel pour aficher la liste des taquins resolu
+    *
+    */
     public void panelCharger(){
         chargerJeux = new JPanel();
         chargerJeux.setLayout(null);
@@ -183,7 +200,11 @@ public class Vue extends JFrame{
 
         }
     }
-
+    /**
+    *Permet de charger les differente configurations vus afin de les revoirs
+    *
+    *@param c Configuration chargée
+    */
     public void taquinCharger(Configuration c){
             JPanel chargerTaquin = new JPanel();
             chargerTaquin.setLayout(null);
@@ -209,7 +230,10 @@ public class Vue extends JFrame{
         chargerTaquin.add(texteChecminRes);
         chargerTaquin.add(chemin);
     }
-
+    /**
+    *Permet de charger le panel pour afficher la page de jeu principale
+    *
+    */
     public void panelJeu() {
 
         this.getContentPane().removeAll();
@@ -270,7 +294,7 @@ public class Vue extends JFrame{
             this.panelJeu.validate();
             this.panelJeu.repaint();
         });
-        
+
         this.pcel.addActionListener((event) -> {
         	long tempsDebut = System.nanoTime();
         	ParcoursLargeur pl = new ParcoursLargeur(this.configuration);
@@ -286,7 +310,7 @@ public class Vue extends JFrame{
         	this.repaint();
         	this.revalidate();
         });
-        
+
         this.dijk.addActionListener((event) -> {
         	long tempsDebut = System.nanoTime();
         	Dijkstra d = new Dijkstra(this.configuration);
@@ -302,7 +326,7 @@ public class Vue extends JFrame{
         	this.repaint();
         	this.revalidate();
         });
-        
+
         this.aEtoile.addActionListener((event) -> {
         	long tempsDebut = System.nanoTime();
         	Aetoile ae = new Aetoile(this.configuration);
@@ -319,7 +343,10 @@ public class Vue extends JFrame{
         	this.revalidate();
         });
     }
-
+    /**
+    *Permet de generer un taquin de la taille voulu et jouer dessus
+    *
+    */
     public void genererTaquin(){
         int tailleBtn = 460/configuration.getLargeur();
         for(int i=0; i<configuration.getHauteur(); i++){
@@ -350,7 +377,7 @@ public class Vue extends JFrame{
     }
 
     /**
-     * M&eacute;thode affichant un message de félicitation à la fin du jeu
+     * Permet l'affichage d'un message de félicitation à la fin du jeu
      */
 
     public void felicitations(){
@@ -381,7 +408,10 @@ public class Vue extends JFrame{
             this.panelJeu.revalidate();
         }
     }
-    
+/**
+*Permet d'utiliser un algorithme et de voir son temps d'execution et le chemin de resolution du taquin
+*
+*/
 
     public void AffichageAlgo(Configuration c) {
     	String ch = c.getChemin(); //affichage du chemin
@@ -395,7 +425,7 @@ public class Vue extends JFrame{
     	nbreMouvement.setFont(new Font("Serif",Font.CENTER_BASELINE,15));
     	this.pageDeJeu.add(chemin);
     	this.pageDeJeu.add(nbreMouvement);
-    	
+
     }
 
 }
