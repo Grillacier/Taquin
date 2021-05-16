@@ -225,7 +225,8 @@ public class Vue extends JFrame{
         this.taille.setPaintTicks(true);
         this.taille.setPaintLabels(true);
         this.taille.setOrientation(SwingConstants.VERTICAL);
-
+        pageDeJeu.add(retourAccueil);
+        retourAccueil.setBounds(20,20,200,50);
         this.panelJeu = new JPanel();
         this.panelJeu.setLayout(null);
         this.panelJeu.setBounds(200, 180, 800, 500);
@@ -286,19 +287,52 @@ public class Vue extends JFrame{
                     int finalJ = j;
 
                     btn.addActionListener((event)->{
-                        configuration.afficher();
                         String dir = configuration.directionMouvement(finalI, finalJ);
                         configuration.mouvement(dir);
                         this.panelJeu.removeAll();
                         genererTaquin();
                         this.panelJeu.revalidate();
                         this.panelJeu.repaint();
+                        felicitations();
+                        configuration.afficher();
                     });
                 }
             }
         }
     }
 
+    /**
+     * M&eacute;thode affichant un message de félicitation à la fin du jeu
+     */
+
+    public void felicitations(){
+        if(configuration.jeuGagne()){
+            this.panelJeu.removeAll();
+
+            //Message de bravo
+            JLabel bravo=new JLabel("Félicitations ! Vous avez gagné !");
+            bravo.setFont(new Font("New Times Roman", Font.BOLD, 25));
+            bravo.setBounds(200,80,500,80);
+            panelJeu.add(bravo);
+
+            //Bouton pour rejouer
+            JButton rejouer=new JButton("Rejouer");
+            rejouer.setBounds(250,200,300,90);
+            this.panelJeu.add(rejouer);
+
+            rejouer.addActionListener((event)->{
+                panelJeu.removeAll();
+                int t=taille.getValue();
+                configuration=new Configuration(t,t);
+                genererTaquin();
+                this.panelJeu.repaint();
+                this.panelJeu.revalidate();
+            });
+
+            this.panelJeu.repaint();
+            this.panelJeu.revalidate();
+        }
+    }
 
 
 
