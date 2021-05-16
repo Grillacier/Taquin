@@ -32,6 +32,9 @@ public class Vue extends JFrame{
         this.setResizable(false);
         getContentPane().setLayout(new GridLayout(2,1));
 
+        chemin = new JLabel();
+        nbreMouvement = new JLabel();
+        temps = new JLabel();
         jouer = new JButton("Jouer");
         charger = new JButton("Charger");
         regles = new JButton("Règles");
@@ -301,8 +304,7 @@ public class Vue extends JFrame{
         	Configuration c = pl.parcoursEnLargeur();
         	long tempsFin = System.nanoTime();
         	String tps = Double.toString(((tempsFin - tempsDebut)/1000000)/1000.0);
-        	this.temps = new JLabel ();
-        	temps = new JLabel("résolu en : "+tps + "s");
+        	temps.setText("résolu en : "+tps + "s");
         	temps.setBounds(270, 140, 400, 50);
         	temps.setFont(new Font("Serif",Font.CENTER_BASELINE,15));
         	this.pageDeJeu.add(temps);
@@ -317,8 +319,7 @@ public class Vue extends JFrame{
         	Configuration c = d.dijkstra();
         	long tempsFin = System.nanoTime();
         	String tps = Double.toString(((tempsFin - tempsDebut)/1000000)/1000.0);
-        	this.temps = new JLabel ();
-        	temps = new JLabel("résolu en : "+tps + "s");
+        	temps.setText("résolu en : "+tps + "s");
         	temps.setBounds(270, 140, 400, 50);
         	temps.setFont(new Font("Serif",Font.CENTER_BASELINE,15));
         	this.pageDeJeu.add(temps);
@@ -333,8 +334,7 @@ public class Vue extends JFrame{
         	Configuration c = ae.aetoile();
         	long tempsFin = System.nanoTime();
         	String tps = Double.toString(((tempsFin - tempsDebut)/1000000)/1000.0);
-        	this.temps = new JLabel ();
-        	temps = new JLabel("résolu en : "+tps + "s");
+        	temps.setText("résolu en : "+tps + "s");
         	temps.setBounds(270, 140, 400, 50);
         	temps.setFont(new Font("Serif",Font.CENTER_BASELINE,15));
         	this.pageDeJeu.add(temps);
@@ -383,7 +383,9 @@ public class Vue extends JFrame{
     public void felicitations(){
         if(configuration.jeuGagne()){
             this.panelJeu.removeAll();
-
+            // sauvegarde
+            this.joueur.getJeux().add(configuration);
+            this.joueur.sauvegarder();
             //Message de bravo
             JLabel bravo=new JLabel("Félicitations ! Vous avez gagné !");
             bravo.setFont(new Font("New Times Roman", Font.BOLD, 25));
@@ -417,10 +419,10 @@ public class Vue extends JFrame{
     	String ch = c.getChemin(); //affichage du chemin
     	String nbr = Integer.toString(c.getChemin().length());
     	ParcoursLargeur pl = new ParcoursLargeur(this.configuration);
-    	chemin = new JLabel(ch);
+    	chemin.setText(ch);
     	chemin.setBounds(580, 140, 400, 50);
     	chemin.setFont(new Font("Serif",Font.CENTER_BASELINE,15));
-    	nbreMouvement = new JLabel(nbr+" Mouvements :");
+        nbreMouvement.setText(nbr+" Mouvements :");
     	nbreMouvement.setBounds(430, 140, 400, 50);
     	nbreMouvement.setFont(new Font("Serif",Font.CENTER_BASELINE,15));
     	this.pageDeJeu.add(chemin);
