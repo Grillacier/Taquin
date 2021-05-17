@@ -169,7 +169,6 @@ public class Vue extends JFrame{
         chargerJeux.add(retourAccueil);
         retourAccueil.setBounds(530,20,170,80);
         if(jeux != null) {
-            System.out.println(jeux.size());
             int i = 0;
             int j = 0;
             int x = jeux.size()-1;
@@ -217,7 +216,7 @@ public class Vue extends JFrame{
             int tailleBouton = 500/c.getLargeur();
             for(int i=0; i<c.getHauteur(); i++){
                 for(int j=0; j<c.getLargeur(); j++){
-                    int x = c.getTableau()[i][j];
+                    int x = c.getTableauInitial()[i][j];
                     if(x != 0) {
                         JButton tmp = new JButton("" + x);
                         tmp.setBounds(350+tailleBouton*j, 140+tailleBouton*i,tailleBouton, tailleBouton);
@@ -369,7 +368,6 @@ public class Vue extends JFrame{
                         this.panelJeu.revalidate();
                         this.panelJeu.repaint();
                         felicitations();
-                        configuration.afficher();
                     });
                 }
             }

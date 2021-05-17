@@ -19,8 +19,9 @@ public class Configuration implements Serializable {
 		this.hauteur = h;
 		this.largeur = l;
 		this.tableau = new int[h][l];
-		this.tableauInitial = this.tableau;
 		this.creationTableau();
+		this.tableauInitial = new int[h][l];
+		copierTableau();
 		this.chemin = "";
 		this.successeur = new ArrayList<>();
 		this.deplacements = new String[]{"haut", "bas", "gauche", "droite"};
@@ -116,6 +117,14 @@ public class Configuration implements Serializable {
 		melangerTableau();
 		while (!estSoluble()) { // verifie que le tableau soit soluble
 			melangerTableau();
+		}
+	}
+
+	public void copierTableau(){
+		for(int i=0; i<this.tableau.length; i++){
+			for (int j=0; j<this.tableau.length; j++){
+				this.tableauInitial[i][j] = this.tableau[i][j];
+			}
 		}
 	}
 
